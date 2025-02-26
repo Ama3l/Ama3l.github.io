@@ -1,0 +1,105 @@
+/* Stili base */
+.body {
+    background-color: black;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    transition: background-color 0.5s, color 0.5s;
+    padding: 0 20px;
+}
+
+h1 {
+    font-family: 'Roboto', sans-serif;
+    text-align: left;
+    color: inherit;
+    font-size: 1.5rem; /* Font adattivo per dispositivi mobili */
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.links {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.button {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin: 10px 5px;
+    border: 2px solid white;
+    padding: 10px 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.button:hover {
+    background-color: white;
+    color: black;
+}
+
+h3 {
+    text-align: left;
+    margin-top: 20px;
+}
+
+h3 a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+h3 a:hover {
+    text-decoration: underline;
+}
+
+/* Stile per il cerchio che segue il mouse */
+.circle {
+    width: 30px;
+    height: 30px;
+    fill:white;
+    border: 2px solid white;
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: background-color 0.3s;
+    z-index: 1000;
+}
+
+/* Tema chiaro */
+.body-light {
+    background-color: white;
+    color: black;
+    transition: background-color 0.5s, color 0.5s;
+}
+
+.body-light .button {
+    color: black;
+    border-color: black;
+}
+
+.body-light .button:hover {
+    background-color: black;
+    color: white;
+}
+
+.body-light h3 a {
+    color: black;
+}
+
+/* Media query per la responsività */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    .button {
+        padding: 8px 16px;
+    }
+
+    .circle {
+        width: 20px;
+        height: 20px;
+    }
+}
