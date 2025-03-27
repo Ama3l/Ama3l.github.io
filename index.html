@@ -3,67 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amaël Cacciola</title>
+    <title>Amaël Cacciola - Portfolio</title>
     <link rel="stylesheet" href="src/style.css">
 </head>
 <body>
-    <header>
-        <a href="about.html" class="name-link">
-            <h1>Amaël Cacciola</h1>
-            <p>visual designer</p>
-            <p>based in Locarno, Switzerland</p>
-        </a>
-    </header>
+    <div class="container">
+        <header>
+            <div class="logo">AMAËL CACCIOLA — VISUAL DESIGNER</div>
+            <nav>
+                <a href="index.html">Selection</a>
+                <a href="work.html">All Work</a>
+                <a href="">About</a> 
+                <a href="contact">Let's talk</a>
+                <a href="about.html" class="cta">Curriculum</a>
+            </nav>
+        </header>
 
-    <main class="projects-container">
-        <section class="project project-1">
-            <div class="project-content">
-                <img src="img/DSC_6084.png" alt="Couvertures de Livres Project">
-                <div class="project-overlay">
-                    <h2>Couvertures de Livres</h2>
-                    <p>Editorial project based on a given text</p>
+        <main class="projects-grid">
+            <div class="project" data-project="castellivivi" data-image="img/Mockup comp2.jpg">
+                <div class="project-info">
+                    <h2 class="project-title">castelli vivi</h2>
+                    <p class="project-description">2024_UI Design / Progetto di tesi </p>
+                   
                 </div>
             </div>
-        </section>
 
-        <section class="project project-2">
-            <div class="project-content">
-                <img src="img/Luci e ombre 3.jpg" alt="Energie Poster Project">
-                <div class="project-overlay">
-                    <h2>Energie</h2>
-                    <p>Graphic design exploration of energy concepts</p>
+            <div class="project" data-project="adhd" data-image="img/DSC_6084.png">
+                <div class="project-info">
+                    <h2 class="project-title">adhd magazine</h2>
+                    <p class="project-description">2023_Graphic / Animation</p>
+                    
                 </div>
             </div>
-        </section>
-        <section class="project project-3">
-            <div class="project-content">
-                <img src="img/Mockup comp2.jpg" alt="Energie Poster Project">
-                <div class="project-overlay">
-                    <h2>Energie</h2>
-                    <p>Graphic design exploration of energy concepts</p>
-                </div>
-            </div>
-        </section>
-        <section class="project project-4">
-            <div class="project-content">
-                <img src="img/Sessione studio-064.jpg" alt="Energie Poster Project">
-                <div class="project-overlay">
-                    <h2>Energie</h2>
-                    <p>Graphic design exploration of energy concepts</p>
-                </div>
-            </div>
-        </section>
-        <section class="project project-5">
-            <div class="project-content">
-                <img src="img/Screenshot 2025-02-11 at 18.22.17.png" alt="Energie Poster Project">
-                <div class="project-overlay">
-                    <h2>Energie</h2>
-                    <p>Graphic design exploration of energy concepts</p>
-                </div>
-            </div>
-        </section>
-    </main>
 
-    <script src="src/script.js"></script>
+            <div class="project" data-project="Ticketevents" data-image="img/Luci e ombre 3.jpg">
+                <div class="project-info">
+                
+                    <h2 class="project-title">Ticketevents</h2>
+                    <p class="project-description">2022_User interface</p>
+                    
+                </div>
+            </div>
+
+            <div class="project" data-project="mobius">
+                <div class="project-info">
+                    <h2 class="project-title">möbius</h2>
+                    <p class="project-description">2023_Visual identity / user interface</p>
+                    
+                </div>
+            </div>
+
+            <div class="project" data-project="oceania">
+                <div class="project-info">
+                    <span class="project-year">2024</span>
+                    <h2 class="project-title">Oceania</h2>
+                    <p class="project-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Project Modal -->
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-project-details">
+                <h2 id="modal-project-title"></h2>
+                <p id="modal-project-description"></p>
+                <div class="modal-project-image"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="src/script.js "></script>
 </body>
 </html>
