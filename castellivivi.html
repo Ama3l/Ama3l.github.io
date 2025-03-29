@@ -4,208 +4,269 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Castelli Vivi - Amaël Cacciola</title>
+    <link rel="stylesheet" href="src/style.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none;
         }
-
+        
         body {
             font-family: Arial, sans-serif;
             background-color: rgb(0, 0, 0);
             color: rgb(255, 255, 255);
             line-height: 1.6;
-            cursor: none;
         }
-
+        
         .container {
+            width: 100%;
             max-width: 1400px;
             margin: 0 auto;
-            padding: 40px;
+            padding: 40px 20px;
         }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 60px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgb(255, 255, 255);
-        }
-
-        .logo {
-            font-size: 2rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
-        nav {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: rgb(255, 255, 255);
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-        }
-
-        nav .cta {
-            border: 1px solid rgb(255, 255, 255);
-            padding: 5px 10px;
-            border-radius: 20px;
-        }
-
-        nav .cta:hover {
-            background-color: rgb(255, 255, 255);
-            color: rgb(0, 0, 0);
-            transition: background-color 0.3s ease;
-        }
-
+        
         .project-detail {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 40px;
-        }
-
-        .project-header {
-            text-align: center;
-            margin-bottom: 40px;
-            border-bottom: 1px solid #ffffff;
-            padding-bottom: 20px;
-        }
-
-        .project-header h1 {
-            font-size: 4rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-        }
-
-        .project-meta {
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .project-content {
             display: flex;
             flex-direction: column;
             gap: 40px;
         }
-
+        
+        .project-header {
+            text-align: left;
+            margin-top: -80px;
+            margin-bottom:  0px;
+            padding-bottom:5px;
+            border-bottom: 1px solid #ffffff;
+        }
+        
+        .project-header h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom:0px;
+        }
+        
+        .project-meta {
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .project-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+        
         .project-images {
             width: 100%;
         }
-
+        
         .project-images .cover-image {
             width: 100%;
-            max-height: 600px;
+            max-height: 70vh;
             object-fit: cover;
             border-radius: 10px;
             margin-bottom: 20px;
+            transition: transform 0.3s ease;
         }
-
+        
+        .project-images .cover-image:hover {
+            transform: scale(1.02);
+        }
+        
         .additional-images {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
         }
-
+        
         .additional-images img {
             width: 100%;
-            max-height: 300px;
+            height: 300px;
             object-fit: cover;
             border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
+        
+        .additional-images img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+        }
+        
         .project-description {
             max-width: 800px;
             margin: 0 auto;
+            margin-top: -200px;
+            display: flex;
+            flex-direction: column;
+            gap:30px;
             text-align: center;
         }
-
+        
         .project-description p {
-            margin-bottom: 20px;
-            line-height: 1.6;
+            font-size: clamp(0.9rem, 3vw, 1.1rem);
+            line-height: 1.8;
+            color: #e0e0e0;
         }
-
-        .project-details {
+        
+        .footer {
             display: flex;
-            justify-content: center;
-            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: left;
+            gap: 120px;
             margin-top: 40px;
-            border-top: 1px solid #ffffff;
             padding-top: 20px;
+            border-top: 1px solid #ffffff;
         }
-
+        
         .detail-item {
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
-
+        
         .detail-item span {
-            display: block;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #666;
-            margin-bottom: 5px;
+            color: #717171;
+            font-size: 0.8rem;
         }
-
+        
         .detail-item p {
             font-weight: bold;
+            font-size: 1rem;
         }
-
-        #custom-cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgb(255, 255, 255);
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            z-index: 9999;
+        
+        @media (min-width: 1024px) {
+            .project-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 60px;
+                align-items: flex-start;
+            }
+        
+            .project-description {
+                text-align: left;
+                order: -1;
+                align-self: center;
+            }
+        
+            .project-images {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
         }
-
-        @media (max-width: 1024px) {
-            .project-header h1 {
-                font-size: 2.5rem;
-            }
-
-            .additional-images {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .project-details {
+        
+        @media (max-width: 768px) {
+            .footer {
                 flex-direction: column;
                 align-items: center;
                 gap: 20px;
             }
-        }
-
-        @media (max-width: 768px) {
+        
             .additional-images {
                 grid-template-columns: 1fr;
             }
         }
-    </style>
+        /* Lightbox Styles */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox.active {
+    display: flex;
+}
+
+.lightbox-image {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    animation: fadeIn 0.3s ease;
+}
+
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    font-size: 2rem;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.lightbox-nav:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.lightbox-nav.prev {
+    left: 20px;
+}
+
+.lightbox-nav.next {
+    right: 20px;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 3rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.lightbox-close:hover {
+    color: #999;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Cursor Interaction */
+.project-images img,
+.additional-images img {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.project-images img:hover,
+.additional-images img:hover {
+    transform: scale(1.05);
+}
+        </style>
 </head>
 <body>
+    <header>
+        <a href="index.html" class="back-link">← Projects</a>
+    </header>
     <div class="container">
-        <header>
-            <div class="logo">AMAËL CACCIOLA — VISUAL DESIGNER</div>
-            <nav>
-                <a href="index.html">Selection</a>
-                <a href="work.html">All Work</a>
-                <a href="">About</a> 
-                <a href="contact">Let's talk</a>
-                <a href="about.html" class="cta">Curriculum</a>
-            </nav>
-        </header>
+
 
         <main class="project-detail">
             <div class="project-header">
@@ -230,7 +291,7 @@
                     
                     <p>Attraverso un design minimalista e funzionale, "Castelli Vivi" ripensa il concetto di spazio storico.</p>
 
-                    <div class="project-details">
+                    <div class="footer">
                         <div class="detail-item">
                             <span>Year</span>
                             <p>2024</p>
