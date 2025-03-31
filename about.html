@@ -4,112 +4,149 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amaël Cacciola - About</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="src/style.css">
 </head>
 <body>
-    <header>
-        <a href="index.html" class="back-link">← Projects</a>
-    </header>
+    <div class="noise-overlay"></div>
+    
+    <div class="container">
+        <header class="site-header">
+            <a href="index.html" class="logo-mark">AC</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Work</a></li>
+                    <li><a href="about.html" class="active">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
 
-    <main class="about-container">
-        
-        <section id="education">
-            <h2>Education</h2>
-            <div class="education-item">
-                <p>2024 - Ongoing</p>
-                <div>
-                    <h3>Master in Interaction Design</h3>
-                    <p>SUPSI DACD, Mendrisio</p>
+        <main>
+            <section class="intro">
+                <div class="intro-content">
+                    <h1 class="title-large">About Me</h1>
+                    <p class="description">Designer and visual communicator based in Switzerland.</p>
                 </div>
-            </div>
-            <div class="education-item">
-                <p>2021-2024</p>
-                <div>
-                    <h3>Bachelor in Visual Communication</h3>
-                    <p>SUPSI DACD, Mendrisio</p>
+            </section>
+            
+            <section style="margin-bottom: 4rem;">
+                <div style="display: grid; grid-template-columns: 1fr; gap: 2rem;">
+                    <div>
+                        <h2 class="subtitle">Education</h2>
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 1rem;">
+                            <div style="display: grid; grid-template-columns: 120px 1fr; gap: 1rem;">
+                                <p style="color: var(--accent-color);">2024 - Ongoing</p>
+                                <div>
+                                    <h3 style="margin-bottom: 0.5rem;">Master in Interaction Design</h3>
+                                    <p style="color: var(--light-gray);">SUPSI DACD, Mendrisio</p>
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 120px 1fr; gap: 1rem;">
+                                <p style="color: var(--accent-color);">2021-2024</p>
+                                <div>
+                                    <h3 style="margin-bottom: 0.5rem;">Bachelor in Visual Communication</h3>
+                                    <p style="color: var(--light-gray);">SUPSI DACD, Mendrisio</p>
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 120px 1fr; gap: 1rem;">
+                                <p style="color: var(--accent-color);">2020-2021</p>
+                                <div>
+                                    <h3 style="margin-bottom: 0.5rem;">Artistic Degree at High School</h3>
+                                    <p style="color: var(--light-gray);">CSIA, Lugano</p>
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 120px 1fr; gap: 1rem;">
+                                <p style="color: var(--accent-color);">2017-2020</p>
+                                <div>
+                                    <h3 style="margin-bottom: 0.5rem;">Professional Degree as Hairdresser</h3>
+                                    <p style="color: var(--light-gray);">SPAI, Locarno</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h2 class="subtitle">Experience</h2>
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 1rem;">
+                            <div style="display: grid; grid-template-columns: 120px 1fr; gap: 1rem;">
+                                <p style="color: var(--accent-color);">2021-Ongoing</p>
+                                <div>
+                                    <h3 style="margin-bottom: 0.5rem;">Freelance Designer</h3>
+                                    <p style="color: var(--light-gray);">Photography and small graphic and design projects</p>
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 120px 1fr; gap: 1rem;">
+                                <p style="color: var(--accent-color);">2020-2023</p>
+                                <div>
+                                    <h3 style="margin-bottom: 0.5rem;">Summer Job</h3>
+                                    <p style="color: var(--light-gray);">Work in an ice-cream parlour</p>
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 120px 1fr; gap: 1rem;">
+                                <p style="color: var(--accent-color);">2017-2020</p>
+                                <div>
+                                    <h3 style="margin-bottom: 0.5rem;">Hairdresser AFC</h3>
+                                    <p style="color: var(--light-gray);">Worked at "L'urio", Gordola</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="education-item">
-                <p>2020-2021</p>
-                <div>
-                    <h3>Artistic Degree at High School</h3>
-                    <p>CSIA, Lugano</p>
+            </section>
+            
+            <section style="margin-bottom: 4rem;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <div>
+                        <h2 class="subtitle">Skills</h2>
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 0.5rem; margin-top: 1rem;">
+                            <p>Indesign: <span style="color: var(--accent-color);">Very Good</span></p>
+                            <p>Photoshop: <span style="color: var(--accent-color);">Very Good</span></p>
+                            <p>Illustrator: <span style="color: var(--accent-color);">Very Good</span></p>
+                            <p>Premiere Pro: <span style="color: var(--accent-color);">Very Good</span></p>
+                            <p>After Effects: <span style="color: var(--accent-color);">Good</span></p>
+                            <p>Figma: <span style="color: var(--accent-color);">Good</span></p>
+                            <p>Coding: <span style="color: var(--accent-color);">Basic</span></p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h2 class="subtitle">Languages</h2>
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 0.5rem; margin-top: 1rem;">
+                            <p>Italian: <span style="color: var(--accent-color);">Mother Tongue</span></p>
+                            <p>English: <span style="color: var(--accent-color);">B2</span></p>
+                            <p>German: <span style="color: var(--accent-color);">B1</span></p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h2 class="subtitle">Personal Interests</h2>
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 0.5rem; margin-top: 1rem;">
+                            <p>Cinema</p>
+                            <p>Music</p>
+                            <p>Spending Quality Time</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="education-item">
-                <p>2017-2020</p>
-                <div>
-                    <h3>Professional Degree as Hairdresser</h3>
-                    <p>SPAI, Locarno</p>
-                </div>
-            </div>
-        </section>
+            </section>
+        </main>
 
-        <section id="experience">
-            <h2>Experience</h2>
-            <div class="experience-item">
-                <p>2021-Ongoing</p>
-                <div>
-                    <h3>Freelance Designer</h3>
-                    <p>Photography and small graphic and design projects</p>
+        <footer class="site-footer">
+            <div class="footer-left">
+                <p class="copyright">&copy; 2025 Amaël Cacciola. All rights reserved.</p>
+            </div>
+            <div class="footer-right">
+                <div class="social-links">
+                    <a href="#" class="social-link">Instagram</a>
+                    <a href="#" class="social-link">LinkedIn</a>
+                    <a href="#" class="social-link">Behance</a>
                 </div>
+                <a href="mailto:cacciola.amael@gmail.com" class="contact-link" id="contact">cacciola.amael@gmail.com</a>
             </div>
-            <div class="experience-item">
-                <p>2020-2023</p>
-                <div>
-                    <h3>Summer Job</h3>
-                    <p>Work in an ice-cream parlour</p>
-                </div>
-            </div>
-            <div class="experience-item">
-                <p>2017-2020</p>
-                <div>
-                    <h3>Hairdresser AFC</h3>
-                    <p>Worked at "L'urio", Gordola</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="skills">
-            <h2>Skills</h2>
-            <div class="skills-list">
-                <p>Indesign: Level Very Good</p>
-                <p>Photoshop: Level Very Good</p>
-                <p>Illustrator: Level Very Good</p>
-                <p>Premiere Pro: Level Very Good</p>
-                <p>After Effects: Level Good</p>
-                <p>Figma: Level Good</p>
-                <p>Coding: Basic Level and Experience</p>
-            </div>
-        </section>
-
-        <section id="languages">
-            <h2>Languages</h2>
-            <div class="languages-list">
-                <p>Italian: Mother Tongue</p>
-                <p>English: B2</p>
-                <p>German: B1</p>
-            </div>
-        </section>
-
-        <section id="personal-interests">
-            <h2>Personal Interests</h2>
-            <div class="interests-list">
-                <p>Cinema</p>
-                <p>Music</p>
-                <p>Spending Quality Time</p>
-            </div>
-        </section>
-
-        <section id="contact">
-            <h2>Contact</h2>
-            <div class="contact-info">
-                <p>Phone: +41 79 628 90 18</p>
-                <p>Email: cacciola.amael@gmail.com</p>
-            </div>
-        </section>
-
-    </main>
+        </footer>
+    </div>
 
     <script src="src/script.js"></script>
 </body>
