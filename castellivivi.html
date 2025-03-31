@@ -5,7 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Castelli Vivi - Amaël Cacciola</title>
     <link rel="stylesheet" href="src/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #FF3366;
+            --secondary-color: #14213d;
+            --accent-color: #fca311;
+            --text-color: #ffffff;
+            --background-color: #0a0a0a;
+            --gray-light: #999999;
+            --gray-dark: #333333;
+            --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,9 +27,9 @@
         }
         
         body {
-            font-family: Arial, sans-serif;
-            background-color: rgb(0, 0, 0);
-            color: rgb(255, 255, 255);
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
             line-height: 1.6;
         }
         
@@ -35,19 +49,21 @@
         .project-header {
             text-align: left;
             padding-bottom: 20px;
-            border-bottom: 1px solid #ffffff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             margin-bottom: 40px;
         }
         
         .project-header h1 {
+            font-family: 'Playfair Display', serif;
             font-size: clamp(2.5rem, 8vw, 4rem);
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 10px;
+            color: var(--primary-color);
         }
         
         .project-meta {
-            color: #999;
+            color: var(--gray-light);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -67,6 +83,8 @@
         
         .cover-image-container {
             width: 100%;
+            overflow: hidden;
+            border-radius: 5px;
         }
         
         .cover-image {
@@ -74,7 +92,13 @@
             height: 500px;
             object-fit: cover;
             border-radius: 5px;
-            transition: transform 0.3s ease;
+            transition: transform 0.6s var(--transition-smooth);
+            filter: saturate(0.95) contrast(1.05);
+        }
+        
+        .cover-image-container:hover .cover-image {
+            transform: scale(1.03);
+            filter: saturate(1.1) contrast(1.15);
         }
         
         .project-description {
@@ -86,7 +110,7 @@
         .project-description p {
             font-size: clamp(0.9rem, 2vw, 1.1rem);
             line-height: 1.8;
-            color: #e0e0e0;
+            color: var(--text-color);
         }
         
         /* Immagini aggiuntive */
@@ -102,11 +126,13 @@
             height: 300px;
             object-fit: cover;
             border-radius: 5px;
-            transition: transform 0.3s ease;
+            transition: transform 0.6s var(--transition-smooth);
+            filter: saturate(0.95) contrast(1.05);
         }
         
         .additional-images img:hover {
-            transform: scale(1.02);
+            transform: scale(1.03);
+            filter: saturate(1.1) contrast(1.15);
         }
         
         .footer {
@@ -116,7 +142,7 @@
             gap: 30px;
             margin-top: 60px;
             padding-top: 20px;
-            border-top: 1px solid #ffffff;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .detail-item {
@@ -128,7 +154,7 @@
         .detail-item span {
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #717171;
+            color: var(--gray-light);
             font-size: 0.8rem;
         }
         
@@ -142,8 +168,22 @@
             top: 20px;
             left: 20px;
             text-decoration: none;
-            color: #ffffff;
+            color: var(--text-color);
             z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: var(--primary-color);
+            transform: translateX(-5px);
+        }
+        
+        .back-link::before {
+            content: '←';
+            font-size: 1.2rem;
         }
         
         /* Layout desktop */
@@ -181,7 +221,7 @@
 </head>
 <body>
     <header>
-        <a href="index.html" class="back-link">← Projects</a>
+        <a href="index.html" class="back-link">Projects</a>
     </header>
     <div class="container">
         <main class="project-detail">
