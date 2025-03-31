@@ -3,115 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amaël Cacciola - Portfolio</title>
+    <title>Amaël Cacciola - Visual Designer</title>
     <link rel="stylesheet" href="src/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="noise-overlay"></div>
+    
     <div class="container">
-        <header>
+        <header class="site-header">
             <div class="logo">
-                <div class="logo-mark">AC</div>
-                <div class="logo-text">AMAËL CACCIOLA — VISUAL / INTERACTION DESIGNER</div>
+                <span class="logo-mark">AC</span>
             </div>
-            <nav>
-                <a href="index.html">Selection</a>
-                <a href="work.html">All Work</a>
-                <a href="">About</a> 
-                <a href="contact">Let's talk</a>
-                <a href="about.html" class="cta">Curriculum</a>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" class="active">Work</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
             </nav>
         </header>
 
-        <section class="hero">
-            <h1 class="hero-title">Visual storytelling through thoughtful design</h1>
-            <p class="hero-tagline">Creating meaningful digital experiences that connect, engage, and inspire.</p>
+        <section class="intro">
+            <h1 class="title-large">Amaël Cacciola</h1>
+            <div class="intro-content">
+                <p class="subtitle">Visual & Interaction Designer</p>
+                <p class="description">Creating clean, thoughtful digital experiences with a minimalist approach that balances form and function.</p>
+            </div>
         </section>
 
-        <main class="projects-grid">
-            <div class="project" data-project="castellivivi" data-images="img/Links/1.png,img/Links/2.png,img/Links/3.png">
-                <div class="project-info">
-                    <h2 class="project-title">castelli vivi</h2>
-                    <p class="project-description">2024_UI Design / Progetto di tesi </p>
+        <main class="work-grid">
+            <a href="castellivivi.html" class="project-card" data-category="UI Design">
+                <div class="project-content">
+                    <h2>castelli vivi</h2>
+                    <p class="project-meta">2024 — UI Design / Thesis Project</p>
                 </div>
-            </div>
+                <div class="project-image">
+                    <img src="img/Links/1.png" alt="Castelli Vivi project">
+                </div>
+            </a>
 
-            <div class="project" data-project="adhd" data-images="img/Sessione studio-064.jpg,img/Links/Sessione studio-supsi-217_1.jpg,img/Links/Sessione studio-supsi-218_1.jpg,img/Links/Sessione studio-supsi-219_1.jpg,img/Links/Sessione studio-supsi-221_1.jpg,img/Links/Sessione studio-supsi-222_1.jpg,img/Links/Sessione studio-supsi-223_1.jpg">
-                <div class="project-info">
-                    <h2 class="project-title">adhd magazine</h2>
-                    <p class="project-description">2023_Graphic / Animation</p>
+            <a href="adhd.html" class="project-card large" data-category="Graphic Design">
+                <div class="project-content">
+                    <h2>adhd magazine</h2>
+                    <p class="project-meta">2023 — Graphic / Animation</p>
                 </div>
-            </div>
+                <div class="project-image">
+                    <img src="img/Sessione studio-064.jpg" alt="ADHD Magazine project">
+                </div>
+            </a>
 
-            <div class="project" data-project="Ticketevents" data-images="img/Links/Mockup computer.jpg,img/Links/Mockup comp2.jpg,img/Links/Mockup comp3.jpg,img/Links/Mockup comp4.jpg">
-                <div class="project-info">
-                    <h2 class="project-title">Ticketevents</h2>
-                    <p class="project-description">2022_User interface</p>
+            <a href="ticketevents.html" class="project-card" data-category="UI Design">
+                <div class="project-content">
+                    <h2>Ticketevents</h2>
+                    <p class="project-meta">2022 — User Interface</p>
                 </div>
-            </div>
+                <div class="project-image">
+                    <img src="img/Links/Mockup computer.jpg" alt="Ticketevents project">
+                </div>
+            </a>
 
-            <div class="project" data-project="mobius" data-images="img/Links/Mockup.jpg,img/image copy 6.png,img/image copy 7.png,img/image copy 8.png,img/image copy 9.png,img/image copy 10.png">
-                <div class="project-info">
-                    <h2 class="project-title">möbius</h2>
-                    <p class="project-description">2023_Visual identity / user interface</p>
+            <a href="mobius.html" class="project-card medium" data-category="Brand">
+                <div class="project-content">
+                    <h2>möbius</h2>
+                    <p class="project-meta">2023 — Visual Identity / UI</p>
                 </div>
-            </div>
+                <div class="project-image">
+                    <img src="img/Links/Mockup.jpg" alt="Möbius project">
+                </div>
+            </a>
 
-            <div class="project" data-project="fast" data-images="img/Links/DSC_6084.png, img/Links/DSC_6091.png,img/Links/IMG_0082.jpeg">
-                <div class="project-info">
-                    <h2 class="project-title">fast prototyping</h2>
-                    <p class="project-description">2025_3D modeling/Prototyping</p>
+            <a href="meta.html" class="project-card large" data-category="Motion">
+                <div class="project-content">
+                    <h2>metamorphosis</h2>
+                    <p class="project-meta">2025 — Animation / Coding</p>
                 </div>
-            </div>
-
-            <div class="project" data-project="meta" data-images="img/Links/DSC09479.JPG,img/Links/DSC09477.png,img/Links/DSC09472.JPG,img/Links/DSC09470.JPG">
-                <div class="project-info">
-                    <h2 class="project-title">metamorphosis</h2>
-                    <p class="project-description">2025__Animation / Coding</p> 
+                <div class="project-image">
+                    <img src="img/Links/DSC09479.JPG" alt="Metamorphosis project">
                 </div>
-            </div>
-
-            <div class="project" data-project="meta" data-images="img/Links/DSC09479.JPG,img/Links/DSC09477.png,img/Links/DSC09472.JPG,img/Links/DSC09470.JPG">
-                <div class="project-info">
-                    <h2 class="project-title">symbiosis</h2>
-                    <p class="project-description">2025</p>
-                </div>
-            </div>
-
-            <div class="project" data-project="meta" data-images="img/Links/DSC09479.JPG,img/Links/DSC09477.png,img/Links/DSC09472.JPG,img/Links/DSC09470.JPG">
-                <div class="project-info">
-                    <h2 class="project-title">symbiosis</h2>
-                    <p class="project-description">2025</p>
-                </div>
-            </div>
-
-            <div class="project" data-project="meta" data-images="img/Links/DSC09479.JPG,img/Links/DSC09477.png,img/Links/DSC09472.JPG,img/Links/DSC09470.JPG">
-                <div class="project-info">
-                    <h2 class="project-title">symbiosis</h2>
-                    <p class="project-description">2025</p>
-                </div>
-            </div>
+            </a>
         </main>
 
-        <section class="design-manifesto">
-            <h2>Design Manifesto</h2>
-            <ul class="manifesto-list">
-                <li>Every project is an opportunity to tell an authentic story</li>
-                <li>Design must solve real problems with elegant solutions</li>
-                <li>Interaction is a dialogue, not a monologue</li>
-                <li>Simplicity is resolved complexity</li>
-            </ul>
-        </section>
-
         <footer class="site-footer">
-            <div class="footer-brand">
-                <div class="brand-mark">AC</div>
+            <div class="footer-left">
+                <span class="logo-mark">AC</span>
                 <p class="copyright">© 2025 Amaël Cacciola</p>
             </div>
-            <div class="footer-contact">
-                <a href="mailto:contact@amaelcacciola.com">contact@amaelcacciola.com</a>
+            <div class="footer-right">
+                <a href="mailto:contact@amaelcacciola.com" class="contact-link">contact@amaelcacciola.com</a>
                 <div class="social-links">
                     <a href="#" class="social-link">Instagram</a>
                     <a href="#" class="social-link">LinkedIn</a>
@@ -120,8 +102,6 @@
             </div>
         </footer>
     </div>
-
-    <div id="custom-cursor"></div>
 
     <script src="src/script.js"></script>
 </body>
