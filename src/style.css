@@ -1,9 +1,9 @@
 :root {
-    --bg-color: #0f0f0f;
+    --bg-color: #000000;
     --text-color: #ffffff;
-    --accent-color: #ff3300;
+    --accent-color: #ff4000;
     --secondary-color: #333333;
-    --light-gray: rgba(255, 255, 255, 0.6);
+    --light-gray: rgba(160, 160, 160, 0.6);
     --border-color: rgba(255, 255, 255, 0.1);
     --transition: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --grid-gap: 1.5rem;
