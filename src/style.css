@@ -1,13 +1,14 @@
 :root {
     --bg-color: #000000;
     --text-color: #ffffff;
-    --accent-color: #ff4000;
+    --accent-color: #6bb200;
     --secondary-color: #333333;
     --light-gray: rgba(160, 160, 160, 0.6);
     --border-color: rgba(255, 255, 255, 0.1);
     --transition: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --grid-gap: 1.5rem;
 }
+/* #ff4000; */
 
 /* Base Styles */
 * {
@@ -62,7 +63,7 @@ ul {
 
 /* Typography */
 h1, h2, h3, h4, h5 {
-    font-family: 'Space Mono', monospace;
+    font-family: 'roboto', sans-serif;
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.2;
@@ -100,7 +101,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .logo-mark {
-    font-family: 'Space Mono', monospace;
+    font-family: 'roboto', sans-serif;
     font-size: 1.25rem;
     font-weight: 700;
     background-color: var(--accent-color);
@@ -119,7 +120,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .main-nav a {
-    font-family: 'Space Mono', monospace;
+    font-family: 'roboto', sans-serif;
     font-size: 0.9rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -268,7 +269,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .contact-link {
-    font-family: 'Space Mono', monospace;
+    font-family: 'roboto', sans-serif;
     font-size: 0.9rem;
     transition: color 0.3s var(--transition);
 }
@@ -304,7 +305,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .project-detail-meta {
-    font-family: 'Space Mono', monospace;
+    font-family: 'roboto', sans-serif;
     font-size: 1rem;
     color: var(--light-gray);
     margin-bottom: 2rem;
