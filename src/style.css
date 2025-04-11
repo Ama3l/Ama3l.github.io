@@ -248,6 +248,15 @@ h1, h2, h3, h4, h5 {
     z-index: 1;
 }
 
+.project-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
 .project-image img {
     width: 100%;
     height: 100%;
@@ -256,7 +265,20 @@ h1, h2, h3, h4, h5 {
     transition: transform 0.6s var(--transition), filter 0.6s var(--transition);
 }
 
+.project-video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.8) contrast(1.1);
+    transition: transform 0.6s var(--transition), filter 0.6s var(--transition);
+}
+
 .project-card:hover .project-image img {
+    transform: scale(1.05);
+    filter: brightness(0.9) contrast(1.2);
+}
+
+.project-card:hover .project-video video {
     transform: scale(1.05);
     filter: brightness(0.9) contrast(1.2);
 }
