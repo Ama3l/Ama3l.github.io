@@ -1,26 +1,643 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dettaglio Progetto</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Amaël Cacciola — Designer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f8f8f8;
+            --text-color: #1a1a1a;
+            --accent-color: #13c000c0; /* Keeping accent color from dettaglio.html */
+            --secondary-color: #666;
+            --light-gray: #999; /* Keeping light gray from dettaglio.html */
+            --border-color: #e0e0e0;
+            --transition: cubic-bezier(0.16, 1, 0.3, 1); /* Keeping transition from dettaglio.html */
+             --grid-gap: 1.5rem; /* Added from index.html for grid gap */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif; /* Keeping font from dettaglio.html */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6; /* Keeping line height from dettaglio.html */
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased; /* Keeping from dettaglio.html */
+            overflow-x: hidden;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: all 0.4s var(--transition); /* Keeping transition from dettaglio.html */
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            background-color: transparent;
+            pointer-events: none;
+            mix-blend-mode: difference; /* Keeping from dettaglio.html */
+        }
+
+        .site-header * {
+            pointer-events: auto;
+        }
+
+        .header-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem; /* Keeping from dettaglio.html */
+            font-weight: 600; /* Keeping from dettaglio.html */
+            color: white; /* Keeping from dettaglio.html */
+            position: relative;
+        }
+
+        .main-nav ul {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .main-nav a {
+            font-size: 0.9rem; /* Keeping from dettaglio.html */
+            font-weight: 500; /* Keeping from dettaglio.html */
+            position: relative;
+            color: white; /* Keeping from dettaglio.html */
+        }
+
+        .main-nav a::after { /* Keeping from dettaglio.html */
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: white;
+            transition: width 0.3s var(--transition);
+        }
+
+        .main-nav a:hover::after { /* Keeping from dettaglio.html */
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 4rem;
+            z-index: 2;
+            perspective: 1000px; /* Added from dettaglio.html desktop styles */
+        }
+
+        .name-container {
+            position: relative;
+            z-index: 3;
+            margin-bottom: 2rem;
+        }
+
+        .name-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 10vw, 8rem); /* Keeping from dettaglio.html */
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            color: var(--text-color); /* Keeping from dettaglio.html */
+            text-shadow: none;
+             mix-blend-mode: normal; /* Added from dettaglio.html desktop styles */
+        }
+
+        .subtitle {
+            font-size: 1.25rem; /* Keeping from dettaglio.html */
+            color: var(--secondary-color);
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 3;
+             mix-blend-mode: normal; /* Added from dettaglio.html desktop styles */
+        }
+
+        /* Projects Grid */
+        .projects-container {
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+            padding: 4rem 0 0;
+            pointer-events: none; /* Keeping from dettaglio.html */
+            z-index: 1;
+        }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr); /* Keeping from dettaglio.html */
+            gap: var(--grid-gap); /* Using grid-gap variable from index.html */
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* --- Project Card Styles from index.html --- */
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            transition: transform 0.4s var(--transition), box-shadow 0.4s var(--transition);
+            grid-column: span 6; /* Default grid column - adjust as needed */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-height: 24rem; /* Default min height - adjust as needed */
+            background-color: #111111;
+             pointer-events: auto; /* Ensure pointer events are active */
+        }
+
+        .project-card.extralarge {
+            grid-column: span 12;
+            min-height: 40rem;
+        }
+
+        .project-card.large {
+            grid-column: span 8;
+            min-height: 30rem;
+        }
+
+        .project-card.medium {
+            grid-column: span 4;
+            min-height: 20rem;
+        }
+
+        .project-card:hover {
+            transform: translateY(-0.5rem) rotate(0deg);
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+         /* Initial rotation handled by JavaScript */
+
+
+        .project-card::before {
+            content: attr(data-category);
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background-color: var(--accent-color); /* Using accent color from dettaglio.html */
+            color: var(--bg-color); /* Using background color from dettaglio.html */
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            z-index: 2;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .project-content {
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+        }
+
+        .project-content h2 {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            margin-bottom: 0.5rem;
+            text-transform: lowercase;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .project-meta {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--light-gray); /* Using light gray from dettaglio.html */
+        }
+
+        .project-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.8) contrast(1.1);
+            transition: transform 0.6s var(--transition), filter 0.6s var(--transition);
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.05);
+            filter: brightness(0.9) contrast(1.2);
+        }
+
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+            z-index: 1;
+            transition: opacity 0.3s var(--transition);
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 0.5;
+        }
+        /* --- End Project Card Styles from index.html --- */
+
+
+        /* Footer */
+        .site-footer {
+            position: fixed; /* Keeping fixed position from dettaglio.html */
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background-color: transparent;
+            pointer-events: none; /* Keeping from dettaglio.html */
+            mix-blend-mode: difference; /* Keeping from dettaglio.html */
+        }
+
+        .site-footer * {
+            pointer-events: auto;
+        }
+
+        .copyright {
+            font-size: 0.85rem;
+            color: white; /* Keeping from dettaglio.html */
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-link {
+            font-size: 1rem;
+            color: white; /* Keeping from dettaglio.html */
+            transition: all 0.3s var(--transition); /* Keeping from dettaglio.html */
+        }
+
+        .social-link:hover {
+            color: var(--accent-color);
+            transform: translateY(-2px); /* Keeping from dettaglio.html */
+        }
+
+
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .site-header, .site-footer {
+                padding: 1.5rem;
+            }
+
+            .hero {
+                padding: 4rem 1rem;
+                height: auto;
+                min-height: auto;
+            }
+
+            .projects-container {
+                padding: 2rem 0 0;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 0;
+            }
+
+            /* Project card mobile styles from index.html */
+             .project-card, .project-card.large, .project-card.medium {
+                grid-column: span 12;
+                min-height: 18rem;
+                transform: rotate(0); /* Remove rotation on mobile */
+            }
+
+             .project-card:nth-child(even) {
+                transform: rotate(0); /* Remove rotation on mobile */
+            }
+
+            .name-title {
+                font-size: clamp(2.5rem, 12vw, 5rem);
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        /* Background elements for visual interest */
+        .bg-element {
+            position: fixed;
+            border-radius: 50%;
+            background: rgba(26, 26, 26, 0.03); /* Keeping from dettaglio.html */
+            z-index: -1;
+            filter: blur(60px); /* Keeping from dettaglio.html */
+        }
+
+        .bg-element-1 {
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            right: -100px;
+        }
+
+        .bg-element-2 {
+            width: 400px;
+            height: 400px;
+            bottom: -150px;
+            left: -150px;
+        }
+
+        /* Desktop enhancements */
+        @media (min-width: 769px) {
+             /* Transition handled in project-card */
+
+             /* Hero perspective handled in .hero */
+
+            /* Assicura che il testo sia sempre visibile - Handled in .name-title and .subtitle */
+        }
+         @media (max-width: 1024px) and (min-width: 769px) {
+            .project-card, .project-card.large, .project-card.medium {
+                grid-column: span 6;
+                min-height: 20rem;
+            }
+
+            .project-card.extralarge {
+                grid-column: span 12;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Header fisso -->
-    <header class="header" onclick="navigateTo('index.html')">
-        <p>Amaël Cacciola</p>
-        <p>visual designer</p>
-        <p>based in Locarno, Switzerland</p>
-    </header>
+    <div class="bg-element bg-element-1"></div>
+    <div class="bg-element bg-element-2"></div>
 
-    <!-- Sezione Dettaglio -->
-    <main class="project-detail">
-        <h1 id="project-title">Titolo Progetto</h1>
-        <img id="project-image" src="" alt="Dettaglio Progetto">
-        <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel tortor nec urna convallis ultrices.</p>
-    </main>
+    <div class="container">
+        <header class="site-header">
+            <h1 class="header-title">AC</h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
 
-    <script src="script.js"></script>
+        <section class="hero">
+            <div class="name-container">
+                <h1 class="name-title">Amaël<br>Cacciola</h1>
+                <p class="subtitle">Visual & Interaction Designer based in Switzerland</p>
+            </div>
+        </section>
+
+        <div class="projects-container">
+            <div class="projects-grid">
+                <a href="castellivivi.html" class="project-card project-lg" data-category="UI Design">
+                    <div class="project-image">
+                        <img src="img/Links/1.png" alt="Castelli Vivi project">
+                    </div>
+                    <div class="project-content"> <h2>castelli vivi</h2> <p class="project-meta">2024 — UI Design / Thesis Project</p> </div>
+                    
+                     <div class="project-overlay"></div> </a>
+
+                                     <a href="poster.html" class="project-card project-md" data-category="Graphic Design">
+                    <div class="project-image">
+                        <img src="img/Links copy/poster-on-wall-mockup.png" alt="Poster project">
+                    </div>
+                    <div class="project-content">
+                        <h2>Poster</h2>
+                        <p class="project-meta">2022 — Graphic</p>
+                    </div>
+                     <div class="project-overlay"></div>
+                </a>
+
+                <a href="adhd.html" class="project-card large" data-category="Graphic Design">
+                    <div class="project-image">
+                        <img src="img/Sessione studio-064.jpg" alt="ADHD Magazine project">
+                    </div>
+                     <div class="project-content">
+                        <h2>adhd magazine</h2>
+                        <p class="project-meta">2023 — Graphic / Animation</p>
+                    </div>
+                     <div class="project-overlay"></div>
+                </a>
+
+                <a href="ticketevents.html" class="project-card medium" data-category="UI Design">
+                    <div class="project-image">
+                        <img src="img/Links/Mockup computer.jpg" alt="Ticketevents project">
+                    </div>
+                     <div class="project-content">
+                        <h2>Ticketevents</h2>
+                        <p class="project-meta">2022 — User Interface</p>
+                    </div>
+                     <div class="project-overlay"></div>
+                </a>
+
+                                <a href="sovraccoperta.html" class="project-card medium" data-category="Graphic Design">
+                    <div class="project-image">
+                        <img src="img/Links copy/poster-design-mockup.png" alt="Calendario Eventi">
+                    </div>
+                    <div class="project-content">
+                        <h2>Calendario Eventi</h2>
+                        <p class="project-meta">2022 — Sovraccoperta</p>
+                    </div>
+                     <div class="project-overlay"></div>
+                </a>
+
+                <a href="video.html" class="project-card large" data-category="Video Making">
+                    <div class="project-image">
+                        <img src="img/Links copy/Copertina.jpg" alt="Video project">
+                    </div>
+                     <div class="project-content">
+                        <h2>video</h2>
+                        <p class="project-meta">2022 — Riprese / Video editing</p>
+                    </div>
+                     <div class="project-overlay"></div>
+                </a>
+
+
+
+
+                <a href="mobius.html" class="project-card project-lg" data-category="Visual Identity">
+                    <div class="project-image">
+                        <img src="img/Links/Mockup.jpg" alt="Möbius project">
+                    </div>
+                     <div class="project-content">
+                        <h2>möbius</h2>
+                        <p class="project-meta">2024 — Visual Identity / UI</p>
+                    </div>
+                     <div class="project-overlay"></div>
+                </a>
+
+                <a href="xilo.html" class="project-card project-md" data-category="Logo Design">
+                    <div class="project-image">
+                        <img src="img/Links copy/xilo1.png" alt="Xilo project">
+                    </div>
+                    <div class="project-content">
+                        <h2>xilo</h2>
+                        <p class="project-meta">2023 — Naming / Logo design</p>
+                    </div>
+                     <div class="project-overlay"></div>
+                </a>
+
+                <a href="symbiosis.html" class="project-card medium" data-category="Animation">
+                    <div class="project-image">
+                        <img src="img/Links copy/4°.png" alt="Musica in imagine">
+                    </div>
+                     <div class="project-content">
+                        <h2>musica in imagine</h2>
+                        <p class="project-meta">2024 — Animation</p>
+                    </div>
+                     <div class="project-overlay"></div>
+                </a>
+                 <a href="reich.html" class="project-card large" data-category="Animation">
+                    <div class="project-image">
+                        <img src="img/Links copy/3.png" alt="Musica in imagine">
+                    </div>
+                    <div class="project-content">
+                        <h2>musica in imagine</h2>
+                        <p class="project-meta">2024 — Animation</p>
+                    </div>
+                    <div class="project-overlay"></div>
+                </a>
+            </div>
+        </div>
+
+        <footer class="site-footer">
+            <p class="copyright">© 2025</p>
+            <div class="social-links">
+                <a href="https://www.instagram.com/crazymindesign/" target="_blank" class="social-link">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/ama%C3%ABl-cacciola-a2a110270" target="_blank" class="social-link">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="mailto:amacacciola@gmail.com" class="social-link">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hero parallax effect - only on desktop (Kept from dettaglio.html)
+            const hero = document.querySelector('.hero');
+            if (hero && window.innerWidth > 768) {
+                window.addEventListener('mousemove', (e) => {
+                    const x = (e.clientX / window.innerWidth - 0.5) * 20;
+                    const y = (e.clientY / window.innerHeight - 0.5) * 15;
+                    hero.style.transform = `translate(${x}px, ${y}px)`;
+                });
+            }
+
+            // Project cards effects (Combined/Modified from index.html and dettaglio.html)
+            const projects = document.querySelectorAll('.project-card');
+
+            if (window.innerWidth > 768) {
+                 projects.forEach(project => {
+                    // Initial random rotation (-1 to +1 degrees) - Adjusted range
+                    const rotation = -1 + Math.random() * 2;
+                    project.style.transform = `rotate(${rotation}deg)`;
+
+                    // Save original transform for mouseleave
+                    const originalTransform = project.style.transform;
+
+                    project.addEventListener('mouseenter', () => {
+                        project.style.transform = 'translateY(-0.5rem) rotate(0deg)'; // Hover transform from index.html
+                        project.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)'; // Transition from index.html
+                    });
+
+                    project.addEventListener('mouseleave', () => {
+                        project.style.transform = originalTransform;
+                        project.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)'; // Transition from index.html
+                    });
+                });
+            }
+
+
+            // Reset transforms when window is resized to mobile (Kept from dettaglio.html)
+            window.addEventListener('resize', () => {
+                if (window.innerWidth <= 768) {
+                    if (hero) hero.style.transform = 'none';
+                    projects.forEach(project => {
+                        project.style.transform = 'none';
+                        project.style.transition = '';
+                    });
+                } else {
+                     // Re-apply initial rotation on resize to desktop if needed
+                     projects.forEach(project => {
+                         const rotation = -1 + Math.random() * 2;
+                         project.style.transform = `rotate(${rotation}deg)`;
+                         project.style.transition = 'none'; // Avoid animation on resize
+                     });
+                }
+            });
+
+             // Initial application of rotation on page load for desktop
+            if (window.innerWidth > 768) {
+                 projects.forEach(project => {
+                     const rotation = -1 + Math.random() * 2;
+                     project.style.transform = `rotate(${rotation}deg)`;
+                 });
+            }
+        });
+    </script>
 </body>
 </html>

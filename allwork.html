@@ -3,114 +3,638 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amaël Cacciola - Visual Designer</title>
-    <link rel="stylesheet" href="src/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>Amaël Cacciola — All Work</title> <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href= "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Using colors and transitions from index.html/dettaglio.html for consistency */
+        :root {
+            --bg-color: #f8f8f8;
+            --text-color: #1a1a1a;
+            --accent-color: #13c000c0;
+            --secondary-color: #666;
+            --light-gray: #999;
+            --border-color: #e0e0e0;
+            --transition: cubic-bezier(0.16, 1, 0.3, 1);
+            --grid-gap: 1.5rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: all 0.4s var(--transition);
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            background-color: transparent;
+            pointer-events: none;
+            mix-blend-mode: difference;
+        }
+
+        .site-header * {
+            pointer-events: auto;
+        }
+
+        .logo-mark {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: white;
+            position: relative;
+        }
+
+        .main-nav ul {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .main-nav a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            color: white;
+        }
+         .main-nav a.active { /* Active state styling from about.html */
+             font-weight: 700;
+         }
+
+
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: white;
+            transition: width 0.3s var(--transition);
+        }
+
+        .main-nav a:hover::after,
+         .main-nav a.active::after { /* Underline also for active state */
+            width: 100%;
+        }
+
+        /* --- Intro Section Styles from about.html --- */
+         .intro {
+             margin-top: 8rem; /* Space below fixed header */
+             margin-bottom: 4rem;
+         }
+
+         .intro-content {
+             max-width: 800px;
+             margin: 0 auto;
+             text-align: center;
+         }
+
+         .title-large {
+             font-family: 'Space Grotesk', sans-serif;
+             font-size: clamp(2.5rem, 6vw, 4rem);
+             font-weight: 700;
+             letter-spacing: -0.03em;
+             margin-bottom: 1rem; /* Added margin bottom */
+             color: var(--text-color);
+             mix-blend-mode: normal;
+         }
+        /* --- End Intro Section Styles --- */
+
+
+        /* Projects Section and Grid */
+        .projects-container {
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0; /* Removed top padding as intro provides space */
+            pointer-events: none;
+            z-index: 1;
+        }
+
+         /* Style for Year Sections */
+         .year-section {
+             margin-bottom: 4rem; /* Space below each year section */
+         }
+
+         .year-heading {
+             font-family: 'Space Grotesk', sans-serif;
+             font-size: clamp(2rem, 4vw, 3rem);
+             font-weight: 700;
+             letter-spacing: -0.02em;
+             margin-bottom: 2rem; /* Space below year heading */
+             color: var(--text-color);
+             pointer-events: auto; /* Ensure heading is interactive if needed */
+         }
+
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--grid-gap);
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0; /* Removed padding */
+             pointer-events: auto; /* Enable pointer events for the grid */
+        }
+
+        /* --- Project Card Styles (Keeping from previous step) --- */
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            transition: transform 0.4s var(--transition), box-shadow 0.4s var(--transition);
+            grid-column: span 6;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-height: 24rem;
+            background-color: #111111;
+             pointer-events: auto;
+        }
+
+        .project-card.extralarge {
+            grid-column: span 12;
+            min-height: 40rem;
+        }
+
+        .project-card.large {
+            grid-column: span 8;
+            min-height: 30rem;
+        }
+
+        .project-card.medium {
+            grid-column: span 4;
+            min-height: 20rem;
+        }
+
+        .project-card:hover {
+            transform: translateY(-0.5rem) rotate(0deg);
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+         /* Initial rotation handled by JavaScript */
+
+
+        .project-card::before {
+            content: attr(data-category);
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            z-index: 2;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .project-content {
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+        }
+
+        .project-content h2 {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            margin-bottom: 0.5rem;
+            text-transform: lowercase;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .project-meta {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--light-gray);
+        }
+
+        .project-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.8) contrast(1.1);
+            transition: transform 0.6s var(--transition), filter 0.6s var(--transition);
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.05);
+            filter: brightness(0.9) contrast(1.2);
+        }
+
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+            z-index: 1;
+            transition: opacity 0.3s var(--transition);
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 0.5;
+        }
+        /* --- End Project Card Styles --- */
+
+
+        /* Footer */
+        .site-footer {
+            position: fixed; /* Keeping fixed position from index.html */
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background-color: transparent;
+            pointer-events: none;
+            mix-blend-mode: difference;
+        }
+
+        .site-footer * {
+            pointer-events: auto;
+        }
+
+        .copyright {
+            font-size: 0.85rem;
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-link {
+            font-size: 1rem;
+            color: white;
+            transition: all 0.3s var(--transition);
+        }
+
+        .social-link:hover {
+            color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        /* Background elements for visual interest (from about.html) */
+        .bg-element {
+            position: fixed;
+            border-radius: 50%;
+            background: rgba(26, 26, 26, 0.03);
+            z-index: -1;
+            filter: blur(60px);
+        }
+
+        .bg-element-1 {
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            right: -100px;
+        }
+
+        .bg-element-2 {
+            width: 400px;
+            height: 400px;
+            bottom: -150px;
+            left: -150px;
+        }
+
+
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .site-header, .site-footer {
+                padding: 1.5rem;
+            }
+
+             .intro {
+                 margin-top: 6rem; /* Adjust margin top for mobile fixed header */
+                 margin-bottom: 3rem;
+             }
+
+             .year-heading {
+                 font-size: clamp(1.8rem, 6vw, 2.5rem);
+                 margin-bottom: 1.5rem;
+             }
+
+            .projects-container {
+                padding: 0;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 0;
+            }
+
+            /* Project card mobile styles (from index.html) */
+             .project-card, .project-card.large, .project-card.medium {
+                grid-column: span 1 !important; /* Ensure full width on mobile */
+                transform: none !important; /* Remove rotation on mobile */
+                 min-height: 18rem; /* Adjust min height */
+            }
+
+             .project-card:nth-child(even) {
+                transform: none !important; /* Remove rotation on mobile */
+            }
+
+             .title-large {
+                  font-size: clamp(1.8rem, 7vw, 3rem);
+             }
+        }
+
+
+         @media (max-width: 480px) {
+             .site-header, .site-footer {
+                 padding: 0.8rem;
+             }
+              .main-nav ul {
+                 gap: 0.8rem;
+             }
+              .projects-grid {
+                 gap: 0.8rem;
+             }
+         }
+
+         /* Desktop enhancements */
+        @media (min-width: 769px) {
+            /* Project card transitions handled in .project-card */
+
+             /* Ensure text is always visible */
+            .logo-mark, .main-nav a {
+                color: white;
+                mix-blend-mode: difference;
+            }
+             .site-footer .copyright,
+             .site-footer .social-link {
+                 color: white;
+                  mix-blend-mode: difference;
+             }
+        }
+    </style>
 </head>
 <body>
-    <div class="noise-overlay"></div>
-    
+    <div class="bg-element bg-element-1"></div>
+    <div class="bg-element bg-element-2"></div>
+
+    <header class="site-header">
+        <a href="index.html" class="logo-mark">AC</a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Selection</a></li>
+                <li><a href="allwork.html" class="active">All Work</a></li> <li><a href="about.html">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
     <div class="container">
-        <header class="site-header">
-            <div class="logo">
-                <span class="logo-mark">AC</span>
-            </div>
-            
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.html">Selection</a></li>
-                    <li><a href="allwork.html"class="active"> All Work</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </nav>
-        </header>
-
-        <section class="intro">
-            <h1 class="title-large">All work</h1>
+         <section class="intro">
             <div class="intro-content">
-            </div>
+                <h1 class="title-large">All Work</h1> </div>
         </section>
+        <div class="projects-container">
+             <section class="year-section">
+                <h2 class="year-heading">2024</h2>
+                <div class="projects-grid">
+                    <a href="castellivivi.html" class="project-card project-lg" data-category="UI Design">
+                        <div class="project-image">
+                            <img src="img/Links/1.png" alt="Castelli Vivi project">
+                        </div>
+                        <div class="project-content"><h2>castelli vivi</h2><p class="project-meta">2024 — UI Design / Thesis Project</p></div>
+                        <div class="project-overlay"></div>
+                    </a>
+                    <a href="mobius.html" class="project-card project-lg" data-category="Visual Identity">
+                        <div class="project-image">
+                            <img src="img/Links/Mockup.jpg" alt="Möbius project">
+                        </div>
+                        <div class="project-content"><h2>möbius</h2><p class="project-meta">2024 — Visual Identity / UI</p></div>
+                        <div class="project-overlay"></div>
+                    </a>
+                     <a href="symbiosis.html" class="project-card medium" data-category="Animation">
+                        <div class="project-image">
+                            <img src="img/Links copy/4°.png" alt="Musica in imagine">
+                        </div>
+                        <div class="project-content"><h2>musica in imagine</h2><p class="project-meta">2024 — Animation</p></div>
+                        <div class="project-overlay"></div>
+                    </a>
+                     <a href="reich.html" class="project-card large" data-category="Animation">
+                        <div class="project-image">
+                            <img src="img/Links copy/3.png" alt="Musica in imagine">
+                        </div>
+                        <div class="project-content"><h2>musica in imagine</h2><p class="project-meta">2024 — Animation</p></div>
+                        <div class="project-overlay"></div>
+                    </a>
+                    </div>
+            </section>
 
-        <main class="work-grid">
-            <a href="castellivivi.html" class="project-card" data-category="UI Design">
-                <div class="project-content">
-                    <h2>castelli vivi</h2>
-                    <p class="project-meta">2024 — UI Design / Thesis Project</p>
-                </div>
-                <div class="project-image">
-                    <img src="img/Links/1.png" alt="Castelli Vivi project">
-                </div>
-            </a>
+             <section class="year-section">
+                <h2 class="year-heading">2023</h2>
+                <div class="projects-grid">
+                    <a href="adhd.html" class="project-card large" data-category="Graphic Design">
+                        <div class="project-image">
+                            <img src="img/Sessione studio-064.jpg" alt="ADHD Magazine project">
+                        </div>
+                        <div class="project-content"><h2>adhd magazine</h2><p class="project-meta">2023 — Graphic / Animation</p></div>
+                        <div class="project-overlay"></div>
+                    </a>
+                    <a href="xilo.html" class="project-card project-md" data-category="Logo Design">
+                        <div class="project-image">
+                            <img src="img/Links copy/xilo1.png" alt="Xilo project">
+                        </div>
+                        <div class="project-content"><h2>xilo</h2><p class="project-meta">2023 — Naming / Logo design</p></div>
+                        <div class="project-overlay"></div>
+                    </a>
+                    </div>
+            </section>
 
-            <a href="adhd.html" class="project-card large" data-category="Graphic Design">
-                <div class="project-content">
-                    <h2>adhd magazine</h2>
-                    <p class="project-meta">2023 — Graphic / Animation</p>
-                </div>
-                <div class="project-image">
-                    <img src="img/Sessione studio-064.jpg" alt="ADHD Magazine project">
-                </div>
-            </a>
+             <section class="year-section">
+                <h2 class="year-heading">2022</h2>
+                <div class="projects-grid">
+                    <a href="ticketevents.html" class="project-card medium" data-category="UI Design">
+                        <div class="project-image">
+                            <img src="img/Links/Mockup computer.jpg" alt="Ticketevents project">
+                        </div>
+                        <div class="project-content"><h2>Ticketevents</h2><p class="project-meta">2022 — User Interface</p></div>
+                        <div class="project-overlay"></div>
+                    </a>
+                     <a href="poster.html" class="project-card large" data-category="Graphic Design">
+                        <div class="project-image">
+                            <img src="img/Links copy/poster-on-wall-mockup.png" alt="Poster project">
+                        </div>
+                        <div class="project-content"><h2>Poster</h2><p class="project-meta">2022 — Graphic</p></div>
+                        <div class="project-overlay"></div>
+                    </a>
+                    <a href="sovraccoperta.html" class="project-card medium" data-category="Graphic Design">
+                        <div class="project-image">
+                            <img src="img/Links copy/poster-design-mockup.png" alt="Calendario Eventi">
+                        </div>
+                        <div class="project-content"><h2>Calendario Eventi</h2><p class="project-meta">2022 — Sovraccoperta</p></div>
+                        <div class="project-overlay"></div>
+                    </a>
+                    <a href="video.html" class="project-card large" data-category="Video Making">
+                        <div class="project-image">
+                            <img src="img/Links copy/Copertina.jpg" alt="Video project">
+                        </div>
+                        <div class="project-content"><h2>video</h2><p class="project-meta">2022 — Riprese / Video editing</p></div>
+                        <div class="project-overlay"></div>
+                    </a>
+                    </div>
+            </section>
 
-            <a href="ticketevents.html" class="project-card" data-category="UI Design">
-                <div class="project-content">
-                    <h2>Ticketevents</h2>
-                    <p class="project-meta">2022 — User Interface</p>
-                </div>
-                <div class="project-image">
-                    <img src="img/Links/Mockup computer.jpg" alt="Ticketevents project">
-                </div>
-            </a>
-
-            <a href="mobius.html" class="project-card medium" data-category="Brand">
-                <div class="project-content">
-                    <h2>möbius</h2>
-                    <p class="project-meta">2023 — Visual Identity / UI</p>
-                </div>
-                <div class="project-image">
-                    <img src="img/Links/Mockup.jpg" alt="Möbius project">
-                </div>
-            </a>
-
-            <a href="meta.html" class="project-card large" data-category="Motion">
-                <div class="project-content">
-                    <h2>metamorphosis</h2>
-                    <p class="project-meta">2025 — Animation / Coding</p>
-                </div>
-                <div class="project-image">
-                    <img src="img/Links/DSC09479.JPG" alt="Metamorphosis project">
-                </div>
-            </a>
-
-            <a href="meta.html" class="project-card medium" data-category="Motion">
-            <div class="project-content">
-                    <h2>metamorphosis</h2>
-                    <p class="project-meta">2025 — Animation / Coding</p>
-                </div>
-                <div class="project-image">
-                    <img src="img/Links/DSC09479.JPG" alt="Metamorphosis project">
-                </div>
-            </a>
-        </main>
+             </div>
 
         <footer class="site-footer">
-            <div class="footer-left">
-                <span class="logo-mark">AC</span>
-                <p class="copyright">© 2025 Amaël Cacciola</p>
-            </div>
-            <div class="footer-right">
-                <div class="social-links">
-                    <a href="https://www.instagram.com/crazymindesign/?utm_source=ig_web_button_share_sheet" class="social-link">Instagram</a>
-                    <a href="https://www.linkedin.com/in/ama%C3%ABl-cacciola-a2a110270?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" class="social-link">LinkedIn</a>
-                </div>
-                <a href="mailto:amacacciola@gmail.com" class="contact-link" id="contact">amacacciola@gmail.com</a>
+            <p class="copyright">© 2025</p>
+            <div class="social-links">
+                <a href="https://www.instagram.com/crazymindesign/" target="_blank" class="social-link">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/ama%C3%ABl-cacciola-a2a110270" target="_blank" class="social-link">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="mailto:amacacciola@gmail.com" class="social-link">
+                    <i class="fas fa-envelope"></i>
+                </a>
             </div>
         </footer>
     </div>
 
-    <script src="src/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Project cards effects (from index.html)
+            const projects = document.querySelectorAll('.project-card');
+
+            if (window.innerWidth > 768) {
+                 projects.forEach(project => {
+                    // Initial random rotation (-1 to +1 degrees)
+                    const rotation = -1 + Math.random() * 2;
+                    project.style.transform = `rotate(${rotation}deg)`;
+
+                    // Save original transform for mouseleave
+                    const originalTransform = project.style.transform;
+
+                    project.addEventListener('mouseenter', () => {
+                        project.style.transform = 'translateY(-0.5rem) rotate(0deg)'; // Hover transform from index.html
+                        project.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)'; // Transition from index.html
+                    });
+
+                    project.addEventListener('mouseleave', () => {
+                        project.style.transform = originalTransform;
+                        project.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)'; // Transition from index.html
+                    });
+                });
+            }
+
+
+            // Reset transforms when window is resized to mobile
+            window.addEventListener('resize', () => {
+                if (window.innerWidth <= 768) {
+                    projects.forEach(project => {
+                        project.style.transform = 'none';
+                        project.style.transition = '';
+                    });
+                } else {
+                     // Re-apply initial rotation on resize to desktop
+                     projects.forEach(project => {
+                         const rotation = -1 + Math.random() * 2;
+                         project.style.transform = `rotate(${rotation}deg)`;
+                         project.style.transition = 'none'; // Avoid animation on resize
+                     });
+                }
+            });
+
+             // Initial application of rotation on page load for desktop
+            if (window.innerWidth > 768) {
+                 projects.forEach(project => {
+                     const rotation = -1 + Math.random() * 2;
+                     project.style.transform = `rotate(${rotation}deg)`;
+                 });
+            }
+        });
+
+         // Basic script to handle active navigation link
+         document.addEventListener('DOMContentLoaded', () => {
+             const currentPath = window.location.pathname.split('/').pop();
+             const navLinks = document.querySelectorAll('.main-nav a');
+
+             navLinks.forEach(link => {
+                 const linkPath = link.getAttribute('href').split('/').pop();
+                 if (currentPath === linkPath) {
+                     link.classList.add('active');
+                 } else if (currentPath === '' && linkPath === 'index.html') {
+                      // Handle index.html as the default page
+                      link.classList.add('active');
+                 }
+             });
+         });
+    </script>
 </body>
 </html>
