@@ -1082,7 +1082,9 @@ ul {
      }
 
      .site-header, .site-footer {
-         padding: 1rem;
+        position: fixed;
+        background: none;
+        padding: 1rem;
      }
 
      /* About Page Specific (Adattato per mobile più stretto) */
