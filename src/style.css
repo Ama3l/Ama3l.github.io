@@ -34,7 +34,7 @@ img {
 
 video {
     display: block;
-    max-width: 80%;
+    max-width: 100%;
     height: auto;
 }
 
@@ -735,7 +735,7 @@ ul {
     font-size: 1rem;
     color: white; /* Colore per mix-blend-mode: difference */
     transition: all 0.3s var(--transition);
-    opacity: 0; /* Inizialmente nascosto per animazione */
+    opacity: 1; /* Inizialmente nascosto per animazione */
     transform: translateY(10px); /* Inizialmente spostato per animazione */
 }
 
@@ -863,7 +863,7 @@ ul {
 
     /* Header/Footer: remove fixed positioning and blend mode on smaller screens */
     .site-header, .site-footer {
-        position: static;
+        position: fixed;
         padding: 1.5rem;
         mix-blend-mode: normal;
         background-color: var(--bg-color); /* Usa colore di sfondo */
@@ -872,7 +872,7 @@ ul {
     }
 
     .site-header {
-         flex-direction: column; /* Impila logo e nav */
+         flex-direction:column; /* Impila logo e nav */
          align-items: flex-start;
          gap: 1rem; /* Spazio tra logo e nav */
     }
@@ -1271,54 +1271,62 @@ ul {
         padding: 1rem;
     }
 
-     /* Project card transitions and initial rotation on desktop */
-     .project-card {
-         transition: transform 0.4s var(--transition), box-shadow 0.4s var(--transition), opacity 0.6s var(--transition);
-         opacity: 0; /* Initially hidden for animation */
-         transform: translateY(30px); /* Initially moved for animation */
-     }
+.project-card {
+    /* Mantieni le altre proprietà */
+    transition: box-shadow 0.4s var(--transition), opacity 0.6s var(--transition); /* Rimuovi transform dalla transizione */
+    opacity: 0; /* Mantenuto per l'animazione di ingresso visibile con .visible */
+    transform: translateY(30px); /* Mantenuto per l'animazione di ingresso visibile con .visible */
+}
 
-     .project-card.visible {
-         opacity: 1;
-         transform: translateY(0);
-     }
+.project-card.visible { /* Mantieni questa regola per l'animazione di ingresso */
+    opacity: 1;
+    transform: translateY(0);
+}
 
-     .project-card:hover {
-         transform: translateY(-0.5rem) rotate(0deg) scale(1.02);
-     }
 
-     .project-card::before {
-         opacity: 0; /* Initially hidden for animation */
-         transform: translateY(10px); /* Initially moved for animation */
-         transition: all 0.4s var(--transition) 0.1s;
-     }
+.project-card:hover {
+    transform: translateY(-0.5rem) scale(1.02); /* Rimuovi rotate(0deg) */
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
 
-     .project-card:hover::before {
-         opacity: 1;
-         transform: translateY(0);
-     }
+.project-card::before {
+    /* Mantieni le altre proprietà */
+    opacity: 1; /* Sempre visibile */
+    transform: translateY(0); /* Posizione finale */
+    transition: none; /* Rimuovi transizione */
+}
 
-     .project-content {
-         transform: translateY(20px); /* Initially moved for animation */
-         opacity: 0; /* Initially hidden for animation */
-         transition: all 0.4s var(--transition);
-     }
+/* Rimuovi completamente la regola .project-card:hover::before o commentala */
+/* .project-card:hover::before {
+    opacity: 1;
+    transform: translateY(0);
+} */
 
-     .project-card:hover .project-content {
-         transform: translateY(0);
-         opacity: 1;
-     }
+.project-content {
+    /* Mantieni le altre proprietà */
+    transform: translateY(0); /* Posizione finale */
+    opacity: 1; /* Sempre visibile */
+    transition: none; /* Rimuovi transizione */
+}
 
-     .project-meta {
-         opacity: 0; /* Initially hidden for animation */
-         transform: translateY(10px); /* Initially moved for animation */
-         transition: all 0.4s var(--transition) 0.1s;
-     }
+/* Rimuovi completamente la regola .project-card:hover .project-content o commentala */
+/* .project-card:hover .project-content {
+    transform: translateY(0);
+    opacity: 1;
+} */
+.project-meta {
+    /* Mantieni le altre proprietà */
+    opacity: 1; /* Sempre visibile */
+    transform: translateY(0); /* Posizione finale */
+    transition: none; /* Rimuovi transizione */
+}
 
-     .project-card:hover .project-meta {
-         opacity: 1;
-         transform: translateY(0);
-     }
+/* Rimuovi completamente la regola .project-card:hover .project-meta o commentala */
+/* .project-card:hover .project-meta {
+    opacity: 1;
+    transform: translateY(0);
+} */
 
 
     /* About Page Specific (Restore desktop layout) */
