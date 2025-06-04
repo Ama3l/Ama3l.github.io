@@ -24,6 +24,7 @@ body {
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    padding-top: 60px; /* Almeno l'altezza del tuo header. Regola se l'altezza del tuo header cambia. */
 }
 
 img {
@@ -55,39 +56,46 @@ ul {
 .container {
     max-width: 1440px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 2rem; /* Default padding for larger screens */
     position: relative;
     min-height: 100vh;
 }
 
 /* Header (Uniformato da index.html) */
 .site-header {
-    position: fixed;
+    position: fixed; /* Rende l'header fisso */
+    width: 100%;
     top: 0;
     left: 0;
-    right: 0;
-    padding: 2rem;
-    z-index: 100;
+    z-index: 1000; /* Assicura che sia sopra gli altri elementi */
+    background-color: transparent; /* Sfondo trasparente di default */
+    padding: 1rem 2rem; /* Aggiusta il padding se necessario */
+    transition: background-color 0.4s var(--transition); /* Transizione per il cambio colore */
     display: flex;
     justify-content: space-between;
-    align-items: center; /* Aggiunto per centrare verticalmente */
-    background-color: transparent;
-    pointer-events: none;
-    mix-blend-mode: difference;
-    transition: transform 0.5s var(--transition); /* Transizione per hide/show */
+    align-items: center;
+    mix-blend-mode: difference; /* Mantiene l'effetto di blend mode */
+    pointer-events: none; /* Disabilita eventi del mouse sull'header trasparente */
 }
-
-.site-header.scrolled { /* Classe per nascondere l'header */
-    transform: translateY(-100%);
-}
-
-.site-header.visible { /* Classe per mostrare l'header */
-    transform: translateY(0);
-}
-
 
 .site-header * {
-    pointer-events: auto;
+    pointer-events: auto; /* Riabilita eventi del mouse sui figli */
+}
+
+.site-header.scrolled {
+    background-color: var(--bg-color); /* Colore di sfondo quando scorre */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Aggiunge un'ombra leggera */
+    mix-blend-mode: normal; /* Rimuove mix-blend-mode quando ha uno sfondo solido */
+}
+
+.site-header.scrolled .logo-mark,
+.site-header.scrolled .main-nav a {
+    color: var(--text-color); /* Cambia il colore del testo quando l'header è scrollato */
+}
+
+.site-header.scrolled .logo-mark::after,
+.site-header.scrolled .main-nav a::after {
+    background-color: var(--text-color); /* Cambia il colore dell'underline */
 }
 
 .logo-mark {
@@ -185,7 +193,7 @@ ul {
     font-size: 1.25rem;
     color: var(--secondary-color);
     max-width: 600px;
-    margin: 0 auto;
+    margin: 0;
     position: relative;
     z-index: 3;
     mix-blend-mode: normal;
@@ -196,25 +204,21 @@ ul {
 
 .subtitle.visible {
     opacity: 1;
+    margin: 0;
     transform: translateY(0);
 }
 
 /* Scroll down indicator (da index.html) */
 .scroll-down {
     position: absolute;
-    bottom: 2rem;
+    bottom: 6rem; /* Manteniamo la posizione originale, ora dovrebbe essere subito visibile */
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
     z-index: 5;
-    opacity: 0;
-    transition: opacity 0.6s var(--transition) 1s;
-}
-
-.scroll-down.visible {
-    opacity: 1;
+    /* Rimosso opacity e transition per farlo apparire subito */
 }
 
 .scroll-down-text {
@@ -306,7 +310,7 @@ ul {
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 1rem; /* Padding da index.html */
+    padding: 1rem; /* Padding di base per progetti */
     pointer-events: auto;
 }
 
@@ -367,7 +371,7 @@ ul {
     z-index: 2;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    opacity: 0; /* Inizialmente nascosto per animazione */
+    opacity: 1; /* Inizialmente nascosto per animazione */
     transform: translateY(10px); /* Inizialmente spostato per animazione */
     transition: all 0.4s var(--transition) 0.1s; /* Aggiunto transizione */
 }
@@ -383,7 +387,7 @@ ul {
     padding: 2rem;
     background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
     transform: translateY(20px); /* Inizialmente spostato per animazione */
-    opacity: 0; /* Inizialmente nascosto per animazione */
+    opacity: 1; /* Inizialmente nascosto per animazione */
     transition: all 0.4s var(--transition); /* Aggiunto transizione */
 }
 
@@ -530,72 +534,70 @@ ul {
     /* Margine gestito dal gap della griglia padre */
 }
 
-.subtitle {
+/* Modifiche per i titoli della pagina CV */
+.about-content-section h2.subtitle {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: 600;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem; /* Spazio sotto il titolo */
     color: var(--text-color);
+    display: block; /* Assicura che il titolo prenda tutta la larghezza disponibile */
+    grid-column: span 12; /* Se sei in una griglia, assicurati che il titolo prenda tutta la larghezza */
+    text-align: left; /* Assicura che il titolo sia allineato a sinistra */
 }
 
-.cv-list {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+/* Stili per gli elementi nelle sezioni CV */
+.education-item,
+.experience-item,
+.skills-list,
+.languages-list {
+    margin-bottom: 5rem; /* Spazio tra le sezioni */
+    grid-column: span 12; /* Se sei in una griglia, assicurati che prendano tutta la larghezza */
 }
 
-.cv-item {
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: 1rem;
-    align-items: start;
-}
-
-.cv-year {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    color: var(--accent-color);
-    font-weight: 500;
-}
-
-.cv-details h3 {
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 0.4rem;
-    color: var(--text-color);
-}
-
-.cv-details p {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    color: var(--light-gray);
-    line-height: 1.4;
-}
-
-/* Skills, Languages, Interests Section (da about.html) */
-.skills-interests-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
-}
-
-.skills-list p,
-.languages-list p,
-.interests-list p {
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
+.languages-list p {
     margin-bottom: 0.5rem;
-    color: var(--text-color);
 }
 
-.skills-list span,
-.languages-list span {
-    color: var(--accent-color);
-    font-weight: 500;
+.skills-list ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
+.skills-list li {
+    background-color: var(--border-color);
+    padding: 0.3rem 0.8rem;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+/* Modifiche per la griglia della pagina About */
+.about-grid-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2rem;
+    margin-top: 4rem;
+}
+
+.about-col-left {
+    grid-column: span 7; /* Regola la larghezza della colonna sinistra */
+    display: flex;
+    flex-direction: column; /* Assicura che gli elementi siano in colonna */
+}
+
+.about-col-right {
+    grid-column: span 5; /* Regola la larghezza della colonna destra */
+}
+
+.about-intro-text {
+    margin-bottom: 3rem;
+}
+
+.about-section-group {
+    margin-bottom: 2.5rem; /* Spazio tra i gruppi di sezioni (es. Educazione, Esperienze) */
+    grid-column: span 12; /* Assicurati che il gruppo occupi tutta la larghezza della griglia */
+}
 
 /* Project Detail Content (da mobius.html) */
 .project-detail-content {
@@ -693,7 +695,6 @@ ul {
     line-height: 1.6;
 }
 
-
 /* Footer (Uniformato da index.html) */
 .site-footer {
     position: fixed;
@@ -715,7 +716,6 @@ ul {
 .site-footer.visible { /* Classe per mostrare con animazione */
     opacity: 1;
 }
-
 
 .site-footer * {
     pointer-events: auto;
@@ -743,7 +743,6 @@ ul {
     opacity: 1;
     transform: translateY(0);
 }
-
 
 .social-link:hover {
     color: var(--accent-color);
@@ -774,7 +773,6 @@ ul {
     width: 100%;
 }
 
-
 /* Background elements (da index.html e about.html) */
 .bg-element {
     position: fixed;
@@ -789,7 +787,6 @@ ul {
 .bg-element.visible { /* Classe per mostrare con animazione */
     opacity: 1;
 }
-
 
 .bg-element-1 {
     width: 300px;
@@ -823,8 +820,7 @@ ul {
 .custom-cursor.active {
     width: 60px;
     height: 60px;
-    background-color: transparent;
-    border: 2px solid var(--accent-color);
+    background-color: var(--accent-color);
 }
 
 /* Scroll progress indicator (da index.html) */
@@ -832,636 +828,462 @@ ul {
     position: fixed;
     top: 0;
     left: 0;
+    width: 100%;
     height: 3px;
     background-color: var(--accent-color);
-    z-index: 1000;
-    transform-origin: left;
+    transform-origin: left top;
     transform: scaleX(0);
-    transition: transform 0.1s linear;
+    z-index: 999;
 }
 
 
-/* Noise overlay (da mobius.html) */
-.noise-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c4S8BAAAAAXklEQVR4nO3RMQoAIAxDwQqoCL5e/6YiiOBY+hR8fcTIkCFDhgwZMmTIkCFD/g45MJGjCjliIEdvZOjfzNAafq46yP7V07x9QIO20fmsHW5YY4b4kRFrgJg/TYaMuRc1xQCKelLnyQAAAABJRU5ErkJggg==');
-    opacity: 0.03;
-    pointer-events: none;
-    z-index: 1000;
-}
-
-
-/* Responsive styles (Consolidati e ottimizzati) */
+/* Media Queries */
 @media (max-width: 1024px) {
     .container {
-        padding: 0 1.5rem;
+        padding: 0 1.5rem; /* Aggiusta padding per tablet */
     }
 
-    /* Header/Footer: remove fixed positioning and blend mode on smaller screens */
-    .site-header, .site-footer {
-        position: fixed;
-        padding: 1.5rem;
-        mix-blend-mode: normal;
-        background-color: var(--bg-color); /* Usa colore di sfondo */
-        opacity: 1; /* Sempre visibile */
-        transform: translateY(0); /* Rimuovi trasformazioni */
+    body {
+        padding-top: 60px; /* Assicura padding top anche su tablet */
     }
 
     .site-header {
-         flex-direction:column; /* Impila logo e nav */
-         align-items: flex-start;
-         gap: 1rem; /* Spazio tra logo e nav */
+        padding: 0.8rem 1rem; /* Adatta il padding per mobile */
+        mix-blend-mode: normal; /* Rimuove mix-blend-mode per mobile/tablet */
+        background-color: var(--bg-color); /* Imposta un colore di sfondo fisso per mobile */
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Aggiunge un'ombra leggera */
+    }
+    
+    .site-header .logo-mark,
+    .site-header .main-nav a {
+        color: var(--text-color); /* Colore del testo normale su mobile */
     }
 
-
-     .logo-mark, .main-nav a, .site-footer .copyright, .site-footer .social-link, .contact-link {
-         color: var(--text-color); /* Usa colore testo normale */
-         mix-blend-mode: normal; /* Rimuovi blend mode */
+    .site-header .logo-mark::after,
+    .site-header .main-nav a::after {
+        background-color: var(--text-color); /* Colore underline normale su mobile */
     }
-
-    .logo-mark {
-         transform: rotate(0deg); /* Rimuovi rotazione */
-    }
-
 
     .main-nav ul {
-        gap: 1rem; /* Riduci spazio tra link */
-        flex-wrap: wrap; /* Permetti ai link di andare a capo */
+        gap: 1.5rem;
     }
 
-     .main-nav a.active::after {
-        background-color: var(--accent-color); /* Usa colore accento per underline */
+    .hero {
+        padding: 6rem 2rem;
     }
 
+    .name-title {
+        font-size: clamp(2.5rem, 12vw, 6rem);
+    }
 
-    .projects-container {
-        padding: 2rem 0;
+    .subtitle {
+        margin-left: 40px; /* Aggiusta il margine per mobile */
+        font-size: 1.6rem;
+        opacity: 0; /* Rendi visibile subito su mobile */
+    }
+
+    .section-title {
+        padding: 0 1rem;
+        font-size: clamp(1.8rem, 7vw, 2.5rem);
     }
 
     .projects-grid {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Griglia responsiva */
-        gap: 1.5rem;
-        padding: 0;
+        grid-template-columns: repeat(4, 1fr); /* 2 colonne su schermi più piccoli */
+        padding: 0 0.5rem; /* Riduci il padding per schermi più piccoli */
+        gap: 1rem;
     }
 
-     .project-card, .project-card.large, .project-card.medium, .project-card.extralarge {
-         grid-column: span 1 !important; /* Forza 1 colonna su mobile */
-         transform: none !important; /* Rimuovi rotazioni */
-         opacity: 1; /* Sempre visibile, no animazioni ingresso */
-     }
-
-     .project-card::before, .project-content, .project-meta {
-         opacity: 1; /* Sempre visibile, no animazioni ingresso */
-         transform: none; /* Rimuovi trasformazioni */
-     }
-
-    .year-heading {
-        font-size: clamp(1.8rem, 6vw, 2.5rem);
-        margin-bottom: 1.5rem;
+    .project-card {
+        /* Assicurati che non ci siano trasformazioni indesiderate su mobile */
+        transform: none !important; /* Forza la rimozione di qualsiasi trasformazione JavaScript o default */
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1); /* Riduci l'ombra su mobile */
+        grid-column: span 4; /* Ogni progetto occupa tutta la larghezza della colonna */
+        min-height: 18rem;
     }
 
-    /* About Page Specific (Adattato per tablet/mobile) */
-    main { /* da about.html */
-         margin-top: 2rem;
-         margin-bottom: 2rem;
-     }
-
-     .intro { /* da about.html */
-         margin-bottom: 3rem;
-     }
-
-     .title-large { /* da about.html */
-         font-size: clamp(2rem, 5vw, 3.5rem);
-     }
-
-     .description { /* da about.html */
-          font-size: 1rem;
-     }
-
-    .about-grid { /* da about.html */
-        grid-template-columns: 1fr; /* Impila colonne */
-        gap: 2rem;
+    .project-card.extralarge,
+    .project-card.large,
+    .project-card.medium {
+        grid-column: span 4; /* Forziamo a singola colonna per tutti i tipi su mobile */
+        min-height: 18rem;
+    }
+    
+    .project-card:hover {
+        transform: none !important; /* Impedisce la trasformazione hover su mobile */
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1); /* Mantieni l'ombra ridotta */
     }
 
-    .about-content-col, .about-image-col { /* da about.html */
-        grid-column: span 1 !important;
-         position: static; /* Rimuovi sticky */
-         top: auto;
-         margin-top: 0;
+    .project-card::before { /* Categoria del progetto */
+        opacity: 1; /* Rendi sempre visibile la categoria */
+        transform: translateY(0); /* Rimuovi la trasformazione iniziale */
+        top: 1rem; /* Aggiusta la posizione se necessario */
+        right: 1rem; /* Aggiusta la posizione se necessario */
     }
 
-     .about-image-col {
-         margin-top: 2rem; /* Spazio tra testo e immagine */
-     }
+    .project-card:hover::before {
+        opacity: 1;
+        transform: translateY(0);
+    }
 
+    .project-content {
+        position: relative; /* Mantieni la posizione relativa per i contenuti */
+        padding: 1rem; /* Riduci il padding se necessario */
+        background: none; /* Rimosso sfondo nero per mobile */
+        transform: translateY(0); /* Rendi sempre visibile il contenuto */
+        opacity: 1; /* Rendi sempre visibile il contenuto */
+        min-height: auto; /* Lascia che l'altezza sia determinata dal contenuto */
+    }
 
-     .about-content-col { /* Nuova griglia interna per le sezioni CV */
-         gap: 2.5rem;
-     }
+    .project-card .project-content h2 {
+        font-size: 1.2rem; /* Riduci la dimensione del titolo su mobile */
+    }
 
-     .subtitle { /* da about.html */
-         font-size: 1.3rem;
-         margin-bottom: 1rem;
-     }
+    .project-card .project-meta {
+        opacity: 1; /* Rendi sempre visibile la meta */
+        transform: translateY(0); /* Rimuovi la trasformazione iniziale */
+        font-size: 0.8rem; /* Riduci la dimensione del meta su mobile */
+    }
 
-     .cv-item { /* da about.html */
-         grid-template-columns: 100px 1fr; /* Aggiusta colonna anno */
-         gap: 0.8rem;
-     }
+    .project-card:hover .project-image img {
+        transform: scale(1); /* Impedisci l'ingrandimento dell'immagine su hover */
+        filter: brightness(0.8) contrast(1.1); /* Mantieni il filtro base */
+    }
 
-     .cv-year, .cv-details p { /* da about.html */
-          font-size: 0.85rem;
-     }
+    .project-overlay {
+        /* Puoi rimuoverlo o renderlo meno opaco su mobile */
+        background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%); /* Sfondo più leggero */
+        opacity: 1; /* Rendi sempre visibile ma con opacità ridotta */
+    }
 
-     .cv-details h3 { /* da about.html */
-          font-size: 0.95rem;
-          margin-bottom: 0.3rem;
-     }
+    .project-card:hover .project-overlay {
+        opacity: 1; /* Mantenere la stessa opacità anche su hover */
+    }
 
-    .skills-interests-grid { /* da about.html */
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    /* About page responsive */
+    .about-grid {
+        grid-template-columns: 1fr; /* Una singola colonna su tablet/mobile */
         gap: 1.5rem;
         margin-top: 2rem;
     }
 
-     .skills-list p, .languages-list p, .interests-list p { /* da about.html */
-          font-size: 0.95rem;
-     }
+    .about-content-col {
+        grid-column: span 1; /* Occupano tutta la larghezza */
+        gap: 2rem;
+    }
 
-    /* Project Detail Page Specific (Adattato per tablet/mobile) */
-     .project-detail-content { /* da mobius.html */
-         grid-template-columns: 1fr;
-         gap: 1.5rem;
-          margin-top: 2rem; /* Adjusted margin top for non-fixed header */
-     }
+    .about-image-col {
+        grid-column: span 1; /* Occupano tutta la larghezza */
+        order: -1; /* Sposta l'immagine sopra il testo su mobile */
+        margin-bottom: 2rem;
+        position: static; /* Rimuovi sticky positioning su mobile */
+        top: auto;
+    }
 
-     .project-intro-section,
-     .project-description-section,
-     .project-title-section,
-     .project-image-gallery,
-     .future-reference-section { /* da mobius.html */
-         grid-column: span 1 !important;
-     }
+    .about-image {
+        max-width: 80%;
+        margin: 0 auto; /* Centra l'immagine */
+    }
 
-     .project-main-title { /* da mobius.html */
-         font-size: clamp(2rem, 10vw, 4rem);
-     }
+    /* CV Section Responsive Adjustments */
+    .about-content-section h2.subtitle {
+        font-size: 1.5rem; /* Riduci la dimensione dei sottotitoli su mobile */
+        text-align: center; /* Centra il titolo su mobile */
+    }
+    
+    .cv-item {
+        grid-template-columns: 1fr; /* Stack year and details on mobile */
+        gap: 0.5rem;
+        text-align: left;
+        margin-bottom: 1.5rem; /* Spazio tra gli elementi */
+        margin-left: 40px;
+    }
 
-     .project-description { /* da mobius.html */
-         font-size: 1rem;
-     }
+    .cv-year {
+        margin-bottom: 0.2rem;
+    }
 
-     .project-contact-info,
-     .future-reference-details { /* da mobius.html */
-         font-size: 0.85rem;
-     }
+    .skills-interests-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-top: 2rem;
+        margin-left: 40px;
+        margin-right: 40px;
 
-     .project-image-gallery { /* da mobius.html */
-         grid-template-columns: 1fr;
-         gap: 1.5rem;
-     }
+    }
 
-     .gallery-image,
-     .gallery-image.span-6,
-     .gallery-image.span-4,
-     .gallery-image.span-3 { /* da mobius.html */
-         grid-column: span 1 !important;
-     }
+    /* Project Detail Content adjustments for mobile */
+    .project-detail-content {
+        margin-top: 4rem; /* Reduce top margin for fixed header */
+        gap: 1.5rem; /* Reduce gap between grid items */
+        display: block; /* Change to block to remove grid behavior and stack elements */
+    }
 
-     /* Footer adjustment for non-fixed position */
-     .site-footer {
-          flex-direction: column;
-          gap: 1.5rem;
-          padding: 1.5rem;
-     }
 
-     .social-links {
-        margin-top: 0; /* Rimuovi margine extra */
-     }
+    .project-intro-section,
+    .project-description-section,
+    .project-image-gallery,
+    .future-reference-section {
+        grid-column: span 1; /* Tutti gli elementi occupano tutta la larghezza */
+    }
 
-     .contact-link {
-         margin-left: 0; /* Rimuovi margine a sinistra */
-     }
+    .gallery-image {
+        grid-column: span 1; /* Le immagini della galleria occupano tutta la larghezza */
+    }
 
-     .social-links, .contact-link {
-         /* Optional: centrare i link social e contact nel footer mobile */
-         width: 100%;
-         justify-content: center;
-     }
-     .social-link, .contact-link {
-          font-size: 0.9rem;
-     }
+    .gallery-image.span-6,
+    .gallery-image.span-4,
+    .gallery-image.span-3 {
+        grid-column: span 1; /* Anche le immagini con classi di span specifiche occupano tutta la larghezza */
+    }
 
-     .scroll-down { /* Nascondi indicatore scroll su mobile */
-         display: none;
-     }
+        .project-title-section {
+        margin-bottom: 2rem; /* Adjust spacing */
+        padding: 0 1rem; /* Add horizontal padding for text */
+    }
 
-     /* Nascondi elementi di background su mobile per performance/pulizia */
-     .bg-element {
-         display: none;
-     }
+    .project-main-title {
+        font-size: clamp(2rem, 10vw, 3rem); /* Smaller font size for titles */
+        margin-bottom: 0.8rem;
+    }
 
-     /* Nascondi cursore custom su mobile */
-     .custom-cursor {
-         display: none;
-     }
 
-      /* Nascondi noise overlay su mobile per performance/pulizia */
-     .noise-overlay {
-         display: none;
-     }
+    .project-contact-info {
+        margin-bottom: 1.5rem; /* Adjust spacing */
+        font-size: 0.85rem; /* Slightly smaller font */
+    }
+
+    .project-description {
+        font-size: 1rem; /* Slightly smaller font for body text */
+        line-height: 1.6; /* Adjust line height for readability */
+        margin-bottom: 1.5rem; /* Adjust spacing */
+    }
+
+    .project-image-gallery {
+        grid-template-columns: 1fr; /* Single column for gallery images */
+        gap: 1rem; /* Smaller gap between images */
+        margin-top: 2rem; /* Adjust top margin */
+        padding: 0 1rem; /* Add horizontal padding */
+    }
+
+    .gallery-image {
+        grid-column: span 1; /* Ensure images take full width */
+        margin-bottom: 0; /* Remove extra margin if gap is sufficient */
+    }
+
+    .gallery-image.span-6,
+    .gallery-image.span-4,
+    .gallery-image.span-3 {
+        grid-column: span 1; /* Force all gallery images to full width */
+    }
+
+    .gallery-image img,
+    .gallery-image video {
+        width: 100%;
+        height: auto; /* Ensure images scale proportionally */
+        object-fit: contain; /* Or 'cover' depending on desired cropping, 'contain' usually better for full image visibility */
+        border-radius: 4px; /* Slightly rounded corners for images */
+    }
+
+    .future-reference-section {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        padding: 1.5rem 1rem 0 1rem; /* Add padding for content */
+    }
+
+    .future-reference-title {
+        font-size: 1.1rem;
+    }
+
+    .future-reference-details {
+        font-size: 0.85rem;
+    }
 }
 
 @media (max-width: 768px) {
-     .container {
-         padding: 0 1rem;
-     }
-
-     .site-header, .site-footer {
-        position: fixed;
-        background: none;
-        padding: 1rem;
-     }
-
-     /* About Page Specific (Adattato per mobile più stretto) */
-      .title-large { /* da about.html */
-          font-size: clamp(1.8rem, 7vw, 3rem);
-      }
-
-      .description { /* da about.html */
-           font-size: 0.95rem;
-      }
-
-      .about-grid { /* da about.html */
-         gap: 1.5rem;
-      }
-
-     .about-content-col { /* Nuova griglia interna per le sezioni CV */
-         gap: 2rem;
-     }
-
-     .about-image-col {
-         margin-top: 2.5rem;
-     }
-
-     .subtitle { /* da about.html */
-         font-size: 1.2rem;
-         margin-bottom: 1rem;
-     }
-
-     .cv-list { /* da about.html */
-         gap: 1rem;
-     }
-
-     .cv-item { /* da about.html */
-         grid-template-columns: 80px 1fr; /* Riduci colonna anno su mobile */
-         gap: 0.8rem;
-     }
-
-     .cv-year, .cv-details p { /* da about.html */
-          font-size: 0.8rem;
-     }
-
-      .cv-details h3 { /* da about.html */
-          font-size: 0.9rem;
-      }
-
-     .skills-interests-grid { /* da about.html */
-         grid-template-columns: 1fr; /* Impila i blocchi su mobile stretto */
-         gap: 1.5rem;
-         margin-top: 1.5rem;
-     }
-
-     .skills-list p,
-     .languages-list p,
-     .interests-list p { /* da about.html */
-          font-size: 0.9rem;
-          margin-bottom: 0.4rem;
-     }
-
-    /* Project Detail Page Specific (Adattato per mobile più stretto) */
-     .project-detail-content { /* da mobius.html */
-         gap: 1rem;
-         margin-top: 1.5rem;
-     }
-
-     .project-main-title { /* da mobius.html */
-         font-size: clamp(1.8rem, 8vw, 3.5rem);
-     }
-
-     .project-description { /* da mobius.html */
-         font-size: 0.95rem;
-     }
-
-     .project-contact-info,
-     .future-reference-details { /* da mobius.html */
-         font-size: 0.8rem;
-     }
-
-     .project-image-gallery { /* da mobius.html */
-         gap: 1rem;
-     }
-
-     .site-footer {
-         gap: 1rem;
-         padding: 1rem;
-     }
-
-     .social-link, .contact-link {
-          font-size: 0.8rem;
-     }
-
+        /* Further minor adjustments for very small screens if needed */
+    .project-detail-content {
+        margin-top: 3rem; /* Further reduce top margin */
+    }
+    .project-title-section,
+    .project-intro-section,
+    .project-description-section,
+    .project-image-gallery,
+    .future-reference-section {
+        padding: 0 0.8rem; /* Slightly less padding on very small screens */
+    }
 }
-
-@media (max-width: 480px) {
-     .site-header, .site-footer {
-         padding: 0.8rem;
-     }
-      .main-nav ul {
-         gap: 0.8rem;
-     }
-      .projects-grid {
-         gap: 0.8rem;
-     }
-      .site-footer {
-          gap: 0.8rem;
-     }
-}
-
-
-/* Desktop Specific Styles (per ripristinare stili originali > 1024px) */
-@media (min-width: 1025px) {
-     .container {
-         padding: 2rem;
-     }
-
-     /* Header/Footer: Restore fixed positioning and blend mode */
-    .site-header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        padding: 2rem;
-        z-index: 100;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: transparent;
-        pointer-events: none;
-        mix-blend-mode: difference;
-         transform: translateY(0); /* Ensure visible by default on desktop */
+    .container {
+        padding: 0 1rem; /* Ulteriore riduzione per schermi più piccoli */
     }
-     .site-header.scrolled {
-         transform: translateY(-100%);
-     }
-     .site-header.visible {
-         transform: translateY(0);
-     }
-
-
-    .site-footer {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        z-index: 100;
-        background-color: transparent;
-        pointer-events: none;
-        mix-blend-mode: difference;
-         opacity: 1; /* Ensure visible by default on desktop */
-    }
-
-
-    .site-header *, .site-footer * {
-        pointer-events: auto;
-    }
-
-     .logo-mark, .main-nav a, .site-footer .copyright, .site-footer .social-link, .contact-link {
-         color: white;
-         mix-blend-mode: difference;
-     }
-
-     .logo-mark {
-         transform: rotate(-2deg);
-     }
-
-    .main-nav ul {
-        gap: 2rem;
-        flex-wrap: nowrap;
-    }
-
-    .main-nav a.active::after {
-        background-color: white;
-    }
-
-
-     .projects-container {
-         padding: 4rem 0 6rem;
-     }
 
     .projects-grid {
-        grid-template-columns: repeat(12, 1fr);
-        gap: var(--grid-gap);
-        padding: 1rem;
+        padding: 0 0.5rem; /* Ulteriore riduzione per schermi molto piccoli */
+    }
+    
+    body {
+        padding-top: 50px; /* Adatta il padding top per schermi molto piccoli */
     }
 
-.project-card {
-    /* Mantieni le altre proprietà */
-    transition: box-shadow 0.4s var(--transition), opacity 0.6s var(--transition); /* Rimuovi transform dalla transizione */
-    opacity: 0; /* Mantenuto per l'animazione di ingresso visibile con .visible */
-    transform: translateY(30px); /* Mantenuto per l'animazione di ingresso visibile con .visible */
+    .site-header {
+        padding: 0.6rem 0.8rem;
+    }
+
+    /* All Work page responsive on smaller devices */
+    body.all-work-page .project-card {
+        grid-column: span 4; /* 1 colonna su mobile */
+        min-height: 14rem;
+    }
+
+    body.all-work-page .year-heading {
+        font-size: 2rem;
+    }
+
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 0.8rem; /* Ulteriore riduzione per schermi molto piccoli */
+    }
+    body.all-work-page .project-card {
+        grid-column: span 4; /* 1 colonna anche su schermi molto piccoli */
+        min-height: 12rem;
+    }
+    body.all-work-page .project-content {
+        padding-top: 40%; /* Riduci padding per schermi piccoli */
+    }
+    body.all-work-page .project-image {
+        height: 40%;
+    }
 }
 
-.project-card.visible { /* Mantieni questa regola per l'animazione di ingresso */
-    opacity: 1;
-    transform: translateY(0);
+/* Stili specifici per la pagina All Work (Sensazione di archivio) */
+body.all-work-page .projects-container {
+    padding: 2rem 0; /* Riduci il padding superiore e inferiore */
 }
 
-
-.project-card:hover {
-    transform: translateY(-0.5rem) scale(1.02); /* Rimuovi rotate(0deg) */
-    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
-    z-index: 10;
+body.all-work-page .projects-grid {
+    gap: 1rem; /* Riduci lo spazio tra i progetti per un effetto più denso */
+    padding: 0 1rem; /* Mantieni un padding minimo sui lati */
 }
 
-.project-card::before {
-    /* Mantieni le altre proprietà */
+body.all-work-page .year-section {
+    margin-bottom: 2rem; /* Riduci lo spazio tra le sezioni anno */
+    padding-left: 1rem; /* Allinea con la griglia dei progetti */
+}
+
+body.all-work-page .year-heading {
+    font-size: 2.5rem; /* Dimensione fissa, più "archivio" */
+    margin-bottom: 1rem;
+    padding: 0; /* Rimuovi padding se c'era */
+    text-align: left; /* Allinea a sinistra */
+}
+
+body.all-work-page .year-heading::after {
+    display: none; /* Rimuovi la barra sotto il titolo dell'anno */
+}
+
+body.all-work-page .project-card {
+    grid-column: span 3; /* Tre o quattro colonne per una griglia più densa su desktop */
+    min-height: 16rem; /* Riduci l'altezza minima delle card */
+    background-color: var(--bg-color); /* Sfondo più chiaro */
+    border: 1px solid var(--border-color); /* Aggiungi un bordo sottile */
+    box-shadow: none; /* Rimuovi l'ombra di default */
+    border-radius: 0; /* Rimuovi bordi arrotondati per un look più formale */
+    transition: all 0.3s ease-in-out; /* Transizione più semplice */
+}
+
+body.all-work-page .project-card:hover {
+    transform: translateY(-2px); /* Effetto hover più sottile */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Ombra leggera su hover */
+    border-color: var(--accent-color); /* Colore bordo accentuato su hover */
+}
+
+body.all-work-page .project-card::before { /* Categoria */
+    background-color: var(--light-gray); /* Colore più neutro */
+    color: var(--bg-color);
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 0.6rem; /* Dimensione più piccola */
+    padding: 0.15rem 0.6rem;
+    border-radius: 3px;
     opacity: 1; /* Sempre visibile */
-    transform: translateY(0); /* Posizione finale */
-    transition: none; /* Rimuovi transizione */
+    transform: none; /* Rimuovi animazione */
 }
 
-/* Rimuovi completamente la regola .project-card:hover::before o commentala */
-/* .project-card:hover::before {
-    opacity: 1;
-    transform: translateY(0);
-} */
+body.all-work-page .project-card:hover::before {
+    opacity: 1; /* Mantieni visibile */
+    transform: none;
+}
 
-.project-content {
-    /* Mantieni le altre proprietà */
-    transform: translateY(0); /* Posizione finale */
+body.all-work-page .project-content {
+    background: none; /* Rimuovi il gradiente */
+    padding: 1rem; /* Padding ridotto */
+    transform: none; /* Sempre visibile */
     opacity: 1; /* Sempre visibile */
-    transition: none; /* Rimuovi transizione */
+    color: var(--text-color); /* Colore testo scuro */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Allinea il contenuto in basso */
+    height: 100%; /* Occupare l'intera altezza per il posizionamento flex */
+    position: absolute; /* Posiziona sopra l'immagine */
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* Assicurati che il contenuto non venga schiacciato dall'immagine */
+    padding-top: 50%; /* Lascia spazio per l'immagine sopra */
+    box-sizing: border-box; /* Include padding nel calcolo dell'altezza */
 }
 
-/* Rimuovi completamente la regola .project-card:hover .project-content o commentala */
-/* .project-card:hover .project-content {
-    transform: translateY(0);
-    opacity: 1;
-} */
-.project-meta {
-    /* Mantieni le altre proprietà */
+body.all-work-page .project-content h2 {
+    font-size: 1.1rem; /* Dimensione più piccola */
+    margin-bottom: 0.25rem;
+    color: var(--text-color); /* Colore del testo scuro */
+    text-transform: none; /* Mantieni il caso normale del titolo */
+    font-weight: 600;
+}
+
+body.all-work-page .project-meta {
+    font-size: 0.75rem; /* Testo meta più piccolo */
+    color: var(--secondary-color); /* Colore meno prominente */
     opacity: 1; /* Sempre visibile */
-    transform: translateY(0); /* Posizione finale */
-    transition: none; /* Rimuovi transizione */
+    transform: none; /* Rimuovi animazione */
 }
 
-/* Rimuovi completamente la regola .project-card:hover .project-meta o commentala */
-/* .project-card:hover .project-meta {
+body.all-work-page .project-card:hover .project-content {
+    transform: none; /* Nessun translateY su hover */
     opacity: 1;
-    transform: translateY(0);
-} */
+}
 
+body.all-work-page .project-card:hover .project-meta {
+    opacity: 1;
+    transform: none;
+}
 
-    /* About Page Specific (Restore desktop layout) */
-    main { /* da about.html */
-        margin-top: 4rem;
-        margin-bottom: 4rem;
-    }
+body.all-work-page .project-image {
+    position: relative; /* Rendi l'immagine relativa per poterla posizionare sopra con z-index */
+    height: 50%; /* L'immagine occupa la metà superiore della card */
+    margin-bottom: 0.5rem; /* Spazio tra immagine e testo */
+    display: flex; /* Centra l'immagine orizzontalmente */
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Nascondi eventuali overflow dell'immagine */
+}
 
-    .intro { /* da about.html */
-        margin-bottom: 4rem;
-    }
+body.all-work-page .project-image img,
+body.all-work-page .project-image video {
+    width: 100%; /* L'immagine occupa tutta la larghezza del suo contenitore */
+    height: 100%; /* L'immagine occupa tutta l'altezza del suo contenitore */
+    object-fit: cover; /* Assicura che l'immagine copra l'area senza distorcersi */
+    filter: brightness(0.9) contrast(1); /* Meno contrasto/luminosità */
+    transition: none; /* Rimuovi transizioni */
+    transform: none; /* Rimuovi zoom su hover */
+    border-bottom: 1px solid var(--border-color); /* Separatore sottile */
+}
 
-     .title-large { /* da about.html */
-         font-size: clamp(2.5rem, 6vw, 4rem);
-     }
+body.all-work-page .project-card:hover .project-image img {
+    transform: scale(1); /* Nessun zoom su hover */
+    filter: brightness(0.9) contrast(1);
+}
 
-     .description { /* da about.html */
-          font-size: 1.1rem;
-     }
-
-    .about-grid { /* da about.html */
-        grid-template-columns: repeat(12, 1fr);
-        gap: 3rem;
-    }
-
-    .about-content-col { /* da about.html */
-        grid-column: span 7;
-         gap: 3rem;
-    }
-
-    .about-image-col { /* da about.html */
-        grid-column: span 5;
-        position: sticky;
-        top: 100px; /* Regola in base all'altezza dell'header */
-        align-self: start;
-         margin-top: 0;
-    }
-
-    .subtitle { /* da about.html */
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .cv-item { /* da about.html */
-        grid-template-columns: 120px 1fr;
-        gap: 1rem;
-    }
-
-    .cv-year, .cv-details p { /* da about.html */
-         font-size: 0.9rem;
-    }
-
-    .cv-details h3 { /* da about.html */
-         font-size: 1rem;
-         margin-bottom: 0.4rem;
-    }
-
-    .skills-interests-grid { /* da about.html */
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 2rem;
-        margin-top: 3rem;
-    }
-
-     .skills-list p, .languages-list p, .interests-list p { /* da about.html */
-          font-size: 1rem;
-     }
-
-    /* Project Detail Page Specific (Restore desktop layout) */
-     .project-detail-content { /* da mobius.html */
-         grid-template-columns: repeat(12, 1fr);
-         gap: 2rem;
-          margin-top: 8rem;
-     }
-
-     .project-intro-section { /* da mobius.html */
-         grid-column: span 4;
-     }
-
-     .project-description-section { /* da mobius.html */
-         grid-column: span 8;
-     }
-
-     .project-main-title { /* da mobius.html */
-         font-size: clamp(2.5rem, 8vw, 5rem);
-     }
-
-     .project-description { /* da mobius.html */
-         font-size: 1.1rem;
-     }
-
-     .project-contact-info,
-     .future-reference-details { /* da mobius.html */
-         font-size: 0.9rem;
-     }
-
-     .project-image-gallery { /* da mobius.html */
-         grid-template-columns: repeat(12, 1fr);
-         gap: 2rem;
-     }
-
-     .gallery-image.span-6 { /* da mobius.html */
-         grid-column: span 6;
-     }
-      .gallery-image.span-4 { /* da mobius.html */
-         grid-column: span 4;
-     }
-      .gallery-image.span-3 { /* da mobius.html */
-         grid-column: span 3;
-     }
-
-     .social-link, .contact-link {
-          font-size: 1rem;
-     }
-
-     .contact-link {
-          margin-left: 1.5rem;
-     }
-
-      /* Mostra elementi specifici desktop */
-     .scroll-down {
-         display: flex;
-     }
-
-     .bg-element {
-         display: block;
-     }
-
-     .custom-cursor {
-         display: block;
-     }
-
-     .noise-overlay {
-         display: block;
-     }
-
+body.all-work-page .project-overlay {
+    display: none; /* Rimuovi completamente l'overlay */
 }

@@ -39,7 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Gestisce l'aggiunta della classe 'visible' quando gli elementi entrano nel viewport
     const animateOnScroll = () => {
         // Elementi che animano all'ingresso nel viewport
-        const elementsToObserve = document.querySelectorAll('.subtitle, .project-card, .site-footer, .bg-element, .social-link, .section-title, .scroll-down');
+        // Rimosso '.scroll-down' da questa lista
+        const elementsToObserve = document.querySelectorAll('.subtitle, .project-card, .site-footer, .bg-element, .social-link, .section-title');
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -50,17 +51,14 @@ document.addEventListener('DOMContentLoaded', () => {
                          entry.target.classList.contains('site-footer') ||
                          entry.target.classList.contains('bg-element') ||
                          entry.target.classList.contains('social-link') ||
-                         entry.target.classList.contains('section-title') ||
-                         entry.target.classList.contains('scroll-down')) {
+                         entry.target.classList.contains('section-title')) { // 'scroll-down' rimosso
                          observer.unobserve(entry.target);
                     }
                 }
-                // Opzionale: rimuovere la classe 'visible' quando escono per animazione ripetuta
-                // else { entry.target.classList.remove('visible'); }
             });
         }, {
-            threshold: 0.1, // Percentuale dell'elemento visibile per triggerare
-            rootMargin: '0px 0px -50px 0px' // Riduci la bottom margin per triggerare prima che l'elemento raggiunga la fine del viewport
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
         });
 
         elementsToObserve.forEach(element => {
@@ -69,47 +67,51 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    // Header hide/show on scroll (from index.html)
-    // Funzione per gestire il listener di scroll per l'header
-    let headerScrollListener = null;
+    // Header scroll behavior (New or modified for fixed header)
+    const header = document.querySelector('.site-header');
+    if (header) {
+        const updateHeaderOnScroll = () => {
+            if (window.scrollY > 50) { // Aggiungi la classe 'scrolled' dopo 50px di scroll
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        };
 
-     const addHeaderScrollListener = () => {
-         const header = document.querySelector('.site-header');
-         // Applica il listener solo su desktop (> 1024px) e se non è già attivo
-         if (header && window.innerWidth > 1024 && !headerScrollListener) {
-             let lastScroll = 0;
-             headerScrollListener = () => {
-                 const currentScroll = window.scrollY;
-                 if (currentScroll <= 0) {
-                     header.classList.remove('scrolled');
-                     header.classList.add('visible'); // Assicura che sia visibile all'inizio pagina
-                     return;
-                 }
-                 if (currentScroll > lastScroll && !header.classList.contains('scrolled')) {
-                     header.classList.add('scrolled');
-                     header.classList.remove('visible'); // Rimuove 'visible' quando si scorre giù
-                 } else if (currentScroll < lastScroll && header.classList.contains('scrolled')) {
-                     header.classList.remove('scrolled');
-                     header.classList.add('visible');
-                 }
-                 lastScroll = currentScroll;
-             };
-             window.addEventListener('scroll', headerScrollListener);
-             // Assicura che l'header sia visibile appena caricata la pagina su desktop
-             header.classList.add('visible');
-         }
-     };
+        // Chiamata iniziale e listener per lo scroll
+        updateHeaderOnScroll(); // Chiamata iniziale per impostare lo stato dell'header al caricamento
+        window.addEventListener('scroll', updateHeaderOnScroll);
 
-     const removeHeaderScrollListener = () => {
-         if (headerScrollListener) {
-             window.removeEventListener('scroll', headerScrollListener);
-             headerScrollListener = null;
-         }
-     };
+        // Nel resize event listener, assicurati che le classi dell'header siano gestite correttamente
+        window.addEventListener('resize', () => {
+            // Gestione del cursore custom al ridimensionamento
+            if (cursor) {
+                if (window.innerWidth <= 1024) {
+                    cursor.style.opacity = '0';
+                    cursor.classList.remove('active');
+                } else {
+                    // Riattiva il cursore se si torna a desktop
+                    document.dispatchEvent(new MouseEvent('mousemove', {
+                        clientX: event.clientX,
+                        clientY: event.clientY
+                    }));
+                }
+            }
 
-     // Aggiungi il listener all'avvio su desktop
-     addHeaderScrollListener();
+            // Gestisce il listener di scroll dell'header al ridimensionamento
+            if (window.innerWidth <= 1024) {
+                // Su mobile/tablet, l'header dovrebbe essere sempre "scrolled" (con sfondo) e fisso
+                header.classList.add('scrolled'); 
+                header.style.transform = 'none'; // Rimuove eventuali trasformazioni JS
+                window.removeEventListener('scroll', updateHeaderOnScroll); // Rimuove il listener di scroll dinamico su mobile
+            } else {
+                // Sul desktop, il comportamento normale basato sullo scroll
+                window.addEventListener('scroll', updateHeaderOnScroll); // Riattiva il listener di scroll dinamico su desktop
+                updateHeaderOnScroll(); // Applica lo stato iniziale corretto
+            }
 
+        });
+    }
 
     // Hero parallax effect (from index.html)
     const hero = document.querySelector('.hero');
@@ -122,17 +124,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
     // Smooth scroll to projects (from index.html)
     const scrollDown = document.querySelector('.scroll-down');
     if (scrollDown) {
         scrollDown.addEventListener('click', () => {
             const projectsSection = document.querySelector('.projects-container');
             if (projectsSection) {
-                projectsSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+                projectsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
     }
@@ -142,119 +140,44 @@ document.addEventListener('DOMContentLoaded', () => {
     const applyInitialRotation = () => {
         const projects = document.querySelectorAll('.projects-grid .project-card');
         if (window.innerWidth > 768) {
-             projects.forEach(project => {
-                // Applica rotazione solo se l'elemento non è ancora animato dall'Observer
-                 if (!project.classList.contains('visible')) {
-                    const rotation = -1 + Math.random() * 2;
-                    // Combina la trasformazione iniziale di translateY (dal CSS) con la rotazione
-                    project.style.transform = `translateY(30px) rotate(${rotation}deg)`;
-                 } else {
-                     // Se l'elemento è già visibile (animato dall'Observer), rimuovi la rotazione se presente
-                      // Questo gestisce il caso in cui l'Observer scatta prima della rotazione o al resize
-                      if (project.style.transform.includes('rotate')) {
-                           project.style.transform = project.style.transform.replace(/ ?rotate\([^\)]+\)/g, '');
-                           // Se dopo la rimozione della rotazione non c'è translate, assicurati che ci sia translateY(0)
-                           if (!project.style.transform.includes('translateY')) {
-                                project.style.transform += ' translateY(0px)';
-                           }
-                      }
-                 }
+            projects.forEach(project => {
+                // Applica rotazione solo se l'elemento non è ancora animato (controlla la presenza della classe 'visible')
+                if (!project.classList.contains('visible')) {
+                    const rotation = (Math.random() - 0) * 0; // Rotazione casuale tra -2.5deg e 2.5deg
+                    project.style.transform = `rotate(${rotation}deg) translateY(30px)`; // Combina con la traslazione iniziale
+                }
             });
         } else {
-             // Su mobile (< 769px), rimuovi qualsiasi trasformazione applicata via JS
-             const projects = document.querySelectorAll('.projects-grid .project-card');
-             projects.forEach(project => {
-                 project.style.transform = ''; // Reset transform JS
-                 project.style.opacity = '1'; // Assicura visibilità su mobile
-                 project.classList.add('visible'); // Aggiungi classe visible su mobile
-             });
+            // Rimuovi le trasformazioni di rotazione su mobile/tablet per evitare problemi
+            projects.forEach(project => {
+                project.style.transform = 'none';
+            });
         }
     };
 
-     // Applica la rotazione iniziale al caricamento della pagina
-     applyInitialRotation();
+    // Chiama la funzione all'avvio e al ridimensionamento
+    applyInitialRotation();
+    window.addEventListener('resize', applyInitialRotation);
 
 
-    // Basic script to handle active navigation link (from allwork.html and about.html)
-    const currentPath = window.location.pathname.split('/').pop();
-    const navLinks = document.querySelectorAll('.main-nav a');
-
-    navLinks.forEach(link => {
-        const linkPath = link.getAttribute('href').split('/').pop();
-        if (currentPath === linkPath) {
-            link.classList.add('active');
-        } else if (currentPath === '' && linkPath === 'index.html') {
-            // Gestisce index.html come pagina di default
-            link.classList.add('active');
-        } else {
-             link.classList.remove('active'); // Rimuovi active se non è la pagina corrente
+    // Funzione per aggiornare la posizione sticky dell'immagine (per about.html)
+    const updateStickyImagePosition = () => {
+        const aboutImageCol = document.querySelector('.about-image-col');
+        if (aboutImageCol) {
+            if (window.innerWidth <= 1024) {
+                aboutImageCol.style.position = 'static'; // Rimuovi sticky su mobile
+                aboutImageCol.style.top = 'auto';
+            } else {
+                aboutImageCol.style.position = 'sticky'; // Riattiva sticky su desktop
+                aboutImageCol.style.top = '100px'; // Regola in base all'altezza dell'header
+            }
         }
-    });
+    };
 
+    // Chiamata iniziale e listener al resize per l'immagine sticky
+    updateStickyImagePosition();
+    window.addEventListener('resize', updateStickyImagePosition);
 
-    // Script per aggiornare la posizione sticky dell'immagine su about.html (da about.html)
-    function updateStickyImagePosition() {
-        const imageCol = document.querySelector('.about-image-col');
-        const headerElement = document.querySelector('.site-header');
-        // Applica sticky solo su desktop (> 1024px)
-        if (imageCol && headerElement && window.innerWidth > 1024) {
-            imageCol.style.top = headerElement.offsetHeight + 30 + 'px';
-            imageCol.style.position = 'sticky';
-            imageCol.style.alignSelf = 'start';
-        } else if (imageCol) {
-            // Rimuovi sticky su schermi più piccoli
-            imageCol.style.top = 'auto';
-            imageCol.style.position = 'static';
-            imageCol.style.alignSelf = 'auto';
-        }
-    }
-     updateStickyImagePosition(); // Chiamata iniziale
-
-
-    // Gestisce gli effetti al ridimensionamento della finestra
-    window.addEventListener('resize', () => {
-        const isMobile = window.innerWidth <= 768;
-        const isDesktop = window.innerWidth > 1024;
-
-        // Riapplica la rotazione iniziale e gestisci le transizioni delle project card
-        applyInitialRotation(); // Questa funzione ora gestisce mobile/desktop
-
-        // Reset Hero parallax based on breakpoint
-         if (hero) {
-             if (window.innerWidth <= 768) {
-                 hero.style.transform = 'none';
-             } // Parallax riattivato automaticamente dal listener mousemove su schermi più grandi
-         }
-
-         // Reset custom cursor based on breakpoint
-         if (cursor) {
-             if (window.innerWidth <= 1024) {
-                 cursor.style.opacity = '0';
-                 cursor.classList.remove('active');
-             } // Cursore riattivato automaticamente dal listener mousemove su schermi più grandi
-         }
-
-        // Gestisce il listener di scroll dell'header al ridimensionamento
-         if (window.innerWidth <= 1024) {
-             removeHeaderScrollListener(); // Rimuove il listener su mobile/tablet
-             const header = document.querySelector('.site-header');
-             if(header) {
-                 header.classList.remove('scrolled', 'visible');
-                 header.style.transform = 'none'; // Rimuove trasformazioni JS
-             }
-         } else {
-             addHeaderScrollListener(); // Aggiunge il listener su desktop
-         }
-
-        // Aggiorna la posizione sticky dell'immagine al ridimensionamento
-        updateStickyImagePosition();
-
-        // Reinicializza Intersection Observer? Generalmente non necessario a meno che
-        // non ci siano modifiche drastiche al layout che influenzano la visibilità.
-        // Le classi 'visible' persistono finché non vengono rimosse (es. su mobile).
-        // Se necessario, si potrebbe re-osservare gli elementi, ma potrebbe causare animazioni indesiderate.
-        // animateOnScroll(); // Commentato per evitare re-animazioni al resize
-    });
 
     // Inizializza le animazioni Intersection Observer al caricamento
     animateOnScroll();
