@@ -660,11 +660,54 @@ ul {
     margin-top: 3rem;
 }
 
-.gallery-image { /* da mobius.html */
-    grid-column: span 12;
-    margin-bottom: 2rem;
+.gallery-image {
+  position: relative;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f1f1f1;
 }
 
+/* Applichiamo aspect-ratio SOLO se c'è un'immagine */
+.gallery-image img {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.gallery-image:hover img {
+  transform: scale(1.03);
+}
+
+/* I video rimangono con dimensioni naturali */
+.gallery-image video {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  display: block;
+}
+
+/* Permetti di aggiungere testo sopra o sotto l'immagine */
+.gallery-image .caption-top,
+.gallery-image .caption-bottom {
+  font-size: 0.9rem;
+  color: var(--secondary-color);
+  margin: 0.5rem 0;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.gallery-image.span-12 { /* da mobius.html */
+    grid-column: span 12;
+}
+.gallery-image.span-8 { /* da mobius.html */
+    grid-column: span 8;
+}
 .gallery-image.span-6 { /* da mobius.html */
     grid-column: span 6;
 }
@@ -673,6 +716,12 @@ ul {
 }
 .gallery-image.span-3 { /* da mobius.html */
     grid-column: span 3;
+}
+.gallery-image.span-2 { /* da mobius.html */
+    grid-column: span 2;
+}
+.gallery-image.span-1 { /* da mobius.html */
+    grid-column: span 1;
 }
 
 .future-reference-section { /* da mobius.html */
@@ -1137,6 +1186,32 @@ ul {
     body.all-work-page .year-heading {
         font-size: 2rem;
     }
+
+@media (max-width: 768px) {
+  .gallery-image {
+    grid-column: span 12 !important;
+        width: 100% !important;
+    margin: 0 auto;
+  }
+}
+ 
+  .gallery-image img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover;
+    aspect-ratio: 4 / 3;
+    border-radius: 6px;
+  }
+
+  .gallery-image .caption-top,
+  .gallery-image .caption-bottom {
+    padding: 0 1rem;
+    text-align: center;
+  }
+
+.gallery-image {
+  margin-bottom: 1rem;
+}
 
 
 @media (max-width: 480px) {
