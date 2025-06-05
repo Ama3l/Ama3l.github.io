@@ -3,6 +3,7 @@
     --bg-color: #f8f8f8;
     --text-color: #1a1a1a;
     --accent-color: #13c000c0;
+    --opposite-color: #000015;
     --secondary-color: #666;
     --light-gray: #999;
     --border-color: #e0e0e0;
@@ -540,7 +541,7 @@ ul {
 }
 
 .skills-list li {
-    background-color: var(--secondary-color);
+    background-color: var(--opposite-color);
     padding: 0.3rem 0.8rem;
     border-radius: 5px;
     font-size: 1.3rem;
