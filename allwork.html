@@ -8,7 +8,289 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="src/style.css">
+    <link rel="stylesheet" href="src/style.css"> 
+    
+   <style>
+    /* Root Variables */
+    :root {
+        --secondary-bg: #161616; /* Ensure consistency with your theme */
+        --preview-text-color: #ffffff; /* White text for preview */
+        --preview-light-gray: rgba(255, 255, 255, 0.7); /* Light gray for subtitles/meta in preview */
+        --preview-dark-gray: rgba(255, 255, 255, 0.5); /* Slightly darker gray for captions */
+    }
+
+    /* General Typography & Layout */
+    .intro h1 {
+        font-family: 'Space Grotesk', sans-serif; /* Consistent with index1.html intro style */
+    }
+
+    /* Project List */
+    .project-list {
+        padding: 2rem 0;
+    }
+
+    .project-item {
+        border-bottom: 1px solid var(--border-color);
+        position: relative;
+        cursor: pointer;
+    }
+
+    /* Project Row (for thumbnail and text) */
+    .project-row {
+        display: flex;
+        align-items: center; /* Align items vertically in the middle */
+        gap: 2rem; /* Increased space between thumbnail and text */
+        padding: 2rem 0;
+        transition: all 0.3s ease;
+    }
+
+    .project-row:hover {
+        transform: translateX(10px);
+    }
+
+    .project-row .project-info {
+        flex-grow: 1; /* Allows title/meta to take available space */
+    }
+
+    .project-row h2 {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        font-weight: 600;
+        text-transform: lowercase;
+        margin-bottom: 0.5rem; /* Space below title */
+    }
+
+    .project-meta {
+        color: var(--light-gray);
+        font-size: 0.9rem;
+    }
+
+    /* Project Thumbnail */
+    .project-thumbnail {
+        width: 120px; /* Increased fixed width */
+        height: 120px; /* Increased fixed height */
+        border-radius: 8px; /* Slightly rounded corners */
+        overflow: hidden;
+        flex-shrink: 0; /* Prevent it from shrinking */
+    }
+
+    .project-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ensures the image covers the area without distortion */
+    }
+
+    /* View Project Link */
+    .view-project {
+        font-family: 'Space Grotesk', sans-serif;
+        color: var(--accent-color);
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 0.05em;
+        position: relative;
+        margin-left: auto; /* Pushes "View Project" to the right */
+        white-space: nowrap; /* Prevents wrapping on smaller screens */
+    }
+
+    .view-project::after {
+        content: '→';
+        margin-left: 0.5rem;
+        transition: transform 0.3s ease;
+    }
+
+    .project-row:hover .view-project::after {
+        transform: translateY(5px);
+    }
+
+    /* Project Preview Panel */
+    .project-preview {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+        background-color: var(--secondary-bg);
+        border-radius: 12px;
+    }
+
+    .project-item.active .project-preview {
+        max-height: 4000px; /* Increased to accommodate more content */
+        margin-bottom: 2rem;
+        /* Height will be determined by content due to overflow: hidden and transition on max-height */
+    }
+
+    /* Preview Content Layout */
+    .preview-content {
+        display: flex; /* Use flexbox for adaptive layout */
+        flex-direction: column; /* Stack elements vertically */
+        padding: 2rem;
+        gap: 2rem; /* Space between content blocks */
+        color: var(--preview-text-color); /* Set text color for all preview content */
+    }
+
+    /* Preview Text Blocks */
+    .preview-content .text-block {
+        max-width: 800px; /* Example: max-width for text, if not defined elsewhere */
+        margin: 0 left; /* Center the text block */
+        padding-bottom: 1rem; /* Additional space below the text block */
+        color: var(--preview-text-color); /* Override text color to ensure visibility */
+    }
+
+    .preview-content .text-block h1,
+    .preview-content .text-block h2,
+    .preview-content .text-block h3,
+    .preview-content .text-block h4 {
+        color: var(--preview-text-color); /* Ensure headings are white */
+    }
+
+    .preview-content .text-block p {
+        color: var(--preview-light-gray); /* Paragraphs slightly less bright */
+    }
+
+    /* Preview Gallery Grid */
+    .preview-content .gallery-grid {
+        margin: 0 auto; /* Center the gallery grid */
+        width: 100%; /* Gallery can take full width */
+        display: grid; /* Maintain grid layout */
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Example of responsive grid */
+        gap: 1rem; /* Space between images in the gallery */
+    }
+
+    .preview-content .gallery-item {
+        border-radius: 8px; /* Rounded corners for gallery images */
+        overflow: hidden;
+        background-color: rgba(0, 0, 0, 0.2); /* Sfondo leggero per contrasto con didascalia */
+        display: flex; /* Utilizzo flexbox per allineare immagine e didascalia */
+        flex-direction: column; /* Impila immagine e didascalia verticalmente */
+    }
+
+    .preview-content .gallery-item img {
+        width: 100%;
+        height: auto;
+        display: block; /* Prevent extra space below the image */
+    }
+
+    /* Gallery Image Captions */
+    .gallery-caption {
+        font-size: 0.85rem;
+        color: var(--preview-dark-gray); /* Colore per la didascalia */
+        padding: 0.75rem 1rem; /* Spazio intorno alla didascalia */
+        text-align: left;
+        line-height: 1.4;
+    }
+
+
+    /* Span Classes for Images (Maintained as requested) */
+    .gallery-image.span-12 { grid-column: span 12; }
+    .gallery-item.span-8 { grid-column: span 8; }
+    .gallery-item.span-6 { grid-column: span 6; }
+    .gallery-item.span-4 { grid-column: span 4; }
+    .gallery-item.span-3 { grid-column: span 3; }
+    .gallery-item.span-2 { grid-column: span 2; }
+    .gallery-item.span-1 { grid-column: span 1; }
+
+    /* Preview Details (Initial Title and Introduction) */
+    .preview-details h3 {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 2rem; /* Slightly larger for the preview title */
+        margin-bottom: 1rem;
+        text-align: left; /* Keep left alignment for title */
+        color: var(--preview-text-color); /* Make the title white */
+        max-width: 800px; /* Limit width for the title */
+        margin-left: 2rem left; /* Center the title */
+        margin-right: auto;
+    }
+
+    .preview-details p {
+        color: var(--preview-light-gray);
+        font-size: 1.1rem; /* Adequate size for introduction */
+        line-height: 1.7;
+        text-align: left; /* Keep left alignment for text */
+        max-width: 800px; /* Limit the maximum width of the paragraph */
+        margin: 0 auto 2rem left; /* Center the paragraph and add bottom margin */
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .preview-content {
+            padding: 1.5rem;
+            gap: 1.5rem;
+        }
+
+        .project-row {
+            flex-direction: row; /* Keep row for thumbnail and text */
+            align-items: center; /* Center vertically */
+            gap: 1rem;
+            justify-content: flex-start; /* Align to start */
+
+        }
+
+        .project-row .project-info {
+            flex-basis: auto; /* Allow text to wrap if necessary */
+            margin-right: auto; /* Push view project to the right */
+        }
+
+        .project-thumbnail {
+            width: 80px; /* Smaller thumbnail on mobile */
+            height: 80px;
+        }
+
+        .view-project {
+            align-self: center; /* Vertically center "View Project" */
+            margin-left: 0.5rem; /* Reduce margin */
+        }
+
+        .preview-details h3 {
+            font-size: 1.8rem;
+            max-width: 100%; /* Remove width limit on mobile */
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left; /* Ensure it remains left-aligned on mobile */
+        }
+
+        .preview-details p {
+            font-size: 1rem;
+            text-align: left; /* Left align text on mobile */
+            max-width: 100%; /* Remove width limit on mobile */
+            margin: 0 auto 1.5rem auto; /* Adjust bottom margin for mobile */
+        }
+
+        /* Span Classes for Preview Details Paragraphs (Maintained) */
+        .preview-details-p.span-12 { grid-column: span 12; }
+        .preview-details-p.span-8 { grid-column: span 8; }
+        .preview-details-p.span-6 { grid-column: span 6; }
+        .preview-details-p.span-4 { grid-column: span 4; }
+        .preview-details-p.span-3 { grid-column: span 3; }
+        .preview-details-p.span-2 { grid-column: span 2; }
+        .preview-details-p.span-1 { grid-column: span 1; }
+
+        .preview-content .text-block {
+            max-width: 100%; /* No width limit on mobile */
+            text-align: left; /* Left align all text blocks on mobile */
+        }
+
+        .preview-content .gallery-grid {
+            grid-template-columns: 1fr; /* Single column for gallery on small screens */
+        }
+
+        .gallery-caption {
+            font-size: 0.8rem; /* Slightly smaller caption on mobile */
+            padding: 0.5rem 0.75rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .project-row h2 {
+            font-size: 1.2rem; /* Even smaller font size for title */
+        }
+        .project-thumbnail {
+            width: 60px; /* Even smaller thumbnail on smaller mobile */
+            height: 60px;
+        }
+        .project-meta {
+            font-size: 0.8rem; /* Smaller meta text */
+        }
+    }
+</style>
 </head>
 <body class="all-work-page">
      <div class="custom-cursor"></div>
@@ -36,291 +318,803 @@
                 </div>
             </section>
 
-            <section class="projects-container">
+            <section class="project-list">
                 <div class="year-section">
                     <h2 class="year-heading">2025</h2>
-                    <div class="projects-grid">
-                        <a href="metamorphosis.html" class="project-card" data-category="Animation">
-                            <div class="project-image">
-                                <img src="img/Metamorphosis/DSC09470.JPG.jpg" alt="Symbiosis project">
+                    <div class="projects-grid-placeholder">
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/Metamorphosis/DSC09470.JPG.jpg" alt="Metamorphosis thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>Metamorphosis</h2>
+                                    <p class="project-meta">2025 — Animation / Coding</p>
+                                </div>
+                                <span class="view-project">View Project</span>
                             </div>
-                            <div class="project-content">
-                                <h2>Metamorphosis</h2>
-                                <p class="project-meta">2025 — Animation / Coding</p>
-                            </div>
-                            <div class="project-overlay"></div>
-                        </a>
-                        <a href="healthy.html" class="project-card" data-category="Coding">
-                            <div class="project-image">
-                                <img src="img/HealthyCube/DSC04546.JPG" alt="Musica in imagine" alt="Healty">
-                            </div>
-                            <div class="project-content">
-                                <h2>Healthy Cube</h2>
-                                <p class="project-meta">2025 — Coding / Prototipazione</p>
-                            </div>
-                            <div class="project-overlay"></div>
-                        </a>
-            <a href="symbiosis.html" class="project-card" data-category="Generazione immagini">
-                <div class="project-image">
-                    <img src="img/Symbiosis/DSC03660.jpg" alt="Symbiosis project">
-                </div>
-                <div class="project-content">
-                    <h2>Symbiosis</h2>
-                    <p class="project-meta">2024 — Animation / Coding</p>
-                </div>
-                <div class="project-overlay"></div>
-            </a>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details span-5"> <h3>Metamorphosis</h3>
+                                        <p>Metamorphosis is an artistic installation inspired by the masterpiece of the same name by M.C. Escher. This piece, displayed on a dynamic LED matrix, seeks to bring Escher’s iconic vision to life through modern technology.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item">  
+                                        <video controls>
+                                            <source src="video/Metamorphosis.mp4" type="video/mp4"></video></div>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Metamorphosis/DSC09470.JPG.jpg" alt="Metamorphosis 1"></div>
+                                        <div class="gallery-item"><img src="img/Metamorphosis/DSC09470.JPG.jpg" alt="Metamorphosis 2"></div>
+                                        <div class="gallery-item"><img src="img/Metamorphosis/DSC09470.JPG.jpg" alt="Metamorphosis 3"></div>
+                                        <div class="gallery-item"><img src="img/Metamorphosis/DSC09470.JPG.jpg" alt="Metamorphosis 4"></div>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Metamorphosis/DSC09470.JPG.jpg" alt="Metamorphosis 1"></div>
+                                        <div class="gallery-item"><img src="img/Metamorphosis/DSC09470.JPG.jpg" alt="Metamorphosis 2"><p>ciao</p></div>
+                                    </div>
 
-            <a href="machine.html" class="project-card" data-category="Generazione immagini">
-                <div class="project-image">
-                    <img src="img/Machine/DSC09500.jpg" alt="Symbiosis project">
-                </div>
-                <div class="project-content">
-                    <h2>machine learning</h2>
-                    <p class="project-meta">2024 — Animation / Coding</p>
-                </div>
-                <div class="project-overlay"></div>
-            </a>
+                                        <div class="text-block"> <h4>Dettagli Tecnici</h4>
+                                            <p>Il progetto è stato sviluppato utilizzando Processing per l'animazione e un Raspberry Pi per il controllo della matrice LED. L'interazione avviene tramite sensori di prossimità che influenzano la velocità e la complessità delle transizioni.</p>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
 
-            <a href="symbiosis.html" class="project-card" data-category="Generazione immagini">
-                <div class="project-image">
-                    <img src="img/Symbiosis/DSC03660.jpg" alt="Symbiosis project">
-                </div>
-                <div class="project-content">
-                    <h2>intelligent experience</h2>
-                    <p class="project-meta">2024 — Animation / Coding</p>
-                </div>
-                <div class="project-overlay"></div>
-            </a>
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/HealthyCube/DSC04546.JPG" alt="Healthy Cube thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>Healthy Cube</h2>
+                                    <p class="project-meta">2025 — Coding / Prototipazione</p>
+                                </div>
+                                <span class="view-project">View Project</span>
+                            </div>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>Healthy Cube</h3>
+                                        <p>Healthy Cube è un progetto di prototipazione rapida che esplora l'interazione fisica con la salute mentale, fornendo un feedback visivo e sonoro basato su input biometrici.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/HealthyCube/DSC04546.JPG" alt="Healthy Cube 1"></div>
+                                        <div class="gallery-item"><img src="img/HealthyCube/DSC04546.JPG" alt="Healthy Cube 1"></div>
+                                        <div class="gallery-item"><img src="img/HealthyCube/DSC04546.JPG" alt="Healthy Cube 2"></div>
+                                        <div class="gallery-item"><img src="img/HealthyCube/DSC04546.JPG" alt="Healthy Cube 2"></div>
+                                    </div>
+                                    
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/HealthyCube/DSC04546.JPG" alt="Healthy Cube 1"></div>
+                                        <div class="gallery-item"><img src="img/HealthyCube/DSC04546.JPG" alt="Healthy Cube 2"></div>
+                                    </div>
+                                    <div class="gallery-grid">
 
+                                        <div class="gallery-item"><img src="img/HealthyCube/DSC04546.JPG" alt="Healthy Cube 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Obiettivi del Progetto</h4>
+                                        <p>L'obiettivo principale di Healthy Cube è creare un'esperienza tangibile che aiuti gli utenti a monitorare e gestire i livelli di stress e benessere attraverso un'interfaccia semplice e intuitiva.</p>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/Symbiosis/DSC03660.jpg" alt="Symbiosis thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>Symbiosis</h2>
+                                    <p class="project-meta">2024 — Animation / Coding</p>
+                                </div>
+                                <span class="view-project">View Project</span>
+                            </div>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>Symbiosis</h3>
+                                        <p>A project focusing on the visual representation of symbiosis through animation and coding, exploring the interconnectedness of natural and digital systems.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Symbiosis/DSC03660.jpg" alt="Symbiosis 1"></div>
+                                        <div class="gallery-item"><img src="img/Symbiosis/DSC03660.jpg" alt="Symbiosis 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Il Concetto</h4>
+                                        <p>Symbiosis visualizza come diversi elementi, sia biologici che tecnologici, possano coesistere e prosperare in un ambiente interdipendente, enfatizzando l'armonia e il flusso continuo.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/Machine/DSC09500.jpg" alt="Machine Learning thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>machine learning</h2>
+                                    <p class="project-meta">2024 — Animation / Coding</p>
+                                </div>
+                                <span class="view-project">View Project</span>
+                            </div>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>machine learning</h3>
+                                        <p>An exploration of machine learning concepts through animated visuals and code, demonstrating how algorithms learn and evolve over time.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Machine/DSC09500.jpg" alt="Machine Learning 1"></div>
+                                        <div class="gallery-item"><img src="img/Machine/DSC09500.jpg" alt="Machine Learning 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>L'Algoritmo</h4>
+                                        <p>Questo progetto illustra visivamente il processo di apprendimento di un'intelligenza artificiale, mostrando le sue "decisioni" e come si adatta a nuovi dati, rendendo concetti complessi accessibili.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/Symbiosis/DSC03660.jpg" alt="Intelligent Experience thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>intelligent experience</h2>
+                                    <p class="project-meta">2024 — Animation / Coding</p>
+                                </div>
+                                <span class="view-project">View Project</span>
+                            </div>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>intelligent experience</h3>
+                                        <p>A project dedicated to creating intelligent and interactive digital experiences, adapting to user behavior for a personalized journey.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Symbiosis/DSC03660.jpg" alt="Intelligent Experience 1"></div>
+                                        <div class="gallery-item"><img src="img/Symbiosis/DSC03660.jpg" alt="Intelligent Experience 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Interazione Adattiva</h4>
+                                        <p>Questa esperienza è stata progettata per reagire e modificarsi in tempo reale in base agli input dell'utente, offrendo un'interazione dinamica e unica per ogni individuo.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="year-section">
                     <h2 class="year-heading">2024</h2>
-                    <div class="projects-grid">
-                        <a href="prototype.html" class="project-card" data-category="Animation">
-                            <div class="project-image">
-                                <img src="img/SonyPrototype/DSC_6084.png" alt="Symbiosis project">
+                    <div class="projects-grid-placeholder">
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/SonyPrototype/DSC_6084.png" alt="Fast Prototyping thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>fast Prototyping</h2>
+                                    <p class="project-meta">2024 — Animation / Coding</p>
+                                </div>
+                                <span class="view-project">View Project</span>
                             </div>
-                            <div class="project-content">
-                                <h2>fast Prototyping</h2>
-                                <p class="project-meta">2024 — Animation / Coding</p>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>fast Prototyping</h3>
+                                        <p>A project focused on rapid prototyping techniques in animation and coding, showcasing the speed and efficiency of iterative design.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/SonyPrototype/DSC_6084.png" alt="Fast Prototyping 1"></div>
+                                        <div class="gallery-item"><img src="img/SonyPrototype/DSC_6084.png" alt="Fast Prototyping 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Processo Creativo</h4>
+                                        <p>Abbiamo utilizzato strumenti e metodologie agili per passare rapidamente dall'idea al prototipo funzionante, permettendo cicli di feedback veloci e miglioramenti continui.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="project-overlay"></div>
-                        </a>
+                        </div>
 
-                        <a href="symbiosis.html" class="project-card" data-category="Animation">
-                            <div class="project-image">
-                                <img src="img/Symbiosis/Copertina-06.jpg" alt="Symbiosis project">
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/Symbiosis/Copertina-06.jpg" alt="Digital Experience thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>digital experience</h2>
+                                    <p class="project-meta">2024 — Animation / Coding</p>
+                                </div>
+                                <span class="view-project">View Project</span>
                             </div>
-                            <div class="project-content">
-                                <h2>digital experience</h2>
-                                <p class="project-meta">2024 — Animation / Coding</p>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>digital experience</h3>
+                                        <p>Creating immersive digital experiences through animation and coding, focusing on user engagement and emotional connection.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Symbiosis/Copertina-06.jpg" alt="Digital Experience 1"></div>
+                                        <div class="gallery-item"><img src="img/Symbiosis/Copertina-06.jpg" alt="Digital Experience 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Narrazione Visiva</h4>
+                                        <p>Questo progetto mira a raccontare una storia o trasmettere un messaggio attraverso elementi visivi e interattivi, offrendo un'esperienza memorabile e coinvolgente.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="project-overlay"></div>
-                        </a>
-                        <a href="reich.html" class="project-card" data-category="Animation">
-                            <div class="project-image"> 
-                                <video src="video/steve_reich.mp4" alt="Musica in imagine" autoplay muted loop></video>
+                        </div>
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/Links copy/4°.png" alt="Musica in imagine thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>musica in imagine</h2>
+                                    <p class="project-meta">2024 — Animation</p>
+                                </div>
+                                <span class="view-project">View Project</span>
                             </div>
-                            <div class="project-content">
-                                <h2>musica in imagine</h2>
-                                <p class="project-meta">2024 — Animation</p>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>musica in imagine</h3>
+                                        <p>A project exploring the visual translation of music through animation, interpreting sounds and rhythms into dynamic visual forms.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Links copy/4°.png" alt="Musica in imagine 1"></div>
+                                        <div class="gallery-item"><img src="img/Links copy/4°.png" alt="Musica in imagine 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Sinfonia Visiva</h4>
+                                        <p>Attraverso complesse animazioni generate da algoritmi e dati musicali, abbiamo creato una sinfonia visiva che danza al ritmo della musica, evocando emozioni e sensazioni.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="project-overlay"></div>
-                        </a>
-                         <a href="castellivivi.html" class="project-card" data-category="UI Design">
-                            <div class="project-image">
-                                <img src="img/Tesi/1.png" alt="Castelli Vivi project">
+                        </div>
+                         <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/Tesi/1.png" alt="Castelli Vivi thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>castelli vivi</h2>
+                                    <p class="project-meta">2024 — UI Design / Thesis Project</p>
+                                </div>
+                                <span class="view-project">View Project</span>
                             </div>
-                            <div class="project-content">
-                                <h2>castelli vivi</h2>
-                                <p class="project-meta">2024 — UI Design / Thesis Project</p>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>castelli vivi</h3>
+                                        <p>This thesis project explores the role of visual communication in the context of cultural heritage, with a particular focus on the castles of Italian Switzerland.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Tesi/1.png" alt="Castelli Vivi 1"></div>
+                                        <div class="gallery-item"><img src="img/Tesi/1.png" alt="Castelli Vivi 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Comunicazione del Patrimonio</h4>
+                                        <p>Il progetto sviluppa strategie di design per valorizzare i castelli storici del Ticino, rendendoli più accessibili e coinvolgenti per il pubblico attraverso un'interfaccia utente intuitiva e contenuti visivi accattivanti.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="project-overlay"></div>
-                        </a>
-                         <a href="HelpDoorBell.html" class="project-card" data-category="Coding">
-                            <div class="project-image">
-                                <img src="img/helpdoorbell/inside.png" alt="Video project">
+                        </div>
+                         <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/helpdoorbell/inside.png" alt="HelpDoorBell thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>HelpDoorBell</h2>
+                                    <p class="project-meta">2023 — Coding/Prototipazione</p>
+                                </div>
+                                <span class="view-project">View Project</span>
                             </div>
-                            <div class="project-content"><h2>HelpDoorBell</h2><p class="project-meta">2023 — Coding/Prototipazione</p></div>
-                            <div class="project-overlay"></div>
-                        </a>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>HelpDoorBell</h3>
+                                        <p>A coding and prototyping project for an innovative doorbell system designed to enhance safety and communication for specific user needs.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/helpdoorbell/inside.png" alt="HelpDoorBell 1"></div>
+                                        <div class="gallery-item"><img src="img/helpdoorbell/inside.png" alt="HelpDoorBell 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Funzionalità</h4>
+                                        <p>Il prototipo integra sensori di movimento, riconoscimento vocale e un'interfaccia utente semplificata per fornire un'esperienza di accesso personalizzata e sicura, particolarmente utile per persone con esigenze speciali.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                                    <a href="mobius.html" class="project-card" data-category="Visual Identity">
-                <div class="project-image">
-                    <img src="img/mobius/Mockup.jpg" alt="Möbius project">
-                </div>
-                <div class="project-content">
-                    <h2>möbius</h2>
-                    <p class="project-meta">2024 — Visual Identity / UI</p>
-                </div>
-                <div class="project-overlay"></div>
-            </a>
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/mobius/Mockup.jpg" alt="Möbius thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>möbius</h2>
+                                    <p class="project-meta">2024 — Visual Identity / UI</p>
+                                </div>
+                                <span class="view-project">View Project</span>
+                            </div>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>möbius</h3>
+                                        <p>A visual identity and UI project playing with the mathematical concept of the Möbius strip, symbolizing continuity and interconnectedness in design.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/mobius/Mockup.jpg" alt="Möbius 1"></div>
+                                        <div class="gallery-item"><img src="img/mobius/Mockup.jpg" alt="Möbius 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Branding Concept</h4>
+                                        <p>Il concept di Möbius è stato applicato alla creazione di un'identità visiva fluida e dinamica, con un logo che riflette la natura infinita e interconnessa del marchio.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-            <a href="videotipografia.html" class="project-card" data-category="Visual Identity">
-                <div class="project-image">
-                    <img src="img/Video/Copertina.jpg" alt="Möbius project">
-                </div>
-                <div class="project-content">
-                    <h2>video</h2>
-                    <p class="project-meta">2024 — Visual Identity / UI</p>
-                </div>
-                <div class="project-overlay"></div>
-            </a>
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/Video/Copertina.jpg" alt="Video thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>video</h2>
+                                    <p class="project-meta">2024 — Visual Identity / UI</p>
+                                </div>
+                                <span class="view-project">View Project</span>
+                            </div>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>video</h3>
+                                        <p>A visual identity and UI project for video content, enhancing the viewing experience through intuitive design and engaging aesthetics.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Video/Copertina.jpg" alt="Video 1"></div>
+                                        <div class="gallery-item"><img src="img/Video/Copertina.jpg" alt="Video 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Design dell'Interfaccia</h4>
+                                        <p>L'interfaccia utente è stata progettata per la fruizione di contenuti video, con un focus sulla facilità di navigazione, la visualizzazione ottimale e le funzionalità di interazione.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="year-section">
                     <h2 class="year-heading">2023</h2>
-                    <div class="projects-grid">
-                        <a href="adhd.html" class="project-card" data-category="Graphic Design">
-                            <div class="project-image">
-                                <img src="img/adhd/Sessione studio-064.jpg" alt="ADHD Magazine project">
+                    <div class="projects-grid-placeholder">
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/adhd/Sessione studio-064.jpg" alt="ADHD Magazine thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>adhd magazine</h2>
+                                    <p class="project-meta">2023 — Graphic / Animation</p>
+                                </div>
+                                <span class="view-project">View Project</span>
                             </div>
-                            <div class="project-content">
-                                <h2>adhd magazine</h2>
-                                <p class="project-meta">2023 — Graphic / Animation</p>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>ADHD Magazine</h3>
+                                        <p>An editorial and animation project exploring the theme of ADHD through an innovative visual approach, aiming to raise awareness and understanding.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/adhd/Sessione studio-064.jpg" alt="ADHD Magazine 1"></div>
+                                        <div class="gallery-item"><img src="img/adhd/Sessione studio-064.jpg" alt="ADHD Magazine 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Approccio Editoriale</h4>
+                                        <p>Il magazine utilizza una combinazione di grafica dinamica e animazioni per rappresentare l'esperienza dell'ADHD, rendendo il contenuto accessibile e coinvolgente per un pubblico ampio.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="project-overlay"></div>
-                        </a>
-                        <a href="espressionemuta.html" class="project-card" data-category="Graphic Design">
-                            <div class="project-image">
-                                <img src="img/Poster djami/djami.png" alt="Book cover project">
+                        </div>
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/Poster djami/djami.png" alt="Manifesto thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>manifesto</h2>
+                                    <p class="project-meta">2023 — Graphic</p>
+                                </div>
+                                <span class="view-project">View Project</span>
                             </div>
-                            <div class="project-content">
-                                <h2>manifesto</h2>
-                                <p class="project-meta">2023 — Graphic</p>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>manifesto</h3>
+                                        <p>A graphic design project creating a compelling manifesto, using bold typography and striking imagery to convey a powerful message.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Poster djami/djami.png" alt="Manifesto 1"></div>
+                                        <div class="gallery-item"><img src="img/Poster djami/djami.png" alt="Manifesto 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Dichiarazione Visiva</h4>
+                                        <p>Il manifesto è un'espressione grafica che combina testo e immagini per comunicare un'idea o una filosofia, catturando l'attenzione e stimolando la riflessione.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="project-overlay"></div>
-                        </a>
+                        </div>
 
-                        <a href="infografica.html" class="project-card" data-category="Grafica">
-                            <div class="project-image">
-                                <img src="img/Infografica/amaël.cacciola_CV354.01_Corretto.jpg" alt="Infografica">
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/Infografica/amaël.cacciola_CV354.01_Corretto.jpg" alt="Infografica thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>Infografica</h2>
+                                    <p class="project-meta">2023 — Grafica / infografica</p>
+                                </div>
+                                <span class="view-project">View Project</span>
                             </div>
-                            <div class="project-content"><h2>Infografica</h2><p class="project-meta">2023 — Grafica / infografica</p></div>
-                            <div class="project-overlay"></div>
-                        </a>
-
-                        <a href="infografica.html" class="project-card" data-category="Coding">
-                            <div class="project-image">
-                                <img src="img/PongHands/Mockup2.jpg" alt="Infografica">
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>Infografica</h3>
+                                        <p>A graphic design project focused on creating informative infographics, translating complex data into clear and engaging visual narratives.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Infografica/amaël.cacciola_CV354.01_Corretto.jpg" alt="Infografica 1"></div>
+                                        <div class="gallery-item"><img src="img/Infografica/amaël.cacciola_CV354.01_Corretto.jpg" alt="Infografica 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Visualizzazione Dati</h4>
+                                        <p>L'infografica è stata sviluppata per rendere i dati più accessibili e comprensibili, utilizzando elementi grafici efficaci per illustrare concetti e statistiche in modo visivamente attraente.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="project-content"><h2>Pong with hands</h2><p class="project-meta">2023 — Grafica / infografica</p></div>
-                            <div class="project-overlay"></div>
-                        </a>
+                        </div>
 
-                                                <a href="ticketevents.html" class="project-card" data-category="UI Design">
-                            <div class="project-image">
-                                <img src="img/Ticketevents/Mockup computer.jpg" alt="Ticketevents project">
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/PongHands/Mockup2.jpg" alt="Pong with hands thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>Pong with hands</h2>
+                                    <p class="project-meta">2023 — Grafica / infografica</p>
+                                </div>
+                                <span class="view-project">View Project</span>
                             </div>
-                            <div class="project-content">
-                                <h2>Ticketevents</h2>
-                                <p class="project-meta">2022 — User Interface</p>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>Pong with hands</h3>
+                                        <p>A coding project that reimagines the classic Pong game with hand interaction, offering a new and intuitive way to play.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/PongHands/Mockup2.jpg" alt="Pong with hands 1"></div>
+                                        <div class="gallery-item"><img src="img/PongHands/Mockup2.jpg" alt="Pong with hands 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Interfaccia Naturale</h4>
+                                        <p>Attraverso l'uso di sensori di tracciamento della mano, gli utenti possono controllare le racchette virtuali con i propri movimenti fisici, creando un'esperienza di gioco più immersiva e naturale.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="project-overlay"></div>
-                        </a>
+                        </div>
 
-
-                        <a href="teoriacolore.html" class="project-card" data-category="Graphic Design">
-                            <div class="project-image">
-                                <img src="img/Teoria del colore/Tavola disegno 22.pdf" alt="Book cover project">
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/Ticketevents/Mockup computer.jpg" alt="Ticketevents thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>Ticketevents</h2>
+                                    <p class="project-meta">2022 — User Interface</p>
+                                </div>
+                                <span class="view-project">View Project</span>
                             </div>
-                            <div class="project-content"><h2>Teoria del colore</h2><p class="project-meta">2022 — Sovraccoperta</p></div>
-                            <div class="project-overlay"></div>
-                        </a>
-
-
-                        <a href="labmanifesti.html" class="project-card" data-category="Graphic Design">
-                            <div class="project-image">
-                                <img src="img/Lab_manifesti/SUN VALLEY/SUN VALLEY mockup.png" alt="Book cover project">
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>Ticketevents</h3>
+                                        <p>A user interface designed for event ticket management and purchase, focusing on a seamless and enjoyable user journey.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Ticketevents/Mockup computer.jpg" alt="Ticketevents 1"></div>
+                                        <div class="gallery-item"><img src="img/Ticketevents/Mockup computer.jpg" alt="Ticketevents 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Esperienza Utente</h4>
+                                        <p>L'interfaccia è stata ottimizzata per facilitare la ricerca, la selezione e l'acquisto di biglietti, con un layout pulito e intuitivo che minimizza la frizione per l'utente.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="project-content"><h2>manifesti</h2><p class="project-meta">2022 — Grafica</p></div>
-                            <div class="project-overlay"></div>
-                        </a>
+                        </div>
 
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="https://via.placeholder.com/120x120?text=Color+Theory" alt="Teoria del colore thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>Teoria del colore</h2>
+                                    <p class="project-meta">2022 — Sovraccoperta</p>
+                                </div>
+                                <span class="view-project">View Project</span>
+                            </div>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>Teoria del colore</h3>
+                                        <p>A project focusing on color theory for book cover design, applying psychological and aesthetic principles to evoke specific emotions.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="https://via.placeholder.com/400x300?text=Color+Theory+Project+1" alt="Teoria del colore 1"></div>
+                                        <div class="gallery-item"><img src="https://via.placeholder.com/400x300?text=Color+Theory+Project+2" alt="Teoria del colore 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Applicazione dei Colori</h4>
+                                        <p>Questo progetto esplora come le diverse combinazioni di colori possano influenzare la percezione e l'umore del lettore, creando un'immagine di copertina che riflette al meglio il contenuto del libro.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/Lab_manifesti/SUN VALLEY/SUN VALLEY mockup.png" alt="Manifesti thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>manifesti</h2>
+                                    <p class="project-meta">2022 — Grafica</p>
+                                </div>
+                                <span class="view-project">View Project</span>
+                            </div>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>manifesti</h3>
+                                        <p>A graphic design project creating various posters, utilizing diverse typographic and illustrative techniques to convey different messages.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Lab_manifesti/SUN VALLEY/SUN VALLEY mockup.png" alt="Manifesti 1"></div>
+                                        <div class="gallery-item"><img src="img/Lab_manifesti/SUN VALLEY/SUN VALLEY mockup.png" alt="Manifesti 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Design per la Comunicazione</h4>
+                                        <p>Ogni manifesto è stato concepito per comunicare un evento o un'idea specifica, con un'attenzione particolare alla gerarchia visiva e all'impatto complessivo.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="year-section">
                     <h2 class="year-heading">2022</h2>
-                    <div class="projects-grid">
-                         <a href="poster.html" class="project-card" data-category="Graphic Design">
-                            <div class="project-image">
-                                <img src="img/Manifesto Paul/poster-on-wall-mockup.png" alt="Poster project">
+                    <div class="projects-grid-placeholder">
+                         <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/Manifesto Paul/poster-on-wall-mockup.png" alt="Poster thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>Poster</h2>
+                                    <p class="project-meta">2022 — Graphic</p>
+                                </div>
+                                <span class="view-project">View Project</span>
                             </div>
-                            <div class="project-content">
-                                <h2>Poster</h2>
-                                <p class="project-meta">2022 — Graphic</p>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>Poster</h3>
+                                        <p>A graphic design project for poster creation, blending artistic expression with effective communication strategies.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Manifesto Paul/poster-on-wall-mockup.png" alt="Poster 1"></div>
+                                        <div class="gallery-item"><img src="img/Manifesto Paul/poster-on-wall-mockup.png" alt="Poster 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>L'Arte del Manifesto</h4>
+                                        <p>Questo progetto esamina il ruolo del manifesto come mezzo di espressione artistica e strumento di marketing, con un focus sulla tipografia e l'illustrazione.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="project-overlay"></div>
-                        </a>
+                        </div>
 
-                         <a href="calendario.html" class="project-card" data-category="Graphic Design">
-                            <div class="project-image">
-                                <img src="img/Calendario eventi/poster-design-mockup.png" alt="Book cover project">
+                         <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/Calendario eventi/poster-design-mockup.png" alt="Calendario Eventi thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>Calendario Eventi</h2>
+                                    <p class="project-meta">2022 — Sovraccoperta</p>
+                                </div>
+                                <span class="view-project">View Project</span>
                             </div>
-                            <div class="project-content"><h2>Calendario Eventi</h2><p class="project-meta">2022 — Sovraccoperta</p></div>
-                            <div class="project-overlay"></div>
-                        </a>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>Calendario Eventi</h3>
+                                        <p>A design project for an event calendar cover, incorporating visual elements that reflect the dynamic nature of the events.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Calendario eventi/poster-design-mockup.png" alt="Calendario Eventi 1"></div>
+                                        <div class="gallery-item"><img src="img/Calendario eventi/poster-design-mockup.png" alt="Calendario Eventi 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Illustrazione e Funzionalità</h4>
+                                        <p>La sovraccoperta del calendario è stata progettata per essere sia esteticamente gradevole che funzionale, con un design che invita all'esplorazione degli eventi.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                        <a href="videotecnologia.html" class="project-card" data-category="Video Making">
-                            <div class="project-image">
-                                <video src="img/Tecnologia come strumento/tecnologia come strumento.mp4" alt="Video project" autoplay muted loop></video>
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="https://via.placeholder.com/120x120?text=Video+Tech" alt="Video thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>video</h2>
+                                    <p class="project-meta">2022 — Riprese / Video editing</p>
+                                </div>
+                                <span class="view-project">View Project</span>
                             </div>
-                            <div class="project-content"><h2>video</h2><p class="project-meta">2022 — Riprese / Video editing</p></div>
-                            <div class="project-overlay"></div>
-                        </a>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>video</h3>
+                                        <p>A video project involving filming and editing, capturing compelling narratives and visual aesthetics.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="https://via.placeholder.com/400x300?text=Video+Technology+Preview+1" alt="Video 1"></div>
+                                        <div class="gallery-item"><img src="https://via.placeholder.com/400x300?text=Video+Technology+Preview+2" alt="Video 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Produzione Video</h4>
+                                        <p>Dalle riprese al montaggio finale, questo progetto dimostra la capacità di creare contenuti video di alta qualità, con un focus sulla composizione e la narrazione.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                        <a href="animazione.html" class="project-card" data-category="Animazione">
-                            <div class="project-image">
-                                <video src="img/animazione granpa/CAcciola_Amaël.mp4" alt="Video project" autoplay muted loop></video>
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="https://via.placeholder.com/120x120?text=Animation" alt="Video thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>video</h2>
+                                    <p class="project-meta">2022 — illustrazione / Animazione</p>
+                                </div>
+                                <span class="view-project">View Project</span>
                             </div>
-                            <div class="project-content"><h2>video</h2><p class="project-meta">2022 — illustrazione / Animazione</p></div>
-                            <div class="project-overlay"></div>
-                        </a>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>video</h3>
+                                        <p>An illustration and animation video project, bringing static concepts to life through dynamic motion graphics and storytelling.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="https://via.placeholder.com/400x300?text=Animation+Video+Preview+1" alt="Video Animation 1"></div>
+                                        <div class="gallery-item"><img src="https://via.placeholder.com/400x300?text=Animation+Video+Preview+2" alt="Video Animation 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Illustrazione Animata</h4>
+                                        <p>Questo video combina illustrazioni originali con animazioni fluide per creare un racconto visivo che è sia informativo che esteticamente coinvolgente, esplorando tecniche di motion design.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                        <a href="foto.html" class="project-card" data-category="Fotografia">
-                            <div class="project-image">
-                                   <img src="img/luci e ombre/Luci e ombre 3.jpg" alt="Book cover project">
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/luci e ombre/Luci e ombre 3.jpg" alt="Foto thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>foto</h2>
+                                    <p class="project-meta">2022 — fotografia</p>
+                                </div>
+                                <span class="view-project">View Project</span>
                             </div>
-                            <div class="project-content"><h2>foto</h2><p class="project-meta">2022 — fotografia</p></div>
-                            <div class="project-overlay"></div>
-                        </a>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>foto</h3>
+                                        <p>A photography project focusing on light and shadow, exploring their interplay to create mood and depth in visual compositions.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/luci e ombre/Luci e ombre 3.jpg" alt="Foto 1"></div>
+                                        <div class="gallery-item"><img src="img/luci e ombre/Luci e ombre 3.jpg" alt="Foto 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Composizione e Atmosfera</h4>
+                                        <p>Questa serie di fotografie cattura l'essenza delle luci e delle ombre, trasformando scene ordinarie in opere d'arte che evocano emozioni e sensazioni.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                        <a href="calendarioprimo.html" class="project-card" data-category="Graphic Design">
-                            <div class="project-image">
-                                   <img src="img/Calendario photoshoppp/1.jpg" alt="Book cover project">
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/Calendario photoshoppp/1.jpg" alt="Calendario thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>calendario</h2>
+                                    <p class="project-meta">2022 — grafica</p>
+                                </div>
+                                <span class="view-project">View Project</span>
                             </div>
-                            <div class="project-content"><h2>calendario</h2><p class="project-meta">2022 — grafica</p></div>
-                            <div class="project-overlay"></div>
-                        </a>
-                        
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>calendario</h3>
+                                        <p>A graphic design project for a calendar, combining functionality with aesthetic appeal for a visually engaging product.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Calendario photoshoppp/1.jpg" alt="Calendario 1"></div>
+                                        <div class="gallery-item"><img src="img/Calendario photoshoppp/1.jpg" alt="Calendario 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Design Funzionale</h4>
+                                        <p>Il calendario è stato progettato con un'attenzione particolare all'organizzazione e alla leggibilità, senza sacrificare l'aspetto artistico e il tema stagionale.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="year-section">
                     <h2 class="year-heading">2021</h2>
-                    <div class="projects-grid">
-                         <a href="sedicesimo.html" class="project-card" data-category="Graphic Design">
-                            <div class="project-image">
-                                <img src="img/Sedicesimo/DSC_6092.jpg" alt="Poster project">
+                    <div class="projects-grid-placeholder">
+                         <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/Sedicesimo/DSC_6092.jpg" alt="Sedicesimo thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>sedicesimo</h2>
+                                    <p class="project-meta">2022 — Graphic</p>
+                                </div>
+                                <span class="view-project">View Project</span>
                             </div>
-                            <div class="project-content">
-                                <h2>sedicesimo</h2>
-                                <p class="project-meta">2022 — Graphic</p>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details">
+                                        <h3>sedicesimo</h3>
+                                        <p>A graphic project related to the "sedicesimo" format, exploring its unique constraints and creative possibilities.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Sedicesimo/DSC_6092.jpg" alt="Sedicesimo 1"></div>
+                                        <div class="gallery-item"><img src="img/Sedicesimo/DSC_6092.jpg" alt="Sedicesimo 2"></div>
+                                    </div>
+                                    <div class="text-block">
+                                        <h4>Formato e Narrazione</h4>
+                                        <p>Questo progetto sfida i limiti del formato "sedicesimo" per creare un racconto visivo compatto ma ricco di significato, dimostrando come il design possa adattarsi a spazi ristretti.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="project-overlay"></div>
-                        </a>
-
-                        
+                        </div>
                     </div>
                 </div>
-
             </section>
-
         </main>
 
         <footer class="site-footer">
@@ -339,5 +1133,37 @@
         </footer>
     </div>
 <script src="src/script.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Project preview toggle logic from index1.html
+        const projectItems = document.querySelectorAll('.project-item');
+
+        projectItems.forEach(item => {
+            const row = item.querySelector('.project-row');
+            
+            row.addEventListener('click', function() {
+                // Close all other project previews
+                projectItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                        // Reset max-height when closing to ensure smooth collapse
+                        otherItem.querySelector('.project-preview').style.maxHeight = '0';
+                    }
+                });
+                
+                // Toggle current project preview
+                item.classList.toggle('active');
+                const preview = item.querySelector('.project-preview');
+                if (item.classList.contains('active')) {
+                    // Set max-height to scrollHeight to allow dynamic height and smooth transition
+                    // Aggiungi un piccolo buffer per la transizione se necessario
+                    preview.style.maxHeight = (preview.scrollHeight + 50) + 'px'; 
+                } else {
+                    preview.style.maxHeight = '0';
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>

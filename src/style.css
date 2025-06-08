@@ -1187,8 +1187,10 @@ body.all-work-page .projects-container {
 }
 
 body.all-work-page .projects-grid {
-    gap: 1rem;
+    gap: var(--grid-gap); /* Usa la variabile per il gap */
     padding: 0 1rem;
+    grid-auto-rows: minmax(16rem, auto); /* Le righe si adattano al contenuto ma hanno un min-height */
+    grid-auto-flow: dense; /* Aiuta a riempire gli spazi vuoti */
 }
 
 body.all-work-page .year-section {
@@ -1209,8 +1211,8 @@ body.all-work-page .year-heading::after {
 }
 
 body.all-work-page .project-card {
-    grid-column: span 3;
-    min-height: 16rem;
+    grid-column: auto / span 3; /* Ogni card occupa 3 colonne per default (4 colonne per riga) */
+    min-height: 16rem; /* Altezza minima per le card */
     background-color: var(--bg-color);
     border: 1px solid var(--border-color);
     box-shadow: none;
@@ -1219,10 +1221,12 @@ body.all-work-page .project-card {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    transform: none !important; /* Forza l'assenza di rotazione e traslazione */
+    align-self: start; /* Le card non si allungano per riempire lo spazio */
 }
 
 body.all-work-page .project-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-2px); /* Mantieni l'effetto hover */
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
     border-color: var(--accent-color);
 }
@@ -1289,4 +1293,103 @@ body.all-work-page .project-image video {
 
 body.all-work-page .project-overlay {
     display: none;
+}
+
+body.all-work-page .project-details {
+    display: none;
+    background-color: #f9f9f9;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.4s ease;
+    position: relative;
+    z-index: 5;
+    grid-column: 1 / -1; /* Sempre a tutta larghezza di default */
+    margin-top: 1rem;
+    align-self: stretch; /* Il dettaglio si allunga per riempire la sua cella */
+}
+
+body.all-work-page .project-details.open {
+    display: block;
+}
+
+/* Gestione affiancata */
+body.all-work-page .project-details.open.side-by-side {
+    grid-column: span 6; /* Occupa metà griglia */
+    margin-top: 0;
+    margin-left: var(--grid-gap); /* Spazio tra progetto e dettaglio */
+}
+
+/* Nascondi freccetta quando affianco */
+body.all-work-page .project-details.open.side-by-side::before {
+    content: "";
+    position: absolute;
+    top: 1rem;
+    left: -10px;
+    width: 20px;
+    height: 20px;
+    background-color: #f9f9f9;
+    transform: rotate(45deg);
+    border-left: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-color);
+    z-index: -1;
+}
+
+body.all-work-page .project-details.open:not(.side-by-side)::before {
+    display: none;
+}
+
+
+/* Media query: sempre sotto su schermi piccoli */
+@media (max-width: 1024px) {
+    body.all-work-page .project-card {
+        grid-column: span 4; /* Su desktop/tablet più piccoli, le card occupano 4 colonne */
+        min-height: 18rem;
+        transform: none !important; /* Forza l'assenza di rotazione e traslazione anche qui */
+        align-self: start; /* Mantieni l'allineamento in alto */
+    }
+    body.all-work-page .project-details.open {
+        grid-column: 1 / -1 !important; /* Sempre a tutta larghezza */
+        margin-top: 1rem;
+        margin-left: 0 !important; /* Nessun margine sinistro a tutta larghezza */
+        align-self: stretch; /* Mantieni l'allungamento per il dettaglio */
+    }
+    body.all-work-page .project-details.open.side-by-side {
+        grid-column: 1 / -1 !important; /* Annulla side-by-side su schermi più piccoli */
+        margin-left: 0;
+    }
+    body.all-work-page .project-details.open::before {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    body.all-work-page .project-card {
+        grid-column: span 4;
+        min-height: 10rem;
+        transform: none !important;
+        align-self: start;
+    }
+    body.all-work-page .project-details.open {
+        grid-column: 1 / -1 !important;
+        margin-top: 1rem;
+        margin-left: 0 !important;
+        align-self: stretch;
+    }
+}
+
+@media (max-width: 480px) {
+    body.all-work-page .project-card {
+        grid-column: span 4;
+        min-height: 12rem;
+        transform: none !important;
+        align-self: start;
+    }
+    body.all-work-page .project-content {
+        padding-top: 40%;
+    }
+    body.all-work-page .project-image {
+        height: 40%;
+    }
 }

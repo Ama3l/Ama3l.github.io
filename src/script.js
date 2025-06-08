@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
             cursor.style.opacity = '1';
         });
 
+
+
         document.addEventListener('mouseleave', () => {
             cursor.style.opacity = '0';
         });
@@ -101,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Gestisce il listener di scroll dell'header al ridimensionamento
             if (window.innerWidth <= 1024) {
                 // Su mobile/tablet, l'header dovrebbe essere sempre "scrolled" (con sfondo) e fisso
-                header.classList.add('scrolled'); 
+                header.classList.add('scrolled');
                 header.style.transform = 'none'; // Rimuove eventuali trasformazioni JS
                 window.removeEventListener('scroll', updateHeaderOnScroll); // Rimuove il listener di scroll dinamico su mobile
             } else {
@@ -135,29 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Project cards initial random rotation (from allwork.html, modified)
-    // Applica la rotazione iniziale solo su desktop (> 768px)
-    const applyInitialRotation = () => {
-        const projects = document.querySelectorAll('.projects-grid .project-card');
-        if (window.innerWidth > 768) {
-            projects.forEach(project => {
-                // Applica rotazione solo se l'elemento non è ancora animato (controlla la presenza della classe 'visible')
-                if (!project.classList.contains('visible')) {
-                    const rotation = (Math.random() - 0) * 0; // Rotazione casuale tra -2.5deg e 2.5deg
-                    project.style.transform = `rotate(${rotation}deg) translateY(30px)`; // Combina con la traslazione iniziale
-                }
-            });
-        } else {
-            // Rimuovi le trasformazioni di rotazione su mobile/tablet per evitare problemi
-            projects.forEach(project => {
-                project.style.transform = 'none';
-            });
-        }
-    };
-
-    // Chiama la funzione all'avvio e al ridimensionamento
-    applyInitialRotation();
-    window.addEventListener('resize', applyInitialRotation);
+    // RIMOSSO: Project cards initial random rotation
 
 
     // Funzione per aggiornare la posizione sticky dell'immagine (per about.html)
@@ -183,3 +163,51 @@ document.addEventListener('DOMContentLoaded', () => {
     animateOnScroll();
 
 });
+
+
+if (document.body.classList.contains('all-work-page')) {
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const details = this.nextElementSibling; // Get the associated details element
+            const isMobile = window.matchMedia("(max-width: 768px)").matches; // Use 768px as a general mobile breakpoint
+
+            // Close all other open details, unless it's the one we're clicking again
+            document.querySelectorAll('.project-details.open').forEach(d => {
+                if (d !== details) {
+                    d.classList.remove('open', 'side-by-side');
+                    d.style.gridColumn = ''; // Reset grid column
+                    d.style.marginTop = ''; // Reset margin top
+                    d.style.marginLeft = ''; // Reset margin left
+                }
+            });
+
+            // Toggle current project details
+            if (details.classList.contains('open')) {
+                details.classList.remove('open', 'side-by-side');
+                details.style.gridColumn = '';
+                details.style.marginTop = '';
+                details.style.marginLeft = '';
+                return;
+            }
+
+            details.classList.add('open');
+
+            if (!isMobile) {
+                // On desktop, try to open side-by-side.
+                details.classList.add('side-by-side');
+                this.after(details); // Ensure the details element is correctly positioned in the DOM
+            } else {
+                // On mobile, always open below.
+                details.classList.remove('side-by-by'); // Make sure this class is removed
+                this.after(details); // Ensure it's still after the clicked card for sequential flow
+            }
+
+            // Scroll into view
+            setTimeout(() => {
+                details.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 200);
+        });
+    });
+}
