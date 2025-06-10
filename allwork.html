@@ -40,6 +40,7 @@
     display: flex;
     gap: 1rem;
     margin-bottom: 2rem;
+    flex-wrap: wrap; /* Add this line */
 }
 .filter-btn {
     background: none;
@@ -286,7 +287,7 @@
         border-radius: 12px;
 
     margin-left: -1rem;
-    margin-right: -1rem;
+    margin-right: 0rem;
 
     }
 
@@ -1293,30 +1294,53 @@ Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'inte
     </div>
 <script src="src/script.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    // Project preview toggle logic from index1.html
+document.addEventListener('DOMContentLoaded', function() {
     const projectItems = document.querySelectorAll('.project-item');
+    const body = document.body; // Ottieni il riferimento al body
 
     projectItems.forEach(item => {
-        const row = item.querySelector('.project-row');
-        row.addEventListener('click', function() {
+        item.addEventListener('click', function(event) {
+            // Salva la posizione di scorrimento corrente
+            const currentScrollY = window.scrollY;
+
+            // Opzione A: Temporaneamente impedisci lo scorrimento del body
+            // Imposta overflow: hidden per prevenire lo scorrimento durante la modifica del DOM
+            body.style.overflow = 'hidden';
+
+            // Chiudi tutti gli altri progetti
             projectItems.forEach(otherItem => {
                 if (otherItem !== item) {
                     otherItem.classList.remove('active');
                     otherItem.querySelector('.project-preview').style.maxHeight = '0';
                 }
             });
+
+            // Attiva/disattiva il progetto corrente
             item.classList.toggle('active');
             const preview = item.querySelector('.project-preview');
-            if (item.classList.contains('active')) {
-                preview.style.maxHeight = (preview.scrollHeight + 50) + 'px'; 
-            } else {
-                preview.style.maxHeight = '0';
-            }
+
+            // Timeout per attendere il ricalcolo di scrollHeight dopo eventuali collassi
+            setTimeout(() => {
+                if (item.classList.contains('active')) {
+                    // Espandi il preview
+                    preview.style.maxHeight = (preview.scrollHeight + 50) + 'px';
+                } else {
+                    // Chiudi il preview
+                    preview.style.maxHeight = '0';
+                }
+
+                // Ripristina la posizione di scorrimento
+                window.scrollTo(0, currentScrollY);
+
+                // Re-abilita lo scorrimento del body
+                body.style.overflow = ''; // Ripristina al valore predefinito (o 'auto'/'scroll' se specificato)
+
+            }, 0); // Un timeout di 0ms esegue il codice alla fine della coda degli eventi, dopo le modifiche DOM
+
         });
     });
 
-    // FILTRO PER TIPOLOGIA USANDO PROJECT META
+    // FILTRO PER TIPOLOGIA USANDO PROJECT META (Questa parte del codice rimane invariata)
     const filterButtons = document.querySelectorAll('.filter-btn');
     filterButtons.forEach(btn => {
         btn.addEventListener('click', function() {
