@@ -210,86 +210,114 @@
     }
 
     /* Responsive Adjustments */
-    @media (max-width: 768px) {
-        .preview-content {
-            padding: 1.5rem;
-            gap: 1.5rem;
-        }
-
-        .project-row {
-            flex-direction: row; /* Keep row for thumbnail and text */
-            align-items: center; /* Center vertically */
-            gap: 1rem;
-            justify-content: flex-start; /* Align to start */
-
-        }
-
-        .project-row .project-info {
-            flex-basis: auto; /* Allow text to wrap if necessary */
-            margin-right: auto; /* Push view project to the right */
-        }
-
-        .project-thumbnail {
-            width: 80px; /* Smaller thumbnail on mobile */
-            height: 80px;
-        }
-
-        .view-project {
-            align-self: center; /* Vertically center "View Project" */
-            margin-left: 0.5rem; /* Reduce margin */
-        }
-
-        .preview-details h3 {
-            font-size: 1.8rem;
-            max-width: 100%; /* Remove width limit on mobile */
-            margin-left: auto;
-            margin-right: auto;
-            text-align: left; /* Ensure it remains left-aligned on mobile */
-        }
-
-        .preview-details p {
-            font-size: 1rem;
-            text-align: left; /* Left align text on mobile */
-            max-width: 100%; /* Remove width limit on mobile */
-            margin: 0 auto 1.5rem auto; /* Adjust bottom margin for mobile */
-        }
-
-        /* Span Classes for Preview Details Paragraphs (Maintained) */
-        .preview-details-p.span-12 { grid-column: span 12; }
-        .preview-details-p.span-8 { grid-column: span 8; }
-        .preview-details-p.span-6 { grid-column: span 6; }
-        .preview-details-p.span-4 { grid-column: span 4; }
-        .preview-details-p.span-3 { grid-column: span 3; }
-        .preview-details-p.span-2 { grid-column: span 2; }
-        .preview-details-p.span-1 { grid-column: span 1; }
-
-        .preview-content .text-block {
-            max-width: 100%; /* No width limit on mobile */
-            text-align: left; /* Left align all text blocks on mobile */
-        }
-
-        .preview-content .gallery-grid {
-            grid-template-columns: 1fr; /* Single column for gallery on small screens */
-        }
-
-        .gallery-caption {
-            font-size: 0.8rem; /* Slightly smaller caption on mobile */
-            padding: 0.5rem 0.75rem;
-        }
+@media (max-width: 768px) {
+    .preview-content {
+        padding: 1.5rem;
+        gap: 1.5rem;
     }
 
-    @media (max-width: 480px) {
-        .project-row h2 {
-            font-size: 1.2rem; /* Even smaller font size for title */
-        }
-        .project-thumbnail {
-            width: 60px; /* Even smaller thumbnail on smaller mobile */
-            height: 60px;
-        }
-        .project-meta {
-            font-size: 0.8rem; /* Smaller meta text */
-        }
+    .project-row {
+        flex-direction: row; /* Keep row for thumbnail and text */
+        align-items: center; /* Center vertically */
+        gap: 1rem;
+        justify-content: flex-start; /* Align to start */
     }
+
+    .project-row .project-info {
+        flex-basis: auto; /* Allow text to wrap if necessary */
+        margin-right: auto; /* Push view project to the right */
+    }
+
+    .project-thumbnail {
+        width: 80px; /* Smaller thumbnail on mobile */
+        height: 80px;
+    }
+
+    .view-project {
+        align-self: center; /* Vertically center "View Project" */
+        margin-left: 0.5rem; /* Reduce margin */
+    }
+
+    .preview-details h3 {
+        font-size: 2rem; /* Aumentato per mobile */
+        max-width: 100%; /* Remove width limit on mobile */
+        margin-left: auto;
+        margin-right: auto;
+        text-align: left; /* Ensure it remains left-aligned on mobile */
+    }
+
+    .preview-details p {
+        font-size: 1.1rem; /* Aumentato per mobile */
+        text-align: left; /* Left align text on mobile */
+        max-width: 100%; /* Remove width limit on mobile */
+        margin: 0 auto 2rem auto; /* Aumentato il margine inferiore */
+    }
+
+    /* Span Classes for Preview Details Paragraphs (Maintained) */
+    .preview-details-p.span-12 { grid-column: span 12; }
+    .preview-details-p.span-8 { grid-column: span 8; }
+    .preview-details-p.span-6 { grid-column: span 6; }
+    .preview-details-p.span-4 { grid-column: span 4; }
+    .preview-details-p.span-3 { grid-column: span 3; }
+    .preview-details-p.span-2 { grid-column: span 2; }
+    .preview-details-p.span-1 { grid-column: span 1; }
+
+    .preview-content .text-block {
+        max-width: 100%; /* No width limit on mobile */
+        text-align: left; /* Left align all text blocks on mobile */
+        font-size: 1.1rem; /* Aumentato per mobile */
+        margin-bottom: 2rem; /* Aumentato il margine inferiore per i text-block */
+    }
+
+    .preview-content .text-block h4 {
+        font-size: 1.5rem; /* Rendi i titoli dei text-block più grandi */
+        margin-bottom: 1rem;
+    }
+
+    .preview-content .text-block p {
+        font-size: 1.1rem; /* Assicurati che i paragrafi siano leggibili */
+    }
+
+    .preview-content .gallery-grid {
+        grid-template-columns: 1fr; /* Single column for gallery on small screens */
+        gap: 1.5rem; /* Aumentato lo spazio tra le immagini della galleria */
+        margin-bottom: 2rem; /* Aumentato il margine inferiore per le gallery-grid */
+    }
+
+    .gallery-caption {
+        font-size: 0.9rem; /* Slightly larger caption on mobile for readability */
+        padding: 0.75rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-row h2 {
+        font-size: 1.4rem; /* Even larger font size for title */
+    }
+    .project-thumbnail {
+        width: 70px; /* Slightly larger thumbnail on smaller mobile */
+        height: 70px;
+    }
+    .project-meta {
+        font-size: 0.9rem; /* Slightly larger meta text */
+    }
+
+    .preview-details h3 {
+        font-size: 2rem; /* Mantieni o aumenta ulteriormente se necessario */
+    }
+
+    .preview-details p {
+        font-size: 1.1rem; /* Mantieni o aumenta ulteriormente se necessario */
+    }
+
+    .preview-content .text-block h4 {
+        font-size: 1.4rem; /* Leggermente più piccolo per schermi molto piccoli */
+    }
+
+    .preview-content .text-block p {
+        font-size: 1rem; /* Leggermente più piccolo per schermi molto piccoli */
+    }
+}
 </style>
 </head>
 <body class="all-work-page">
@@ -338,7 +366,7 @@
                             <div class="project-preview">
                                 <div class="preview-content">
                                     <div class="preview-details span-5"> <h3>Metamorphosis</h3>
-                                        <p>Metamorphosis is an artistic installation inspired by the masterpiece of the same name by M.C. Escher. This piece, displayed on a dynamic LED matrix, seeks to bring Escher’s iconic vision to life through modern technology.</p>
+                                        <p>Metamorphosis è un'installazione ispirata all'omonimo capolavoro di M.C. Escher. L'opera, visualizzata su una matrice dinamica di LED, cerca di dare vita alla visione iconica di Escher attraverso la tecnologia moderna.</p>
                                     </div>
                                     <div class="gallery-grid">
                                         <div class="gallery-item">  
@@ -346,18 +374,19 @@
                                             <source src="img/Metamorphosis/metamor.mp4" type="video/mp4"></video></div>
                                     </div>
                                     <div class="gallery-grid">
-                                        <div class="gallery-item"><img src="img/Metamorphosis/DSC09470.JPG.jpg" alt="Metamorphosis 1"></div>
-                                        <div class="gallery-item"><img src="img/Metamorphosis/DSC09470.JPG.jpg" alt="Metamorphosis 2"></div>
-                                        <div class="gallery-item"><img src="img/Metamorphosis/DSC09470.JPG.jpg" alt="Metamorphosis 3"></div>
-                                        <div class="gallery-item"><img src="img/Metamorphosis/DSC09470.JPG.jpg" alt="Metamorphosis 4"></div>
+                                        <div class="gallery-item"><img src="img/Metamorphosis/b182ba5c17481ec82da63d728ac32c4f.jpg" alt="Metamorphosis 1"><p>queste sono le tavole che hanno ispirato il progetto</p></div>
+                                        <div class="gallery-item"><img src="img/Metamorphosis/Cornelis-Escher-Metamorfosi-II-1024x879.jpg" alt="Metamorphosis 2"><p></p></div>
                                     </div>
+
                                     <div class="gallery-grid">
                                         <div class="gallery-item"><img src="img/Metamorphosis/DSC09470.JPG.jpg" alt="Metamorphosis 1"></div>
-                                        <div class="gallery-item"><img src="img/Metamorphosis/DSC09470.JPG.jpg" alt="Metamorphosis 2"><p>ciao</p></div>
+                                        <div class="gallery-item"><img src="img/Metamorphosis/DSC09461.JPG.jpg" alt="Metamorphosis 2"></div>
+                                        <div class="gallery-item"><img src="img/Metamorphosis/DSC09472.JPG.jpg" alt="Metamorphosis 3"></div>
+                                        <div class="gallery-item"><img src="img/Metamorphosis/DSC09477.png" alt="Metamorphosis 4"></div>
                                     </div>
 
                                         <div class="text-block"> <h4>Dettagli Tecnici</h4>
-                                            <p>Il progetto è stato sviluppato utilizzando Processing per l'animazione e un Raspberry Pi per il controllo della matrice LED. L'interazione avviene tramite sensori di prossimità che influenzano la velocità e la complessità delle transizioni.</p>
+                                            <p>Il progetto è stato sviluppato utilizzando After effects per l'animazione per poi metterla sulla matrice led e ottenere l'effetto che si vede.</p>
                                         </div>
                                     </div>
                             </div>
@@ -378,8 +407,23 @@
                                 <div class="preview-content">
                                     <div class="preview-details">
                                         <h3>Healthy Cube</h3>
-                                        <p>Healthy Cube è un progetto di prototipazione rapida che esplora l'interazione fisica con la salute mentale, fornendo un feedback visivo e sonoro basato su input biometrici.</p>
+                                        <p>Un cubo interattivo intelligente progettato per coinvolgere
+i bambini in un’esperienza di apprendimento ludico sul riconoscimento degli alimenti. Il cubo offre indizi sonori e visivi che
+spingono il bambino a indovinare un alimento specifico.
+Gli indizi possono descrivere caratteristiche come il
+colore, la forma e gli usi culinari tipici. Dopo aver ascoltato gli
+indizi, il bambino interagisce con un display OLED che mostra
+diverse icone di alimenti. Utilizzando una manopola, il bambino
+seleziona l’icona corrispondente alla sua ipotesi, promuovendo
+abilità cognitive come il riconoscimento dei modelli e il processo
+decisionale in un ambiente divertente ed educativo.</p>
                                     </div>
+                              
+                                    <div class="gallery-grid">
+                            <div class="gallery-item"><video controls src="img/HealthyCube/videonuovo.mp4" alt="Healthy Cube 2"></div>
+                        </div>
+                     
+                    
                                     <div class="gallery-grid">
                                         <div class="gallery-item"><img src="img/HealthyCube/DSC04546.JPG" alt="Healthy Cube 1"></div>
                                         <div class="gallery-item"><img src="img/HealthyCube/DSC04546.JPG" alt="Healthy Cube 1"></div>
@@ -392,9 +436,6 @@
                                         <div class="gallery-item"><img src="img/HealthyCube/DSC04546.JPG" alt="Healthy Cube 2"></div>
                                     </div>
                                     <div class="gallery-grid">
-
-                                        <div class="gallery-item"><img src="img/HealthyCube/DSC04546.JPG" alt="Healthy Cube 2"></div>
-                                    </div>
                                     <div class="text-block">
                                         <h4>Obiettivi del Progetto</h4>
                                         <p>L'obiettivo principale di Healthy Cube è creare un'esperienza tangibile che aiuti gli utenti a monitorare e gestire i livelli di stress e benessere attraverso un'interfaccia semplice e intuitiva.</p>
