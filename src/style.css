@@ -478,6 +478,8 @@ ul {
     font-size: 1.1rem;
     color: var(--secondary-color);
     line-height: 1.6;
+    text-align: left;
+    margin-left: 1rem;
 }
 
 /* About Grid Layout */
@@ -991,11 +993,13 @@ ul {
         grid-template-columns: 1fr;
         gap: 1.5rem;
         margin-top: 2rem;
+        margin-left: 1rem;
     }
 
     .about-content-col {
         grid-column: span 1;
         gap: 2rem;
+        
     }
 
     .about-image-col {

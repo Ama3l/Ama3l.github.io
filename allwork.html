@@ -32,7 +32,7 @@
     .project-item {
         border-bottom: 1px solid var(--border-color);
         position: relative;
-        cursor: pointer;
+        cursor: active;
     }
 
     /* Project Row (for thumbnail and text) */
@@ -217,15 +217,17 @@
     }
 
     .project-row {
-        flex-direction: row; /* Keep row for thumbnail and text */
-        align-items: center; /* Center vertically */
+        display: flex;
+        align-items: center;
         gap: 1rem;
-        justify-content: flex-start; /* Align to start */
+        flex-wrap: wrap; /* Permette di andare a capo se serve */
+        justify-content: flex-start;
     }
 
     .project-row .project-info {
         flex-basis: auto; /* Allow text to wrap if necessary */
-        margin-right: auto; /* Push view project to the right */
+        margin-right: fixed; /* Push view project to the right */
+        
     }
 
     .project-thumbnail {
@@ -233,9 +235,20 @@
         height: 80px;
     }
 
+    .project-preview {
+        max-height: 0; /* Hide preview by default */
+        overflow: hidden;
+        width: auto; /* Usa tutta la larghezza disponibile */
+        transition: max-height 0.5s ease;
+        background-color: var(--secondary-bg);
+        border-radius: 12px;
+        margin-left: -1rem;   /* Margine sinistro */
+        margin-right: -0.1rem;  /* Margine destro */
+    }
+
     .view-project {
-        align-self: center; /* Vertically center "View Project" */
-        margin-left: 0.5rem; /* Reduce margin */
+        margin-left: auto; /* Mantiene "View Project" a destra */
+        align-self: auto;  /* Rimuove eventuali override */
     }
 
     .preview-details h3 {
@@ -426,20 +439,19 @@ decisionale in un ambiente divertente ed educativo.</p>
                     
                                     <div class="gallery-grid">
                                         <div class="gallery-item"><img src="img/HealthyCube/DSC04546.JPG" alt="Healthy Cube 1"></div>
-                                        <div class="gallery-item"><img src="img/HealthyCube/DSC04546.JPG" alt="Healthy Cube 1"></div>
-                                        <div class="gallery-item"><img src="img/HealthyCube/DSC04546.JPG" alt="Healthy Cube 2"></div>
-                                        <div class="gallery-item"><img src="img/HealthyCube/DSC04546.JPG" alt="Healthy Cube 2"></div>
+                                        <div class="gallery-item"><img src="img/HealthyCube/DSC04550.JPG" alt="Healthy Cube 1"></div>
+                                        <div class="gallery-item"><img src="img/HealthyCube/DSC04558.JPG" alt="Healthy Cube 2"></div>
+                                        <div class="gallery-item"><img src="img/HealthyCube/DSC04561.JPG" alt="Healthy Cube 2"></div>
                                     </div>
                                     
                                     <div class="gallery-grid">
-                                        <div class="gallery-item"><img src="img/HealthyCube/DSC04546.JPG" alt="Healthy Cube 1"></div>
-                                        <div class="gallery-item"><img src="img/HealthyCube/DSC04546.JPG" alt="Healthy Cube 2"></div>
+                                        <div class="gallery-item"><img src="img/HealthyCube/Inside.jpg" alt="Healthy Cube 1"></div>
+                                       
                                     </div>
                                     <div class="gallery-grid">
-                                    <div class="text-block">
-                                        <h4>Obiettivi del Progetto</h4>
-                                        <p>L'obiettivo principale di Healthy Cube è creare un'esperienza tangibile che aiuti gli utenti a monitorare e gestire i livelli di stress e benessere attraverso un'interfaccia semplice e intuitiva.</p>
-                                </div>
+                                    <div class="text-block"><h4></h4>
+                                         </div>
+                                         </div>
                             </div>
                             </div>
                         </div>
@@ -459,15 +471,46 @@ decisionale in un ambiente divertente ed educativo.</p>
                                 <div class="preview-content">
                                     <div class="preview-details">
                                         <h3>Symbiosis</h3>
-                                        <p>A project focusing on the visual representation of symbiosis through animation and coding, exploring the interconnectedness of natural and digital systems.</p>
+                                        <p>Symbiosis è un’installazione interattiva in cui le piante
+sono protagoniste della creazione artistica e sonora. Utilizzando
+sensori che misurano l’umidità e il movimento del suolo, l’installazione traduce i loro segnali naturali in immagini dinamiche
+e musica d’ambiente. Ogni pianta dà forma alla propria rappresentazione digitale in tempo reale, rivelando ritmi e comportamenti inediti.
+L’obiettivo di questa installazione è creare un ecosistema
+in cui tecnologia ed elementi viventi si uniscono, formando un
+ponte tra il digitale e l’organico. Lavorando in armonia, essi generano qualcosa di bello, trasformando le piante nei veri artisti di
+questa installazione.</p>
                                     </div>
                                     <div class="gallery-grid">
-                                        <div class="gallery-item"><img src="img/Symbiosis/DSC03660.jpg" alt="Symbiosis 1"></div>
-                                        <div class="gallery-item"><img src="img/Symbiosis/DSC03660.jpg" alt="Symbiosis 2"></div>
+                                        <div class="gallery-item"><video controls src="video/Symbiosis_2.1.mp4" type="video.mp4"></div>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Symbiosis/DSC03660.jpg" alt="symbiosis"></div>
+                                        <div class="gallery-item"><img src="img/Symbiosis/DSC03661.jpg" alt="symbiosis"></div>
+                                        <div class="gallery-item"><img src="img/Symbiosis/DSC03666.jpg" alt="symbiosis"></div>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Symbiosis/DSC03668.jpg" alt="symbiosis"></div>
+                                        <div class="gallery-item"><img src="img/Symbiosis/DSC03678.jpg" alt="symbiosis"></div>
+                                        <div class="gallery-item"><img src="img/Symbiosis/DSC03681.jpg" alt="symbiosis"></div>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Symbiosis/DSC03696.jpg" alt="symbiosis"></div>
+                                        <div class="gallery-item"><img src="img/Symbiosis/DSC03723.jpg" alt="symbiosis"></div>
+                                        <div class="gallery-item"><img src="img/Symbiosis/DSC03777.jpg" alt="symbiosis"></div>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Symbiosis/14_h.jpg" alt="symbiosis"></div>
+                                        <div class="gallery-item"><img src="img/Symbiosis/20_h.jpg" alt="symbiosis"></div>
+                                        <div class="gallery-item"><img src="img/Symbiosis/7_h.jpg" alt="symbiosis"></div>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Symbiosis/17_v.jpg" alt="symbiosis"></div>
+                                        <div class="gallery-item"><img src="img/Symbiosis/20_v.jpg" alt="symbiosis"></div>
+                                        <div class="gallery-item"><img src="img/Symbiosis/4_v.jpg" alt="symbiosis"></div>
                                     </div>
                                     <div class="text-block">
-                                        <h4>Il Concetto</h4>
-                                        <p>Symbiosis visualizza come diversi elementi, sia biologici che tecnologici, possano coesistere e prosperare in un ambiente interdipendente, enfatizzando l'armonia e il flusso continuo.</p>
+                                        <h4></h4>
+                                        <p></p>
                                     </div>
                                 </div>
                             </div>
@@ -488,15 +531,30 @@ decisionale in un ambiente divertente ed educativo.</p>
                                 <div class="preview-content">
                                     <div class="preview-details">
                                         <h3>machine learning</h3>
-                                        <p>An exploration of machine learning concepts through animated visuals and code, demonstrating how algorithms learn and evolve over time.</p>
+                                        <p>Wall Saver è un sistema di proiezione interattivo basato sull'intelligenza artificiale che regola dinamicamente i contenuti proiettati in base all'attività umana e all'ambiente rilevati. Utilizzando una telecamera e l'analisi AI, identifica le posture delle persone, le attività e gli oggetti presenti nella scena per selezionare il video più adatto a migliorare l'atmosfera.
+
+Concetto 
+
+Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'intelligenza artificiale e la distribuzione dinamica dei contenuti per creare ambienti immersivi e interattivi, trasformando gli spazi in esperienze ambientali personalizzate.
+</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><video controls src="img/Machine/wall saver.mp4" type="video.mp4"></div>
+                                    
                                     </div>
                                     <div class="gallery-grid">
                                         <div class="gallery-item"><img src="img/Machine/DSC09500.jpg" alt="Machine Learning 1"></div>
-                                        <div class="gallery-item"><img src="img/Machine/DSC09500.jpg" alt="Machine Learning 2"></div>
+                                        <div class="gallery-item"><img src="img/Machine/DSC09498.jpg" alt="Machine Learning 2"></div>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Machine/DSC09507.JPG.jpg" alt="Machine Learning 1"></div>
+                                        <div class="gallery-item"><img src="img/Machine/DSC09513.JPG.jpg" alt="Machine Learning 2"></div>
+                                        <div class="gallery-item"><img src="img/Machine/DSC09521.JPG.jpg" alt="Machine Learning 2"></div>
+                                        <div class="gallery-item"><img src="img/Machine/DSC09526.JPG.jpg" alt="Machine Learning 2"></div>
                                     </div>
                                     <div class="text-block">
-                                        <h4>L'Algoritmo</h4>
-                                        <p>Questo progetto illustra visivamente il processo di apprendimento di un'intelligenza artificiale, mostrando le sue "decisioni" e come si adatta a nuovi dati, rendendo concetti complessi accessibili.</p>
+                                        <h4></h4>
+                                        <p></p>
                                     </div>
                                 </div>
                             </div>
