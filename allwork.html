@@ -1296,18 +1296,20 @@ Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'inte
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const projectItems = document.querySelectorAll('.project-item');
-    const body = document.body; // Ottieni il riferimento al body
+    const body = document.body; // Ottieni il riferimento al body per bloccare lo scorrimento
 
     projectItems.forEach(item => {
         item.addEventListener('click', function(event) {
-            // Salva la posizione di scorrimento corrente
-            const currentScrollY = window.scrollY;
+            // 1. Cattura la posizione iniziale dell'elemento cliccato rispetto al viewport
+            // e la posizione di scorrimento generale della finestra
+            const initialRect = item.getBoundingClientRect();
+            const initialItemTopInViewport = initialRect.top;
+            const initialScrollY = window.scrollY;
 
-            // Opzione A: Temporaneamente impedisci lo scorrimento del body
-            // Imposta overflow: hidden per prevenire lo scorrimento durante la modifica del DOM
+            // 2. Temporaneamente impedisci lo scorrimento del body per evitare "sfarfallii"
             body.style.overflow = 'hidden';
 
-            // Chiudi tutti gli altri progetti
+            // 3. Chiudi tutti gli altri progetti
             projectItems.forEach(otherItem => {
                 if (otherItem !== item) {
                     otherItem.classList.remove('active');
@@ -1315,28 +1317,38 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
 
-            // Attiva/disattiva il progetto corrente
+            // 4. Attiva/disattiva il progetto corrente
             item.classList.toggle('active');
             const preview = item.querySelector('.project-preview');
 
-            // Timeout per attendere il ricalcolo di scrollHeight dopo eventuali collassi
+            // 5. Usa un setTimeout di 0ms per consentire al DOM di ricalcolare il layout
+            // dopo le chiusure/aperture, prima di aggiustare lo scroll.
             setTimeout(() => {
                 if (item.classList.contains('active')) {
-                    // Espandi il preview
+                    // Espandi il preview (assicurati che scrollHeight sia calcolato dopo le modifiche)
                     preview.style.maxHeight = (preview.scrollHeight + 50) + 'px';
                 } else {
                     // Chiudi il preview
                     preview.style.maxHeight = '0';
                 }
 
-                // Ripristina la posizione di scorrimento
-                window.scrollTo(0, currentScrollY);
+                // 6. Ottieni la NUOVA posizione dell'elemento cliccato rispetto al viewport
+                const finalRect = item.getBoundingClientRect();
+                const finalItemTopInViewport = finalRect.top;
 
-                // Re-abilita lo scorrimento del body
-                body.style.overflow = ''; // Ripristina al valore predefinito (o 'auto'/'scroll' se specificato)
+                // 7. Calcola di quanto l'elemento si è spostato sullo schermo
+                // Se è positivo, l'elemento è sceso; se è negativo, è salito.
+                const scrollDelta = finalItemTopInViewport - initialItemTopInViewport;
 
-            }, 0); // Un timeout di 0ms esegue il codice alla fine della coda degli eventi, dopo le modifiche DOM
+                // 8. Regola la posizione di scorrimento della finestra per compensare lo spostamento.
+                // Questo riporterà l'elemento nella sua posizione originale sullo schermo.
+                window.scrollTo(0, initialScrollY + scrollDelta);
 
+                // 9. Ri-abilita lo scorrimento del body
+                body.style.overflow = '';
+
+            }, 0); // Il ritardo di 0ms mette questa funzione alla fine della coda degli eventi,
+                  // permettendo al browser di elaborare gli aggiornamenti del layout.
         });
     });
 
