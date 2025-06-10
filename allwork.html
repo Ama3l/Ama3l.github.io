@@ -35,6 +35,28 @@
         cursor: active;
     }
 
+    /* Inserisci nello <style> */
+.project-filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.filter-btn {
+    background: none;
+    border: 1px solid var(--accent-color, #FFD700);
+    color: var(--accent-color, #FFD700);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    transition: background 0.2s, color 0.2s;
+}
+.filter-btn.active,
+.filter-btn:hover {
+    background: var(--accent-color, #FFD700);
+    color: #161616;
+}
+
     /* Project Row (for thumbnail and text) */
     .project-row {
         display: flex;
@@ -49,20 +71,38 @@
     }
 
     .project-row .project-info {
-        flex-grow: 1; /* Allows title/meta to take available space */
+        .project-row .project-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-row h2 {
+            margin-bottom: 0.2rem;
+        }
+        
+        .project-meta {
+            display: block;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-bg);
+            font-size: 0.95rem;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     .project-row h2 {
-        font-family: 'Space Grotesk', sans-serif;
-        font-size: clamp(1.5rem, 4vw, 2.5rem);
-        font-weight: 600;
-        text-transform: lowercase;
-        margin-bottom: 0.5rem; /* Space below title */
+        margin-bottom: 0.2rem;
     }
 
     .project-meta {
-        color: var(--accent-color);
-        font-size: 0.9rem;
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        display: block;
+        font-size: 0.95rem;
+        color: var(--secondary-bg);
     }
 
     /* Project Thumbnail */
@@ -110,6 +150,8 @@
         transition: max-height 0.5s ease;
         background-color: var(--secondary-bg);
         border-radius: 12px;
+            margin-left: 1rem;   /* Margine sinistro */
+    margin-right: 1rem;  /* Margine destro */
     }
 
     .project-item.active .project-preview {
@@ -242,8 +284,10 @@
         transition: max-height 0.5s ease;
         background-color: var(--secondary-bg);
         border-radius: 12px;
-        margin-left: -1rem;   /* Margine sinistro */
-        margin-right: -0.1rem;  /* Margine destro */
+
+    margin-left: -1rem;
+    margin-right: -2rem;
+
     }
 
     .view-project {
@@ -260,7 +304,7 @@
     }
 
     .preview-details p {
-        font-size: 1.1rem; /* Aumentato per mobile */
+        font-size: 1.1rem; /* Mantieni o aumenta ulteriormente se necessario */
         text-align: left; /* Left align text on mobile */
         max-width: 100%; /* Remove width limit on mobile */
         margin: 0 auto 2rem auto; /* Aumentato il margine inferiore */
@@ -359,6 +403,16 @@
                 </div>
             </section>
 
+
+            <!-- Subito sopra <section class="project-list"> -->
+<div class="project-filters">
+    <button class="filter-btn active" data-filter="all">Tutti</button>
+    <button class="filter-btn" data-filter="Animation">Animation</button>
+    <button class="filter-btn" data-filter="Coding">Coding</button>
+    <button class="filter-btn" data-filter="UI">UI</button>
+    <button class="filter-btn" data-filter="Graphic">Graphic</button>
+    <!-- Aggiungi altri se vuoi -->
+</div>
             
 
             <section class="project-list">
@@ -613,7 +667,6 @@ Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'inte
                                     </div>
                                     <div class="gallery-grid">
                                         <div class="gallery-item"><img src="img/SonyPrototype/DSC_6084.png" alt="Fast Prototyping 1"></div>
-                                        <div class="gallery-item"><img src="img/SonyPrototype/DSC_6084.png" alt="Fast Prototyping 2"></div>
                                     </div>
                                     <div class="text-block">
                                         <h4>Processo Creativo</h4>
@@ -859,7 +912,7 @@ Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'inte
                         <div class="project-item">
                             <div class="project-row">
                                 <div class="project-thumbnail">
-                                    <img src="img/Infografica/amaël.cacciola_CV354.01_Corretto.jpg" alt="Infografica thumbnail">
+                                    <img src="img/Infografica/amael.cacciola_CV354.01_Corretto.jpg" alt="Infografica thumbnail">
                                 </div>
                                 <div class="project-info">
                                     <h2>Infografica</h2>
@@ -874,8 +927,7 @@ Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'inte
                                         <p>A graphic design project focused on creating informative infographics, translating complex data into clear and engaging visual narratives.</p>
                                     </div>
                                     <div class="gallery-grid">
-                                        <div class="gallery-item"><img src="img/Infografica/amaël.cacciola_CV354.01_Corretto.jpg" alt="Infografica 1"></div>
-                                        <div class="gallery-item"><img src="img/Infografica/amaël.cacciola_CV354.01_Corretto.jpg" alt="Infografica 2"></div>
+                                        <div class="gallery-item"><img src="img/Infografica/amael.cacciola_CV354.01_Corretto.jpg" alt="Infografica 1"></div>
                                     </div>
                                     <div class="text-block">
                                         <h4>Visualizzazione Dati</h4>
@@ -1270,7 +1322,31 @@ Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'inte
                 }
             });
         });
+        
     });
+
+
+    // FILTRO PER TIPOLOGIA USANDO PROJECT META
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            const filter = this.getAttribute('data-filter');
+            projectItems.forEach(item => {
+                const meta = item.querySelector('.project-meta');
+                if (!meta) return;
+                const metaText = meta.textContent.toLowerCase();
+                if (filter === 'all' || metaText.includes(filter.toLowerCase())) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    
 </script>
 </body>
 </html>
