@@ -1293,38 +1293,28 @@ Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'inte
     </div>
 <script src="src/script.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        // Project preview toggle logic from index1.html
-        const projectItems = document.querySelectorAll('.project-item');
+document.addEventListener("DOMContentLoaded", () => {
+    // Project preview toggle logic from index1.html
+    const projectItems = document.querySelectorAll('.project-item');
 
-        projectItems.forEach(item => {
-            const row = item.querySelector('.project-row');
-            
-            row.addEventListener('click', function() {
-                // Close all other project previews
-                projectItems.forEach(otherItem => {
-                    if (otherItem !== item) {
-                        otherItem.classList.remove('active');
-                        // Reset max-height when closing to ensure smooth collapse
-                        otherItem.querySelector('.project-preview').style.maxHeight = '0';
-                    }
-                });
-                
-                // Toggle current project preview
-                item.classList.toggle('active');
-                const preview = item.querySelector('.project-preview');
-                if (item.classList.contains('active')) {
-                    // Set max-height to scrollHeight to allow dynamic height and smooth transition
-                    // Aggiungi un piccolo buffer per la transizione se necessario
-                    preview.style.maxHeight = (preview.scrollHeight + 50) + 'px'; 
-                } else {
-                    preview.style.maxHeight = '0';
+    projectItems.forEach(item => {
+        const row = item.querySelector('.project-row');
+        row.addEventListener('click', function() {
+            projectItems.forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                    otherItem.querySelector('.project-preview').style.maxHeight = '0';
                 }
             });
+            item.classList.toggle('active');
+            const preview = item.querySelector('.project-preview');
+            if (item.classList.contains('active')) {
+                preview.style.maxHeight = (preview.scrollHeight + 50) + 'px'; 
+            } else {
+                preview.style.maxHeight = '0';
+            }
         });
-        
     });
-
 
     // FILTRO PER TIPOLOGIA USANDO PROJECT META
     const filterButtons = document.querySelectorAll('.filter-btn');
@@ -1345,8 +1335,7 @@ Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'inte
             });
         });
     });
-
-    
+});
 </script>
 </body>
 </html>
