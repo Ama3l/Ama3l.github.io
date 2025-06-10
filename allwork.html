@@ -27,6 +27,7 @@
     /* Project List */
     .project-list {
         padding: 2rem 0;
+
     }
 
     .project-item {
@@ -70,17 +71,18 @@
     
     .project-row:hover {
         transform: translateX(10px);
-        cursor: active;
     }
-
+    
     .project-row .project-info {
         .project-row .project-info {
             display: flex;
             flex-direction: column;
+
         }
         
         .project-row h2 {
             margin-bottom: 0.2rem;
+
         }
         
         
@@ -140,7 +142,7 @@
     .view-project::after {
         content: '↓';
         margin-left: 0.5rem;
-        transition: transform 0.3s ease;
+        /* transition: transform 0.3s ease; */
     }
 
     .project-row:hover .view-project::after {
@@ -285,7 +287,7 @@
         max-height: 0; /* Hide preview by default */
         overflow: hidden;
         width: auto; /* Usa tutta la larghezza disponibile */
-        transition: max-height 0.5s ease;
+        /* transition: max-height 0.5s ease; */
         background-color: var(--secondary-bg);
         border-radius: 12px;
 
