@@ -412,10 +412,12 @@
             <!-- Subito sopra <section class="project-list"> -->
 <div class="project-filters">
     <button class="filter-btn active" data-filter="all">Tutti</button>
-    <button class="filter-btn" data-filter="Animation">Animation</button>
+    <button class="filter-btn" data-filter="UI">Video</button>
+    <button class="filter-btn" data-filter="Graphic">Grafica</button>
+    <button class="filter-btn" data-filter="Animation">Animazione</button>
+    <button class="filter-btn" data-filter="Animation">Foto</button>
     <button class="filter-btn" data-filter="Coding">Coding</button>
     <button class="filter-btn" data-filter="UI">UI</button>
-    <button class="filter-btn" data-filter="Graphic">Graphic</button>
     <!-- Aggiungi altri se vuoi -->
 </div>
             
@@ -431,7 +433,7 @@
                                 </div>
                                 <div class="project-info">
                                     <h2>Metamorphosis</h2>
-                                    <p class="project-meta">Animation / Coding</p>
+                                    <p class="project-meta">Animazione / Coding</p>
                                 </div>
                                 <span class="view-project">View Project</span>
                             </div>
@@ -671,7 +673,16 @@ Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'inte
                                         <p>A project focused on rapid prototyping techniques in animation and coding, showcasing the speed and efficiency of iterative design.</p>
                                     </div>
                                     <div class="gallery-grid">
+                                        <div class="gallery-item"><video controls src="img/SonyPrototype/sony.mp4" type="video.mp4"></div>
+                                    </div>
+                                    <div class="gallery-grid">
                                         <div class="gallery-item"><img src="img/SonyPrototype/DSC_6084.png" alt="Fast Prototyping 1"></div>
+                                        <div class="gallery-item"><img src="img/SonyPrototype/DSC_6091.png" alt="Fast Prototyping 1"></div>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/SonyPrototype/Screenshot 2024-12-20 at 15.17.46.png" alt="Fast Prototyping 1"></div>
+                                        <div class="gallery-item"><img src="img/SonyPrototype/Screenshot 2024-12-20 at 15.18.00.png" alt="Fast Prototyping 1"></div>
+                                        <div class="gallery-item"><img src="img/SonyPrototype/Screenshot 2024-12-20 at 15.18.11.png" alt="Fast Prototyping 1"></div>
                                     </div>
                                     <div class="text-block">
                                         <h4>Processo Creativo</h4>
@@ -1300,7 +1311,7 @@ Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'inte
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const projectItems = document.querySelectorAll('.project-item');
-    const body = document.body; // Ottieni il riferimento al body per bloccare lo scorrimento
+    const body = document.body;
 
     projectItems.forEach(item => {
         item.addEventListener('click', function(event) {
@@ -1313,46 +1324,46 @@ document.addEventListener('DOMContentLoaded', function() {
             // 2. Temporaneamente impedisci lo scorrimento del body per evitare "sfarfallii"
             body.style.overflow = 'hidden';
 
-            // 3. Chiudi tutti gli altri progetti
-            projectItems.forEach(otherItem => {
-                if (otherItem !== item) {
-                    otherItem.classList.remove('active');
-                    otherItem.querySelector('.project-preview').style.maxHeight = '0';
-                }
+            // 3. Usa requestAnimationFrame per la prima fase di modifiche al DOM (chiusura altri progetti)
+            requestAnimationFrame(() => {
+                // Fase 1: Chiudi tutti gli altri progetti
+                projectItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.project-preview').style.maxHeight = '0';
+                    }
+                });
+
+                // Attiva/disattiva il progetto corrente
+                item.classList.toggle('active');
+                const preview = item.querySelector('.project-preview');
+
+                // 4. Usa un secondo requestAnimationFrame per la seconda fase (espansione e calcolo scroll)
+                // Questo assicura che il browser abbia avuto il tempo di elaborare le modifiche precedenti.
+                requestAnimationFrame(() => {
+                    if (item.classList.contains('active')) {
+                        // Espandi il preview (scrollHeight è calcolato dopo che gli altri si sono compressi)
+                        preview.style.maxHeight = (preview.scrollHeight + 50) + 'px';
+                    } else {
+                        // Chiudi il preview
+                        preview.style.maxHeight = '0';
+                    }
+
+                    // 5. Ottieni la NUOVA posizione dell'elemento cliccato rispetto al viewport
+                    const finalRect = item.getBoundingClientRect();
+                    const finalItemTopInViewport = finalRect.top;
+
+                    // 6. Calcola di quanto l'elemento si è spostato sullo schermo
+                    const scrollDelta = finalItemTopInViewport - initialItemTopInViewport;
+
+                    // 7. Regola la posizione di scorrimento della finestra per compensare lo spostamento.
+                    // Questo riporterà l'elemento nella sua posizione originale sullo schermo.
+                    window.scrollTo(0, initialScrollY + scrollDelta);
+
+                    // 8. Ri-abilita lo scorrimento del body
+                    body.style.overflow = '';
+                });
             });
-
-            // 4. Attiva/disattiva il progetto corrente
-            item.classList.toggle('active');
-            const preview = item.querySelector('.project-preview');
-
-            // 5. Usa un setTimeout di 0ms per consentire al DOM di ricalcolare il layout
-            // dopo le chiusure/aperture, prima di aggiustare lo scroll.
-            setTimeout(() => {
-                if (item.classList.contains('active')) {
-                    // Espandi il preview (assicurati che scrollHeight sia calcolato dopo le modifiche)
-                    preview.style.maxHeight = (preview.scrollHeight + 50) + 'px';
-                } else {
-                    // Chiudi il preview
-                    preview.style.maxHeight = '0';
-                }
-
-                // 6. Ottieni la NUOVA posizione dell'elemento cliccato rispetto al viewport
-                const finalRect = item.getBoundingClientRect();
-                const finalItemTopInViewport = finalRect.top;
-
-                // 7. Calcola di quanto l'elemento si è spostato sullo schermo
-                // Se è positivo, l'elemento è sceso; se è negativo, è salito.
-                const scrollDelta = finalItemTopInViewport - initialItemTopInViewport;
-
-                // 8. Regola la posizione di scorrimento della finestra per compensare lo spostamento.
-                // Questo riporterà l'elemento nella sua posizione originale sullo schermo.
-                window.scrollTo(0, initialScrollY + scrollDelta);
-
-                // 9. Ri-abilita lo scorrimento del body
-                body.style.overflow = '';
-
-            }, 0); // Il ritardo di 0ms mette questa funzione alla fine della coda degli eventi,
-                  // permettendo al browser di elaborare gli aggiornamenti del layout.
         });
     });
 
