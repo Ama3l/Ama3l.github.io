@@ -42,11 +42,12 @@
     gap: 1rem;
     margin-bottom: 2rem;
     flex-wrap: wrap; /* Add this line */
+    justify-content: center; /* Center the filter buttons */
 }
 .filter-btn {
     background: none;
     border: 1px solid var(--accent-color, #FFD700);
-    color: var(--accent-color, #FFD700);
+    color: var(--secondary-bg, #161616);
     padding: 0.5rem 1rem;
     border-radius: 20px;
     cursor: pointer;
@@ -147,7 +148,7 @@
     .project-row:hover .view-project::after {
         transform: translateY(5px);
     }
-
+ 
     /* Project Preview Panel */
     .project-preview {
         max-height: 0;
@@ -163,7 +164,9 @@
         max-height: 4000px; /* Increased to accommodate more content */
         margin-bottom: 2rem;
         /* Height will be determined by content due to overflow: hidden and transition on max-height */
-    }
+    } 
+
+
 
     /* Preview Content Layout */
     .preview-content {
@@ -392,8 +395,8 @@
         <a href="index.html" class="logo-mark">AC</a>
         <nav class="main-nav">
             <ul>
-                <li><a href="index.html">Selection</a></li>
-                <li><a href="allwork.html" class="active">All Work</a></li>
+                <li><a href="index.html">Selezione</a></li>
+                <li><a href="allwork.html" class="active">Tutti i lavori</a></li>
                 <li><a href="about.html">CV</a></li>
             </ul>
         </nav>
