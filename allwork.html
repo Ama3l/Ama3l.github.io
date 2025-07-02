@@ -421,7 +421,6 @@
     <button class="filter-btn" data-filter="Coding">Coding</button>
     <button class="filter-btn" data-filter="UI">UI</button>
     <button class="filter-btn" data-filter="3D">3D</button>
-    <button class="filter-btn" data-filter="3D">3D</button>
     </div>
             
 
@@ -1354,49 +1353,61 @@ Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'inte
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const projectItems = document.querySelectorAll('.project-item');
-    // const body = document.body; // Not used for overflow control in this version
 
     projectItems.forEach(item => {
         item.addEventListener('click', function(event) {
             const preview = this.querySelector('.project-preview');
             const isActive = this.classList.contains('active');
 
-            // Chiudi tutti gli altri progetti attivi
+            // Store the initial scroll position and item position (optional, for debugging if needed)
+            // const initialScrollY = window.scrollY;
+            // const initialItemRect = item.getBoundingClientRect();
+            // const initialItemTopInViewport = initialItemRect.top;
+
+            // Step 1: Close all other active projects *instantly* to prevent scroll jumps
             document.querySelectorAll('.project-item.active').forEach(activeItem => {
                 if (activeItem !== this) {
                     activeItem.classList.remove('active');
-                    activeItem.querySelector('.project-preview').style.maxHeight = '0';
+                    // Set maxHeight to '0' directly without transition for other items
+                    const otherPreview = activeItem.querySelector('.project-preview');
+                    otherPreview.style.transition = 'none'; // Temporarily disable transition
+                    otherPreview.style.maxHeight = '0';
+                    // Re-enable transition after a very short delay to not affect subsequent opens
+                    setTimeout(() => {
+                        otherPreview.style.transition = 'max-height 0.5s ease';
+                    }, 10); 
                 }
             });
 
-            // Toggle del progetto corrente
+            // Step 2: Toggle the current project
             if (isActive) {
                 this.classList.remove('active');
-                preview.style.maxHeight = '0';
+                preview.style.maxHeight = '0'; // Allow natural transition for closing current item
             } else {
-                this.classList.add('active'); // Add active class first
+                this.classList.add('active');
                 
-                // Temporarily set maxHeight to 'none' to allow full content rendering for scrollHeight calculation
-                preview.style.maxHeight = 'none'; 
+                // Ensure the preview element has its default transition re-enabled
+                preview.style.transition = 'max-height 0.5s ease';
+
+                // Calculate accurate scrollHeight and apply transition
+                preview.style.maxHeight = 'none'; // Temporarily allow full height calculation
                 
                 requestAnimationFrame(() => {
-                    const contentHeight = preview.scrollHeight; // Get accurate scrollHeight
+                    const contentHeight = preview.scrollHeight; // Accurate scrollHeight
                     
-                    // Immediately reset maxHeight to '0' to prepare for CSS transition
-                    preview.style.maxHeight = '0'; 
+                    preview.style.maxHeight = '0'; // Reset for transition start
                     
-                    // Use another requestAnimationFrame to apply the final maxHeight and trigger the transition
                     requestAnimationFrame(() => {
-                        preview.style.maxHeight = (contentHeight + 50) + 'px'; // Apply calculated height + buffer
+                        preview.style.maxHeight = (contentHeight + 50) + 'px'; // Apply actual height + buffer
                         
-                        // After the transition, smoothly scroll the item into view if necessary
-                        setTimeout(() => {
-                            const itemRect = item.getBoundingClientRect();
-                            // Scroll only if the item is partially or fully off-screen
-                            if (itemRect.top < 0 || itemRect.bottom > window.innerHeight) {
-                                item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                            }
-                        }, 550); // Slightly longer than CSS transition (0.5s = 500ms)
+                        // Immediately attempt to scroll the item into view
+                        // If the expansion causes a shift, this will bring it back.
+                        // The 'smooth' behavior will handle the animation.
+                        item.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
+
+                        // Optional: if after initial scrollIntoView, it's not perfect due to rapid changes,
+                        // you might want a slight delay for a final correction, but let's try without first.
+                        // The user wants it to be 'directly fermo', so immediate is better.
                     });
                 });
             }
