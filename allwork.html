@@ -380,7 +380,7 @@
     }
 
     .preview-content .text-block p {
-        font-size: 1rem; /* Leggermente più piccolo per schermi molto piccoli */
+        font-size: 1.1rem; /* Leggermente più piccolo per schermi molto piccoli */
     }
 }
 </style>
@@ -420,6 +420,7 @@
     <button class="filter-btn" data-filter="Foto">Foto</button>
     <button class="filter-btn" data-filter="Coding">Coding</button>
     <button class="filter-btn" data-filter="UI">UI</button>
+    <button class="filter-btn" data-filter="3D">3D</button>
     <button class="filter-btn" data-filter="3D">3D</button>
     </div>
             
@@ -537,7 +538,7 @@ decisionale in un ambiente divertente ed educativo.</p>
                                     </div>
                               
                                     <div class="gallery-grid">
-                            <div class="gallery-item"><video controls src="img/HealthyCube/videonuovo.mp4" alt="Healthy Cube 2"></div>
+                            <div class="gallery-item"><video controls src="img/HealthyCube/videonuovo.mp4" type="video.mp4"></div>
                         </div>
                      
                     
@@ -552,7 +553,6 @@ decisionale in un ambiente divertente ed educativo.</p>
                                         <div class="gallery-item"><img src="img/HealthyCube/Inside.jpg" alt="Healthy Cube 1"></div>
                                        
                                     </div>
-                                    <div class="gallery-grid">
                                     <div class="text-block"><h4></h4>
                                          </div>
                                          </div>
@@ -693,7 +693,7 @@ Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'inte
                             </div>
                         </div>
                     </div>
-                </div>
+     
 
                 <div class="year-section">
                     <h2 class="year-heading">2024</h2>
@@ -946,7 +946,7 @@ Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'inte
                                 </div>
                                 <div class="project-info">
                                     <h2>manifesto</h2>
-                                    <p class="project-meta">Graphic</p>
+                                    <p class="project-meta">Grafica</p>
                                 </div>
                                 <span class="view-project">View Project</span>
                             </div>
@@ -1124,7 +1124,7 @@ Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'inte
                                 </div>
                                 <div class="project-info">
                                     <h2>Poster</h2>
-                                    <p class="project-meta">Graphic</p>
+                                    <p class="project-meta">Grafica</p>
                                 </div>
                                 <span class="view-project">View Project</span>
                             </div>
@@ -1354,7 +1354,7 @@ Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'inte
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const projectItems = document.querySelectorAll('.project-item');
-    const body = document.body;
+    // const body = document.body; // Not used for overflow control in this version
 
     projectItems.forEach(item => {
         item.addEventListener('click', function(event) {
@@ -1373,25 +1373,32 @@ document.addEventListener('DOMContentLoaded', function() {
             if (isActive) {
                 this.classList.remove('active');
                 preview.style.maxHeight = '0';
-                // Quando si chiude, riabilita subito lo scorrimento
-                body.style.overflow = '';
             } else {
-                this.classList.add('active');
-                // Disabilita temporaneamente lo scorrimento del body per prevenire salti
-                body.style.overflow = 'hidden';
+                this.classList.add('active'); // Add active class first
                 
-                // Imposta max-height sull'altezza di scorrimento effettiva + un piccolo buffer
-                // Questo dovrebbe permettere una transizione più accurata.
-                preview.style.maxHeight = (preview.scrollHeight + 50) + 'px'; 
+                // Temporarily set maxHeight to 'none' to allow full content rendering for scrollHeight calculation
+                preview.style.maxHeight = 'none'; 
                 
-                // Riabilita lo scorrimento dopo un ritardo sufficiente per la transizione CSS
-                // (La transizione CSS è impostata a 0.5s, quindi 550ms o 600ms è un buon valore)
-                setTimeout(() => {
-                    body.style.overflow = '';
-                    // Opzionale: scrolla l'elemento in vista dopo che lo scorrimento è stato riabilitato
-                    // questo può aiutare se l'elemento è fuori schermo dopo l'espansione.
-                    // this.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); // nearest per una migliore UX su mobile
-                }, 600); // Durata della transizione (0.5s) + piccolo buffer
+                requestAnimationFrame(() => {
+                    const contentHeight = preview.scrollHeight; // Get accurate scrollHeight
+                    
+                    // Immediately reset maxHeight to '0' to prepare for CSS transition
+                    preview.style.maxHeight = '0'; 
+                    
+                    // Use another requestAnimationFrame to apply the final maxHeight and trigger the transition
+                    requestAnimationFrame(() => {
+                        preview.style.maxHeight = (contentHeight + 50) + 'px'; // Apply calculated height + buffer
+                        
+                        // After the transition, smoothly scroll the item into view if necessary
+                        setTimeout(() => {
+                            const itemRect = item.getBoundingClientRect();
+                            // Scroll only if the item is partially or fully off-screen
+                            if (itemRect.top < 0 || itemRect.bottom > window.innerHeight) {
+                                item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                            }
+                        }, 550); // Slightly longer than CSS transition (0.5s = 500ms)
+                    });
+                });
             }
         });
     });
@@ -1407,9 +1414,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const meta = item.querySelector('.project-meta');
                 if (!meta) return;
                 const metaText = meta.textContent.toLowerCase();
-                // Assicurati che i filtri corrispondano correttamente al testo nel meta.
-                // Ho corretto qui i data-filter in HTML da "UI" a "Video", "Animazione", "Grafica", "Foto", "Coding", "3D"
-                // e ho corretto "Grafica / infografica" nel meta per "Grafica" per uniformità.
                 if (filter === 'all' || metaText.includes(filter.toLowerCase())) {
                     item.style.display = '';
                 } else {
