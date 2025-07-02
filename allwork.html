@@ -692,7 +692,7 @@ Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'inte
                             </div>
                         </div>
                     </div>
-     
+   
 
                 <div class="year-section">
                     <h2 class="year-heading">2024</h2>
@@ -917,7 +917,7 @@ Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'inte
                                 </div>
                                 <div class="project-info">
                                     <h2>adhd magazine</h2>
-                                    <p class="project-meta">Graphic / Animation</p>
+                                    <p class="project-meta">Grafica / Animazione</p>
                                 </div>
                                 <span class="view-project">View Project</span>
                             </div>
@@ -1354,15 +1354,15 @@ Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'inte
 document.addEventListener('DOMContentLoaded', function() {
     const projectItems = document.querySelectorAll('.project-item');
 
+    // Function to detect if it's likely a mobile device (simple check)
+    function isMobile() {
+        return window.innerWidth <= 768; // Common breakpoint for mobile devices
+    }
+
     projectItems.forEach(item => {
         item.addEventListener('click', function(event) {
             const preview = this.querySelector('.project-preview');
             const isActive = this.classList.contains('active');
-
-            // Store the initial scroll position and item position (optional, for debugging if needed)
-            // const initialScrollY = window.scrollY;
-            // const initialItemRect = item.getBoundingClientRect();
-            // const initialItemTopInViewport = initialItemRect.top;
 
             // Step 1: Close all other active projects *instantly* to prevent scroll jumps
             document.querySelectorAll('.project-item.active').forEach(activeItem => {
@@ -1400,14 +1400,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     requestAnimationFrame(() => {
                         preview.style.maxHeight = (contentHeight + 50) + 'px'; // Apply actual height + buffer
                         
-                        // Immediately attempt to scroll the item into view
-                        // If the expansion causes a shift, this will bring it back.
-                        // The 'smooth' behavior will handle the animation.
-                        item.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
-
-                        // Optional: if after initial scrollIntoView, it's not perfect due to rapid changes,
-                        // you might want a slight delay for a final correction, but let's try without first.
-                        // The user wants it to be 'directly fermo', so immediate is better.
+                        if (isMobile()) {
+                            // For mobile, give a slight delay to allow maxHeight transition to start
+                            setTimeout(() => {
+                                item.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }, 200); // Small delay, e.g., 200ms
+                        } else {
+                            // For desktop, scroll immediately
+                            item.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
+                        }
                     });
                 });
             }
