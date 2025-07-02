@@ -33,7 +33,7 @@
     .project-item {
         border-bottom: 1px solid var(--border-color);
         position: relative;
-        cursor: active;
+        cursor: pointer; /* Changed to pointer to indicate clickability */
     }
 
     /* Inserisci nello <style> */
@@ -412,23 +412,63 @@
             </section>
 
 
-            <!-- Subito sopra <section class="project-list"> -->
-<div class="project-filters">
+            <div class="project-filters">
     <button class="filter-btn active" data-filter="all">Tutti</button>
-    <button class="filter-btn" data-filter="UI">Video</button>
-    <button class="filter-btn" data-filter="Graphic">Grafica</button>
-    <button class="filter-btn" data-filter="Animation">Animazione</button>
-    <button class="filter-btn" data-filter="Animation">Foto</button>
+    <button class="filter-btn" data-filter="Video">Video</button>
+    <button class="filter-btn" data-filter="Grafica">Grafica</button>
+    <button class="filter-btn" data-filter="Animazione">Animazione</button>
+    <button class="filter-btn" data-filter="Foto">Foto</button>
     <button class="filter-btn" data-filter="Coding">Coding</button>
     <button class="filter-btn" data-filter="UI">UI</button>
-    <!-- Aggiungi altri se vuoi -->
-</div>
+    <button class="filter-btn" data-filter="3D">3D</button>
+    </div>
             
 
-            <section class="project-list">
+                <section class="project-list">
                 <div class="year-section">
                     <h2 class="year-heading">2025</h2>
                     <div class="projects-grid-placeholder">
+                        <div class="project-item">
+                            <div class="project-row">
+                                <div class="project-thumbnail">
+                                    <img src="img/REMI/DSC04802.jpg" alt="remi thumbnail">
+                                </div>
+                                <div class="project-info">
+                                    <h2>Remi</h2>
+                                    <p class="project-meta">Prototipazione 3d / Coding / AI</p>
+                                </div>
+                                <span class="view-project">View Project</span>
+                            </div>
+                            <div class="project-preview">
+                                <div class="preview-content">
+                                    <div class="preview-details span-5"> <h3>Metamorphosis</h3>
+                                        <p>Metamorphosis è un'installazione ispirata all'omonimo capolavoro di M.C. Escher. L'opera, visualizzata su una matrice dinamica di LED, cerca di dare vita alla visione iconica di Escher attraverso la tecnologia moderna.</p>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item">  
+                                        <video controls>
+                                            <source src="img/Metamorphosis/metamor.mp4" type="video/mp4"></video></div>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Metamorphosis/b182ba5c17481ec82da63d728ac32c4f.jpg" alt="Metamorphosis 1"><p>queste sono le tavole che hanno ispirato il progetto</p></div>
+                                        <div class="gallery-item"><img src="img/Metamorphosis/Cornelis-Escher-Metamorfosi-II-1024x879.jpg" alt="Metamorphosis 2"><p></p></div>
+                                    </div>
+
+                                    <div class="gallery-grid">
+                                        <div class="gallery-item"><img src="img/Metamorphosis/DSC09470.JPG.jpg" alt="Metamorphosis 1"></div>
+                                        <div class="gallery-item"><img src="img/Metamorphosis/DSC09461.JPG.jpg" alt="Metamorphosis 2"></div>
+                                        <div class="gallery-item"><img src="img/Metamorphosis/DSC09472.JPG.jpg" alt="Metamorphosis 3"></div>
+                                        <div class="gallery-item"><img src="img/Metamorphosis/DSC09477.png" alt="Metamorphosis 4"></div>
+                                    </div>
+
+                                        <div class="text-block"> <h4>Dettagli Tecnici</h4>
+                                            <p>Il progetto è stato sviluppato utilizzando After effects per l'animazione per poi metterla sulla matrice led e ottenere l'effetto che si vede.</p>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+
+
                         <div class="project-item">
                             <div class="project-row">
                                 <div class="project-thumbnail">
@@ -1318,55 +1358,41 @@ document.addEventListener('DOMContentLoaded', function() {
 
     projectItems.forEach(item => {
         item.addEventListener('click', function(event) {
-            // 1. Cattura la posizione iniziale dell'elemento cliccato rispetto al viewport
-            // e la posizione di scorrimento generale della finestra
-            const initialRect = item.getBoundingClientRect();
-            const initialItemTopInViewport = initialRect.top;
-            const initialScrollY = window.scrollY;
+            const preview = this.querySelector('.project-preview');
+            const isActive = this.classList.contains('active');
 
-            // 2. Temporaneamente impedisci lo scorrimento del body per evitare "sfarfallii"
-            body.style.overflow = 'hidden';
-
-            // 3. Usa requestAnimationFrame per la prima fase di modifiche al DOM (chiusura altri progetti)
-            requestAnimationFrame(() => {
-                // Fase 1: Chiudi tutti gli altri progetti
-                projectItems.forEach(otherItem => {
-                    if (otherItem !== item) {
-                        otherItem.classList.remove('active');
-                        otherItem.querySelector('.project-preview').style.maxHeight = '0';
-                    }
-                });
-
-                // Attiva/disattiva il progetto corrente
-                item.classList.toggle('active');
-                const preview = item.querySelector('.project-preview');
-
-                // 4. Usa un secondo requestAnimationFrame per la seconda fase (espansione e calcolo scroll)
-                // Questo assicura che il browser abbia avuto il tempo di elaborare le modifiche precedenti.
-                requestAnimationFrame(() => {
-                    if (item.classList.contains('active')) {
-                        // Espandi il preview (scrollHeight è calcolato dopo che gli altri si sono compressi)
-                        preview.style.maxHeight = (preview.scrollHeight + 50) + 'px';
-                    } else {
-                        // Chiudi il preview
-                        preview.style.maxHeight = '0';
-                    }
-
-                    // 5. Ottieni la NUOVA posizione dell'elemento cliccato rispetto al viewport
-                    const finalRect = item.getBoundingClientRect();
-                    const finalItemTopInViewport = finalRect.top;
-
-                    // 6. Calcola di quanto l'elemento si è spostato sullo schermo
-                    const scrollDelta = finalItemTopInViewport - initialItemTopInViewport;
-
-                    // 7. Regola la posizione di scorrimento della finestra per compensare lo spostamento.
-                    // Questo riporterà l'elemento nella sua posizione originale sullo schermo.
-                    window.scrollTo(0, initialScrollY + scrollDelta);
-
-                    // 8. Ri-abilita lo scorrimento del body
-                    body.style.overflow = '';
-                });
+            // Chiudi tutti gli altri progetti attivi
+            document.querySelectorAll('.project-item.active').forEach(activeItem => {
+                if (activeItem !== this) {
+                    activeItem.classList.remove('active');
+                    activeItem.querySelector('.project-preview').style.maxHeight = '0';
+                }
             });
+
+            // Toggle del progetto corrente
+            if (isActive) {
+                this.classList.remove('active');
+                preview.style.maxHeight = '0';
+                // Quando si chiude, riabilita subito lo scorrimento
+                body.style.overflow = '';
+            } else {
+                this.classList.add('active');
+                // Disabilita temporaneamente lo scorrimento del body per prevenire salti
+                body.style.overflow = 'hidden';
+                
+                // Imposta max-height sull'altezza di scorrimento effettiva + un piccolo buffer
+                // Questo dovrebbe permettere una transizione più accurata.
+                preview.style.maxHeight = (preview.scrollHeight + 50) + 'px'; 
+                
+                // Riabilita lo scorrimento dopo un ritardo sufficiente per la transizione CSS
+                // (La transizione CSS è impostata a 0.5s, quindi 550ms o 600ms è un buon valore)
+                setTimeout(() => {
+                    body.style.overflow = '';
+                    // Opzionale: scrolla l'elemento in vista dopo che lo scorrimento è stato riabilitato
+                    // questo può aiutare se l'elemento è fuori schermo dopo l'espansione.
+                    // this.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); // nearest per una migliore UX su mobile
+                }, 600); // Durata della transizione (0.5s) + piccolo buffer
+            }
         });
     });
 
@@ -1381,6 +1407,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const meta = item.querySelector('.project-meta');
                 if (!meta) return;
                 const metaText = meta.textContent.toLowerCase();
+                // Assicurati che i filtri corrispondano correttamente al testo nel meta.
+                // Ho corretto qui i data-filter in HTML da "UI" a "Video", "Animazione", "Grafica", "Foto", "Coding", "3D"
+                // e ho corretto "Grafica / infografica" nel meta per "Grafica" per uniformità.
                 if (filter === 'all' || metaText.includes(filter.toLowerCase())) {
                     item.style.display = '';
                 } else {

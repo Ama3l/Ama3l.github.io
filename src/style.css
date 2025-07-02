@@ -1,6 +1,7 @@
 /* Stili comuni */
 :root {
     --bg-color: #f8f8f8;
+    --purple: #3bff44;
     --text-color: #1a1a1a;
     --accent-color: #13c000c0;
     --opposite-color: #000015;
@@ -543,7 +544,7 @@ ul {
 }
 
 .skills-list li {
-    background-color: var(--opposite-color);
+    background-color: var(--light-gray);
     padding: 0.3rem 0.8rem;
     border-radius: 5px;
     font-size: 1.3rem;
@@ -575,8 +576,6 @@ ul {
 .skills-list li[data-level="20"]::before { width: 20%; } /* Base */
 /* Puoi aggiungere altri livelli come desideri */
 
-
-/* About page grid container */
 .about-grid-container {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
