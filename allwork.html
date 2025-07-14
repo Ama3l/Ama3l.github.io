@@ -157,17 +157,24 @@
     .project-preview {
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.5s ease;
+        transition: max-height 0.3s ease-out;
         background-color: var(--secondary-bg);
         border-radius: 12px;
             margin-left: 1rem;   /* Margine sinistro */
     margin-right: 1rem;  /* Margine destro */
     }
 
+    .project-item {
+    transform: translateZ(0); /* Forza l'hardware acceleration */
+}
+
     .project-item.active .project-preview {
+        /*  
         max-height: 4000px; /* Increased to accommodate more content */
+        /*  
         margin-bottom: 2rem;
-        /* Height will be determined by content due to overflow: hidden and transition on max-height */
+        Height will be determined by content due to overflow: hidden and transition on max-height
+        */
     } 
 
 
@@ -416,7 +423,7 @@
         <main>
             <section class="intro">
                 <div class="intro-content">
-                    <h1 class="title-large">Archivio dei miei lavori_</h1>
+                    <h1 class="title-large">Archivio dei miei lavori</h1>
                     <p class="description"></p>
                 </div>
             </section>
