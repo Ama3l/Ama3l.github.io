@@ -416,7 +416,7 @@
         <main>
             <section class="intro">
                 <div class="intro-content">
-                    <h1 class="title-large">Archivio dei miei lavorii</h1>
+                    <h1 class="title-large">Archivio dei miei lavori</h1>
                     <p class="description"></p>
                 </div>
             </section>
@@ -1365,54 +1365,134 @@ document.addEventListener("DOMContentLoaded", () => {
     const projectItems = document.querySelectorAll('.project-item');
     const customCursor = document.querySelector('.custom-cursor');
     const filterButtons = document.querySelectorAll('.filter-btn');
+    
+    // Variabile per tracciare se stiamo animando
+    let isAnimating = false;
 
-    // Custom cursor active on project hover (desktop)
-    projectItems.forEach(item => {
-        item.addEventListener('mouseenter', () => {
-            if (customCursor) customCursor.classList.add('cursor-active');
+    // Custom cursor active on project hover (desktop only)
+    if (window.innerWidth > 768) {
+        projectItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                if (customCursor) customCursor.classList.add('cursor-active');
+            });
+            item.addEventListener('mouseleave', () => {
+                if (customCursor) customCursor.classList.remove('cursor-active');
+            });
         });
-        item.addEventListener('mouseleave', () => {
-            if (customCursor) customCursor.classList.remove('cursor-active');
-        });
-    });
+    }
 
-    // Project preview toggle logic
+    // Funzione per calcolare la posizione corretta dopo l'animazione
+    function calculateScrollPosition(clickedItem, wasActive) {
+        const itemRect = clickedItem.getBoundingClientRect();
+        const itemTop = itemRect.top + window.scrollY;
+        
+        if (wasActive) {
+            // Se stiamo chiudendo, mantieni la posizione attuale
+            return window.scrollY;
+        } else {
+            // Se stiamo aprendo, assicurati che l'elemento sia visibile
+            const viewportHeight = window.innerHeight;
+            const itemHeight = itemRect.height;
+            const preview = clickedItem.querySelector('.project-preview');
+            const previewHeight = preview ? preview.scrollHeight : 0;
+            
+            // Calcola se l'elemento + preview staranno nella viewport
+            const totalHeight = itemHeight + previewHeight;
+            
+            if (itemTop + totalHeight > window.scrollY + viewportHeight) {
+                // Se non ci sta tutto, scorri per mostrare l'inizio dell'elemento
+                return Math.max(0, itemTop - 20);
+            }
+            
+            return window.scrollY;
+        }
+    }
+
+    // Project preview toggle logic migliorata
     projectItems.forEach(item => {
         const row = item.querySelector('.project-row');
-        row.addEventListener('click', function() {
-            // Salva la posizione di scroll prima di chiudere/aprire preview
-            const scrollY = window.scrollY;
-
+        row.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Previeni click multipli durante l'animazione
+            if (isAnimating) return;
+            
+            isAnimating = true;
+            
+            const wasActive = item.classList.contains('active');
+            const targetScrollY = calculateScrollPosition(item, wasActive);
+            
+            // Chiudi tutti gli altri progetti
             projectItems.forEach(otherItem => {
                 if (otherItem !== item) {
                     otherItem.classList.remove('active');
-                    otherItem.querySelector('.project-preview').style.maxHeight = '0';
+                    const otherPreview = otherItem.querySelector('.project-preview');
+                    if (otherPreview) {
+                        otherPreview.style.maxHeight = '0';
+                    }
                 }
             });
+            
+            // Toggle del progetto corrente
             item.classList.toggle('active');
             const preview = item.querySelector('.project-preview');
+            
             if (item.classList.contains('active')) {
-                preview.style.maxHeight = (preview.scrollHeight + 50) + 'px'; 
+                preview.style.maxHeight = (preview.scrollHeight + 50) + 'px';
             } else {
                 preview.style.maxHeight = '0';
             }
-
-            // Ripristina la posizione di scroll dopo il repaint
-            setTimeout(() => {
-                window.scrollTo({ top: scrollY, behavior: 'auto' });
-            }, 0);
+            
+            // Gestisci lo scroll in modo più fluido
+            const scrollToPosition = () => {
+                // Usa requestAnimationFrame per un timing migliore
+                requestAnimationFrame(() => {
+                    window.scrollTo({
+                        top: targetScrollY,
+                        behavior: 'auto'
+                    });
+                    
+                    // Aspetta che l'animazione CSS finisca prima di permettere altri click
+                    setTimeout(() => {
+                        isAnimating = false;
+                    }, 300); // Dovrebbe corrispondere alla durata della transizione CSS
+                });
+            };
+            
+            // Per mobile, aggiungi un piccolo ritardo
+            if (window.innerWidth <= 768) {
+                setTimeout(scrollToPosition, 50);
+            } else {
+                scrollToPosition();
+            }
         });
     });
 
     // FILTRO PER TIPOLOGIA USANDO PROJECT META
     filterButtons.forEach(btn => {
         btn.addEventListener('click', function() {
+            // Salva la posizione di scroll prima del filtro
+            const currentScrollY = window.scrollY;
+            
             filterButtons.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
+            
             const filter = this.getAttribute('data-filter');
+            
+            // Chiudi tutti i preview aperti prima di filtrare
+            projectItems.forEach(item => {
+                item.classList.remove('active');
+                const preview = item.querySelector('.project-preview');
+                if (preview) {
+                    preview.style.maxHeight = '0';
+                }
+            });
+            
+            // Applica il filtro
             projectItems.forEach(item => {
                 const meta = item.querySelector('.project-meta');
                 if (!meta) return;
+                
                 const metaText = meta.textContent.toLowerCase();
                 if (filter === 'all' || metaText.includes(filter.toLowerCase())) {
                     item.style.display = '';
@@ -1420,8 +1500,42 @@ document.addEventListener("DOMContentLoaded", () => {
                     item.style.display = 'none';
                 }
             });
+            
+            // Mantieni la posizione di scroll dopo il filtro
+            setTimeout(() => {
+                window.scrollTo({
+                    top: Math.min(currentScrollY, document.body.scrollHeight - window.innerHeight),
+                    behavior: 'auto'
+                });
+            }, 100);
         });
     });
+    
+    // Aggiungi gestione per il ridimensionamento della finestra
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            // Richiudi tutti i preview su ridimensionamento per evitare problemi
+            projectItems.forEach(item => {
+                if (item.classList.contains('active')) {
+                    const preview = item.querySelector('.project-preview');
+                    if (preview) {
+                        preview.style.maxHeight = (preview.scrollHeight + 50) + 'px';
+                    }
+                }
+            });
+        }, 250);
+    });
+    
+    // Previeni il comportamento di scroll elastico su iOS
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+        document.addEventListener('touchmove', function(e) {
+            if (isAnimating) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    }
 });
 </script>
 </body>
