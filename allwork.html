@@ -73,12 +73,14 @@
     
     .project-row:hover {
         transform: translateX(10px);
+           cursor: pointer;
     }
 
     .project-row .project-info {
         .project-row .project-info {
             display: flex;
             flex-direction: column;
+            
         }
         
         .project-row h2 {
@@ -87,6 +89,7 @@
         
         
         .project-meta {
+            
             display: block;
             margin-top: 0;
             margin-bottom: 0.5rem;
@@ -104,6 +107,7 @@
     }
 
     .project-meta {
+      
         margin-top: 0;
         margin-bottom: 0.5rem;
         display: block;
@@ -280,6 +284,12 @@
         
     }
 
+        .project-row:hover {
+        transform: translateX(10px);
+           cursor: pointer;
+    }
+
+
     .project-thumbnail {
         width: 80px; /* Smaller thumbnail on mobile */
         height: 80px;
@@ -406,7 +416,7 @@
         <main>
             <section class="intro">
                 <div class="intro-content">
-                    <h1 class="title-large">Archivio dei miei lavori</h1>
+                    <h1 class="title-large">Archivio dei miei lavorii</h1>
                     <p class="description"></p>
                 </div>
             </section>
@@ -1351,72 +1361,50 @@ Questo sistema innovativo sfrutta il riconoscimento delle scene basato sull'inte
     </div>
 <script src="src/script.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", () => {
     const projectItems = document.querySelectorAll('.project-item');
+    const customCursor = document.querySelector('.custom-cursor');
+    const filterButtons = document.querySelectorAll('.filter-btn');
 
-    // Function to detect if it's likely a mobile device (simple check)
-    function isMobile() {
-        return window.innerWidth <= 768; // Common breakpoint for mobile devices
-    }
-
+    // Custom cursor active on project hover (desktop)
     projectItems.forEach(item => {
-        item.addEventListener('click', function(event) {
-            const preview = this.querySelector('.project-preview');
-            const isActive = this.classList.contains('active');
-
-            // Step 1: Close all other active projects *instantly* to prevent scroll jumps
-            document.querySelectorAll('.project-item.active').forEach(activeItem => {
-                if (activeItem !== this) {
-                    activeItem.classList.remove('active');
-                    // Set maxHeight to '0' directly without transition for other items
-                    const otherPreview = activeItem.querySelector('.project-preview');
-                    otherPreview.style.transition = 'none'; // Temporarily disable transition
-                    otherPreview.style.maxHeight = '0';
-                    // Re-enable transition after a very short delay to not affect subsequent opens
-                    setTimeout(() => {
-                        otherPreview.style.transition = 'max-height 0.5s ease';
-                    }, 10); 
-                }
-            });
-
-            // Step 2: Toggle the current project
-            if (isActive) {
-                this.classList.remove('active');
-                preview.style.maxHeight = '0'; // Allow natural transition for closing current item
-            } else {
-                this.classList.add('active');
-                
-                // Ensure the preview element has its default transition re-enabled
-                preview.style.transition = 'max-height 0.5s ease';
-
-                // Calculate accurate scrollHeight and apply transition
-                preview.style.maxHeight = 'none'; // Temporarily allow full height calculation
-                
-                requestAnimationFrame(() => {
-                    const contentHeight = preview.scrollHeight; // Accurate scrollHeight
-                    
-                    preview.style.maxHeight = '0'; // Reset for transition start
-                    
-                    requestAnimationFrame(() => {
-                        preview.style.maxHeight = (contentHeight + 50) + 'px'; // Apply actual height + buffer
-                        
-                        if (isMobile()) {
-                            // For mobile, give a slight delay to allow maxHeight transition to start
-                            setTimeout(() => {
-                                item.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            }, 200); // Small delay, e.g., 200ms
-                        } else {
-                            // For desktop, scroll immediately
-                            item.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
-                        }
-                    });
-                });
-            }
+        item.addEventListener('mouseenter', () => {
+            if (customCursor) customCursor.classList.add('cursor-active');
+        });
+        item.addEventListener('mouseleave', () => {
+            if (customCursor) customCursor.classList.remove('cursor-active');
         });
     });
 
-    // FILTRO PER TIPOLOGIA USANDO PROJECT META (Questa parte del codice rimane invariata)
-    const filterButtons = document.querySelectorAll('.filter-btn');
+    // Project preview toggle logic
+    projectItems.forEach(item => {
+        const row = item.querySelector('.project-row');
+        row.addEventListener('click', function() {
+            // Salva la posizione di scroll prima di chiudere/aprire preview
+            const scrollY = window.scrollY;
+
+            projectItems.forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                    otherItem.querySelector('.project-preview').style.maxHeight = '0';
+                }
+            });
+            item.classList.toggle('active');
+            const preview = item.querySelector('.project-preview');
+            if (item.classList.contains('active')) {
+                preview.style.maxHeight = (preview.scrollHeight + 50) + 'px'; 
+            } else {
+                preview.style.maxHeight = '0';
+            }
+
+            // Ripristina la posizione di scroll dopo il repaint
+            setTimeout(() => {
+                window.scrollTo({ top: scrollY, behavior: 'auto' });
+            }, 0);
+        });
+    });
+
+    // FILTRO PER TIPOLOGIA USANDO PROJECT META
     filterButtons.forEach(btn => {
         btn.addEventListener('click', function() {
             filterButtons.forEach(b => b.classList.remove('active'));
