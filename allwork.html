@@ -423,7 +423,7 @@
         <main>
             <section class="intro">
                 <div class="intro-content">
-                    <h1 class="title-large">Archivio dei miei lavori</h1>
+                    <h1 class="title-large">Archivio dei miei lavoriii</h1>
                     <p class="description"></p>
                 </div>
             </section>
@@ -1413,28 +1413,33 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Apri il progetto corrente
                 item.classList.add('active');
                 
-                // Imposta maxHeight a 'auto' per un momento per ottenere l'altezza reale
+                // Imposta maxHeight a 'none' per un momento per ottenere l'altezza reale
                 // Questo è cruciale per un calcolo preciso
                 preview.style.maxHeight = 'none'; // Temporaneamente rimuove il limite
                 const contentHeight = preview.scrollHeight;
                 
                 // Poi reimposta la maxHeight con la transizione
-                preview.style.maxHeight = (contentHeight + 100) + 'px'; // Aggiungi un buffer se necessario
+                preview.style.maxHeight = contentHeight + 'px'; // Nessun buffer fisso, si basa su scrollHeight preciso
                 
                 // Scroll verso il progetto dopo l'apertura
                 setTimeout(() => {
                     const itemRect = item.getBoundingClientRect(); // Ottiene la posizione dell'intero project-item
-                    const headerHeight = document.querySelector('.site-header')?.offsetHeight || 0;
-                    const topOffset = headerHeight + 20; // Spazio dal top, inclusa l'altezza dell'header e un buffer
+                    const header = document.querySelector('.site-header');
+                    // Considera l'altezza dell'header se esiste e ha una posizione fissa
+                    const headerHeight = header ? header.offsetHeight : 0; 
+                    
+                    // Definisce un margine dal top del viewport
+                    const topMargin = 20; // Un piccolo buffer per l'estetica
                     
                     // Calcola la posizione di scroll in modo che il top dell'elemento sia leggermente sotto l'header
-                    const targetScrollPosition = window.pageYOffset + itemRect.top - topOffset;
+                    // Questo tiene conto della posizione corrente dello scroll e della posizione dell'item nel viewport
+                    const targetScrollPosition = window.pageYOffset + itemRect.top - (headerHeight + topMargin);
                     
                     window.scrollTo({
                         top: Math.max(0, targetScrollPosition), // Assicura che non si scorra mai a un valore negativo
                         behavior: 'smooth'
                     });
-                }, 100); // Piccolo ritardo per permettere al browser di calcolare il nuovo layout
+                }, 300); // Aumentato il ritardo a 300ms
                 
             } else {
                 // Chiudi il progetto corrente
@@ -1467,8 +1472,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Applica il filtro
             projectItems.forEach(item => {
                 const meta = item.querySelector('.project-meta');
-                // Se non c'è meta, ma il filtro non è "all", nascondi. Altrimenti mostra per "all".
-                if (!meta) {
+                if (!meta) { // Se non c'è meta, ma il filtro non è "all", nascondi. Altrimenti mostra per "all".
                     item.style.display = (filter === 'all' ? '' : 'none');
                     return; // Passa al prossimo item
                 }
@@ -1494,7 +1498,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     preview.style.maxHeight = 'none';
                     const contentHeight = preview.scrollHeight;
                     // Quindi reimposta con il valore corretto
-                    preview.style.maxHeight = (contentHeight + 100) + 'px';
+                    preview.style.maxHeight = contentHeight + 'px';
                 }
             }
         });
