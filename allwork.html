@@ -413,7 +413,7 @@
         <nav class="main-nav">
             <ul>
                 <li><a href="index.html">Selezione</a></li>
-                <li><a href="allwork.html" class="active">Tutti i lavori</a></li>
+                <li><a href="allwork.html" class="active">Tutti i lavoriiii</a></li>
                 <li><a href="about.html">CV</a></li>
             </ul>
         </nav>
@@ -1374,34 +1374,78 @@ document.addEventListener("DOMContentLoaded", () => {
     const filterButtons = document.querySelectorAll('.filter-btn');
 
     // Custom cursor active on project hover (desktop)
-    projectItems.forEach(item => {
-        item.addEventListener('mouseenter', () => {
-            if (customCursor) customCursor.classList.add('cursor-active');
+    if (customCursor) {
+        projectItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                customCursor.classList.add('cursor-active');
+            });
+            item.addEventListener('mouseleave', () => {
+                customCursor.classList.remove('cursor-active');
+            });
         });
-        item.addEventListener('mouseleave', () => {
-            if (customCursor) customCursor.classList.remove('cursor-active');
-        });
-    });
+    }
 
     // Project preview toggle logic
     projectItems.forEach(item => {
         const row = item.querySelector('.project-row');
-        row.addEventListener('click', function() {
-            // Chiudi tutti gli altri progetti
-            projectItems.forEach(otherItem => {
-                if (otherItem !== item) {
-                    otherItem.classList.remove('active');
-                    otherItem.querySelector('.project-preview').style.maxHeight = '0';
-                }
-            });
+        if (!row) return;
+        
+        row.addEventListener('click', function(e) {
+            e.preventDefault();
             
-            // Toggle del progetto corrente
-            item.classList.toggle('active');
             const preview = item.querySelector('.project-preview');
+            if (!preview) return;
             
-            if (item.classList.contains('active')) {
-                preview.style.maxHeight = (preview.scrollHeight + 50) + 'px';
+            const isCurrentlyActive = item.classList.contains('active');
+            
+            // Se stiamo aprendo questo progetto e un altro è già aperto
+            if (!isCurrentlyActive) {
+                // Chiudi tutti gli altri progetti
+                projectItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                        const otherPreview = otherItem.querySelector('.project-preview');
+                        if (otherPreview) {
+                            otherPreview.style.maxHeight = '0';
+                        }
+                    }
+                });
+                
+// Apri il progetto corrente
+            item.classList.add('active');
+            const contentHeight = preview.scrollHeight;
+            preview.style.maxHeight = (contentHeight + 100) + 'px';
+            
+            // Scroll verso il progetto dopo l'apertura
+            setTimeout(() => {
+                const itemTop = item.getBoundingClientRect().top;
+                const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+                
+                let targetScrollTop = currentScrollPosition + itemTop;
+                
+                // Adjust targetScrollTop based on device and existing scroll
+                // For mobile, maybe just bring the item to the top or slightly below the header.
+                // We can add a small buffer for aesthetic purposes.
+                const headerHeight = document.querySelector('.site-header')?.offsetHeight || 0; // Get header height if exists
+                const buffer = 20; // A small buffer from the top
+
+                // If the item is already visible in the upper part of the viewport, don't scroll too much.
+                // Otherwise, bring it into view, perhaps below the header.
+                if (itemTop < headerHeight + buffer) {
+                    // If it's already above or near the top, scroll to it, considering the header
+                    targetScrollTop = currentScrollPosition + itemTop - headerHeight - buffer;
+                } else if (itemTop > window.innerHeight - 100) { // If it's near the bottom or off-screen
+                     targetScrollTop = currentScrollPosition + itemTop - headerHeight - buffer;
+                }
+                
+                window.scrollTo({
+                    top: Math.max(0, targetScrollTop), // Ensure we don't scroll to a negative position
+                    behavior: 'smooth'
+                });
+            }, 100);
             } else {
+                // Chiudi il progetto corrente
+                item.classList.remove('active');
                 preview.style.maxHeight = '0';
             }
         });
@@ -1410,6 +1454,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // FILTRO PER TIPOLOGIA USANDO PROJECT META
     filterButtons.forEach(btn => {
         btn.addEventListener('click', function() {
+            // Scroll to top prima di filtrare
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
             filterButtons.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             
@@ -1418,7 +1465,10 @@ document.addEventListener("DOMContentLoaded", () => {
             // Chiudi tutti i preview prima di filtrare
             projectItems.forEach(item => {
                 item.classList.remove('active');
-                item.querySelector('.project-preview').style.maxHeight = '0';
+                const preview = item.querySelector('.project-preview');
+                if (preview) {
+                    preview.style.maxHeight = '0';
+                }
             });
             
             // Applica il filtro
@@ -1433,6 +1483,20 @@ document.addEventListener("DOMContentLoaded", () => {
                     item.style.display = 'none';
                 }
             });
+        });
+    });
+
+    // Gestione del ridimensionamento finestra
+    window.addEventListener('resize', () => {
+        // Ricalcola le altezze dei preview aperti
+        projectItems.forEach(item => {
+            if (item.classList.contains('active')) {
+                const preview = item.querySelector('.project-preview');
+                if (preview) {
+                    const contentHeight = preview.scrollHeight;
+                    preview.style.maxHeight = (contentHeight + 100) + 'px';
+                }
+            }
         });
     });
 });
