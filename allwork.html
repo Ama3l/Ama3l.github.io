@@ -423,7 +423,7 @@
         <main>
             <section class="intro">
                 <div class="intro-content">
-                    <h1 class="title-large">Archivio dei miei lavories</h1>
+                    <h1 class="title-large">Archivio dei miei lavori</h1>
                     <p class="description"></p>
                 </div>
             </section>
@@ -1414,42 +1414,50 @@ document.addEventListener("DOMContentLoaded", () => {
                 item.classList.add('active');
                 
                 // Imposta maxHeight a 'none' per ottenere l'altezza reale
+                // Questa operazione forza il browser a ricalcolare il layout
                 preview.style.maxHeight = 'none';
                 const contentHeight = preview.scrollHeight;
                 
                 // Poi reimposta la maxHeight con la transizione
                 preview.style.maxHeight = contentHeight + 'px'; 
                 
-                // Aggiungi un event listener per la fine della transizione
-                const handleTransitionEnd = () => {
-                    const itemRect = item.getBoundingClientRect(); 
-                    const header = document.querySelector('.site-header');
-                    const headerHeight = header ? header.offsetHeight : 0; 
-                    
-                    let topMargin;
-                    if (window.innerWidth <= 768) { 
-                        topMargin = 40; // Margine maggiore per mobile
-                    } else {
-                        topMargin = 20; // Margine standard per desktop
-                    }
-                    
-                    const targetScrollPosition = window.pageYOffset + itemRect.top - (headerHeight + topMargin);
-                    
-                    window.scrollTo({
-                        top: Math.max(0, targetScrollPosition),
-                        behavior: 'smooth'
-                    });
-                    
-                    // Rimuovi il listener per non farlo scattare di nuovo quando si chiude il preview
-                    preview.removeEventListener('transitionend', handleTransitionEnd);
-                };
+                // DEBUG: Log l'altezza calcolata e impostata
+                console.log(`[${item.id || item.className}] Preview opened. Calculated scrollHeight: ${contentHeight}px`);
                 
-                preview.addEventListener('transitionend', handleTransitionEnd);
+                // Usa setTimeout e requestAnimationFrame per dare tempo al rendering
+                setTimeout(() => {
+                    requestAnimationFrame(() => {
+                        const itemRect = item.getBoundingClientRect(); // Posizione dell'intero project-item
+                        const header = document.querySelector('.site-header');
+                        const headerHeight = header ? header.offsetHeight : 0; 
+                        
+                        let topMargin;
+                        if (window.innerWidth <= 768) { 
+                            topMargin = 40; // Margine maggiore per mobile
+                        } else {
+                            topMargin = 20; // Margine standard per desktop
+                        }
+                        
+                        // Calcola la posizione di scroll in modo che il top dell'elemento sia leggermente sotto l'header
+                        const targetScrollPosition = window.pageYOffset + itemRect.top - (headerHeight + topMargin);
+                        
+                        // DEBUG: Log i valori di scroll
+                        console.log(`[${item.id || item.className}] Scrolling. itemRect.top: ${itemRect.top}, window.pageYOffset: ${window.pageYOffset}, headerHeight: ${headerHeight}, topMargin: ${topMargin}, Target Scroll: ${targetScrollPosition}`);
 
+window.requestAnimationFrame(() => { // Usa requestAnimationFrame anche qui per il timing
+    item.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start' // Allinea il top dell'elemento con il top del contenitore scorrevole (la finestra)
+    });
+});
+});
+                }, 350); // Aumentato il ritardo a 350ms per dare più tempo al rendering e alla transizione
+                
             } else {
                 // Chiudi il progetto corrente
                 item.classList.remove('active');
                 preview.style.maxHeight = '0';
+                console.log(`[${item.id || item.className}] Preview closed.`);
             }
         });
     });
@@ -1477,6 +1485,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Applica il filtro
             projectItems.forEach(item => {
                 const meta = item.querySelector('.project-meta');
+                // Se non c'è meta, ma il filtro non è "all", nascondi. Altrimenti mostra per "all".
                 if (!meta) { 
                     item.style.display = (filter === 'all' ? '' : 'none');
                     return;
@@ -1489,18 +1498,23 @@ document.addEventListener("DOMContentLoaded", () => {
                     item.style.display = 'none';
                 }
             });
+            console.log(`Filter applied: ${filter}`);
         });
     });
 
     // Gestione del ridimensionamento finestra
     window.addEventListener('resize', () => {
+        // Ricalcola le altezze dei preview aperti
         projectItems.forEach(item => {
             if (item.classList.contains('active')) {
                 const preview = item.querySelector('.project-preview');
                 if (preview) {
+                    // Imposta maxHeight a 'none' per ottenere l'altezza reale con il nuovo layout
                     preview.style.maxHeight = 'none';
                     const contentHeight = preview.scrollHeight;
+                    // Quindi reimposta con il valore corretto
                     preview.style.maxHeight = contentHeight + 'px'; 
+                    console.log(`[${item.id || item.className}] Resized. New contentHeight: ${contentHeight}px`);
                 }
             }
         });
