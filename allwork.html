@@ -423,7 +423,7 @@
         <main>
             <section class="intro">
                 <div class="intro-content">
-                    <h1 class="title-large">Archivio dei miei lavoriu</h1>
+                    <h1 class="title-large">Archivio dei miei lavori</h1>
                     <p class="description"></p>
                 </div>
             </section>
@@ -1444,11 +1444,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         // DEBUG: Log i valori di scroll
                         console.log(`[${item.id || item.className}] Scrolling. itemRect.top: ${itemRect.top}, window.pageYOffset: ${window.pageYOffset}, headerHeight: ${headerHeight}, topMargin: ${topMargin}, Target Scroll: ${targetScrollPosition}`);
 
-                        window.scrollTo({
-                            top: Math.max(0, targetScrollPosition),
-                            behavior: 'smooth'
-                        });
-                    });
+window.requestAnimationFrame(() => { // Usa requestAnimationFrame anche qui per il timing
+    item.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start' // Allinea il top dell'elemento con il top del contenitore scorrevole (la finestra)
+    });
+});
+});
                 }, 350); // Aumentato il ritardo a 350ms per dare più tempo al rendering e alla transizione
                 
             } else {
