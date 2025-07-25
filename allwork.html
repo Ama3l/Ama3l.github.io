@@ -413,7 +413,7 @@
         <nav class="main-nav">
             <ul>
                 <li><a href="index.html">Selezione</a></li>
-                <li><a href="allwork.html" class="active">Tutti i lavoriiii</a></li>
+                <li><a href="allwork.html" class="active">Tutti i lavori</a></li>
                 <li><a href="about.html">CV</a></li>
             </ul>
         </nav>
@@ -1398,51 +1398,44 @@ document.addEventListener("DOMContentLoaded", () => {
             
             const isCurrentlyActive = item.classList.contains('active');
             
-            // Se stiamo aprendo questo progetto e un altro è già aperto
-            if (!isCurrentlyActive) {
-                // Chiudi tutti gli altri progetti
-                projectItems.forEach(otherItem => {
-                    if (otherItem !== item && otherItem.classList.contains('active')) {
-                        otherItem.classList.remove('active');
-                        const otherPreview = otherItem.querySelector('.project-preview');
-                        if (otherPreview) {
-                            otherPreview.style.maxHeight = '0';
-                        }
+            // Chiudi tutti gli altri progetti A MENO CHE non sia l'attuale che si sta per chiudere
+            projectItems.forEach(otherItem => {
+                if (otherItem !== item && otherItem.classList.contains('active')) {
+                    otherItem.classList.remove('active');
+                    const otherPreview = otherItem.querySelector('.project-preview');
+                    if (otherPreview) {
+                        otherPreview.style.maxHeight = '0';
                     }
-                });
-                
-// Apri il progetto corrente
-            item.classList.add('active');
-            const contentHeight = preview.scrollHeight;
-            preview.style.maxHeight = (contentHeight + 100) + 'px';
-            
-            // Scroll verso il progetto dopo l'apertura
-            setTimeout(() => {
-                const itemTop = item.getBoundingClientRect().top;
-                const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-                
-                let targetScrollTop = currentScrollPosition + itemTop;
-                
-                // Adjust targetScrollTop based on device and existing scroll
-                // For mobile, maybe just bring the item to the top or slightly below the header.
-                // We can add a small buffer for aesthetic purposes.
-                const headerHeight = document.querySelector('.site-header')?.offsetHeight || 0; // Get header height if exists
-                const buffer = 20; // A small buffer from the top
-
-                // If the item is already visible in the upper part of the viewport, don't scroll too much.
-                // Otherwise, bring it into view, perhaps below the header.
-                if (itemTop < headerHeight + buffer) {
-                    // If it's already above or near the top, scroll to it, considering the header
-                    targetScrollTop = currentScrollPosition + itemTop - headerHeight - buffer;
-                } else if (itemTop > window.innerHeight - 100) { // If it's near the bottom or off-screen
-                     targetScrollTop = currentScrollPosition + itemTop - headerHeight - buffer;
                 }
+            });
+            
+            if (!isCurrentlyActive) {
+                // Apri il progetto corrente
+                item.classList.add('active');
                 
-                window.scrollTo({
-                    top: Math.max(0, targetScrollTop), // Ensure we don't scroll to a negative position
-                    behavior: 'smooth'
-                });
-            }, 100);
+                // Imposta maxHeight a 'auto' per un momento per ottenere l'altezza reale
+                // Questo è cruciale per un calcolo preciso
+                preview.style.maxHeight = 'none'; // Temporaneamente rimuove il limite
+                const contentHeight = preview.scrollHeight;
+                
+                // Poi reimposta la maxHeight con la transizione
+                preview.style.maxHeight = (contentHeight + 100) + 'px'; // Aggiungi un buffer se necessario
+                
+                // Scroll verso il progetto dopo l'apertura
+                setTimeout(() => {
+                    const itemRect = item.getBoundingClientRect(); // Ottiene la posizione dell'intero project-item
+                    const headerHeight = document.querySelector('.site-header')?.offsetHeight || 0;
+                    const topOffset = headerHeight + 20; // Spazio dal top, inclusa l'altezza dell'header e un buffer
+                    
+                    // Calcola la posizione di scroll in modo che il top dell'elemento sia leggermente sotto l'header
+                    const targetScrollPosition = window.pageYOffset + itemRect.top - topOffset;
+                    
+                    window.scrollTo({
+                        top: Math.max(0, targetScrollPosition), // Assicura che non si scorra mai a un valore negativo
+                        behavior: 'smooth'
+                    });
+                }, 100); // Piccolo ritardo per permettere al browser di calcolare il nuovo layout
+                
             } else {
                 // Chiudi il progetto corrente
                 item.classList.remove('active');
@@ -1474,7 +1467,11 @@ document.addEventListener("DOMContentLoaded", () => {
             // Applica il filtro
             projectItems.forEach(item => {
                 const meta = item.querySelector('.project-meta');
-                if (!meta) return;
+                // Se non c'è meta, ma il filtro non è "all", nascondi. Altrimenti mostra per "all".
+                if (!meta) {
+                    item.style.display = (filter === 'all' ? '' : 'none');
+                    return; // Passa al prossimo item
+                }
                 
                 const metaText = meta.textContent.toLowerCase();
                 if (filter === 'all' || metaText.includes(filter.toLowerCase())) {
@@ -1493,7 +1490,10 @@ document.addEventListener("DOMContentLoaded", () => {
             if (item.classList.contains('active')) {
                 const preview = item.querySelector('.project-preview');
                 if (preview) {
+                    // Imposta maxHeight a 'none' per ottenere l'altezza reale con il nuovo layout
+                    preview.style.maxHeight = 'none';
                     const contentHeight = preview.scrollHeight;
+                    // Quindi reimposta con il valore corretto
                     preview.style.maxHeight = (contentHeight + 100) + 'px';
                 }
             }
