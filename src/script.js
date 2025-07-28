@@ -211,3 +211,29 @@ if (document.body.classList.contains('all-work-page')) {
         });
     });
 }
+
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.project-section-v4').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth hover effects
+        document.querySelectorAll('.gallery-item-v4, .social-link, .image-content-v4, .media-fullwidth-v4').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                el.style.transform = el.style.transform || '';
+            });
+        });
