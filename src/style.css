@@ -229,6 +229,7 @@ ul {
     border: 1px solid var(--text-color);
     border-radius: 10px;
     position: relative;
+    margin-bottom: 7rem;
 }
 
 .scroll-down-arrow::after {
@@ -747,7 +748,7 @@ ul {
     pointer-events: none;
     mix-blend-mode: difference;
     opacity: 0;
-    transition: opacity 0.6s var(--transition) 0.8s;
+    transition: opacity 5s var(--transition) 5s;
 }
 
 .site-footer.visible {
