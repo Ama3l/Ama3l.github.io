@@ -39,35 +39,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Intersection Observer for animations (from index.html)
     // Gestisce l'aggiunta della classe 'visible' quando gli elementi entrano nel viewport
-    const animateOnScroll = () => {
-        // Elementi che animano all'ingresso nel viewport
-        // Rimosso '.scroll-down' da questa lista
-        const elementsToObserve = document.querySelectorAll('.subtitle, .project-card, .site-footer, .bg-element, .social-link, .section-title');
+// Trova questa parte nel tuo script.js (intorno alla riga 66)
+const animateOnScroll = () => {
+    // Elementi che animano all'ingresso nel viewport
+    // AGGIUNGI .project-section-v4 alla lista
+    const elementsToObserve = document.querySelectorAll('.subtitle, .project-card, .site-footer, .bg-element, .social-link, .section-title, .project-section-v4');
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    // Smetti di osservare gli elementi che animano una sola volta
-                     if (entry.target.classList.contains('subtitle') ||
-                         entry.target.classList.contains('site-footer') ||
-                         entry.target.classList.contains('bg-element') ||
-                         entry.target.classList.contains('social-link') ||
-                         entry.target.classList.contains('section-title')) { // 'scroll-down' rimosso
-                         observer.unobserve(entry.target);
-                    }
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // Smetti di osservare gli elementi che animano una sola volta
+                if (entry.target.classList.contains('subtitle') ||
+                    entry.target.classList.contains('site-footer') ||
+                    entry.target.classList.contains('bg-element') ||
+                    entry.target.classList.contains('social-link') ||
+                    entry.target.classList.contains('section-title') ||
+                    entry.target.classList.contains('project-section-v4')) { // AGGIUNGI QUESTA RIGA
+                    observer.unobserve(entry.target);
                 }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            }
         });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
 
-        elementsToObserve.forEach(element => {
-            observer.observe(element);
-        });
-    };
-
+    elementsToObserve.forEach(element => {
+        observer.observe(element);
+    });
+};
 
     // Header scroll behavior (New or modified for fixed header)
     const header = document.querySelector('.site-header');
