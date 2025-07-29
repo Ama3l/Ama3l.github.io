@@ -1454,7 +1454,7 @@ body.all-work-page .project-details.open:not(.side-by-side)::before {
 
         /* Contenitore principale */
         .project-container-v4 {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 4rem;
         }
@@ -1532,6 +1532,7 @@ body.all-work-page .project-details.open:not(.side-by-side)::before {
             color: var(--secondary-color);
             opacity: 0;
             animation: fadeInUp 1s ease-out 0.5s forwards;
+            margin-top: 3rem;
         }
 
         @keyframes fadeInUp {
@@ -1654,52 +1655,52 @@ body.all-work-page .project-details.open:not(.side-by-side)::before {
             line-height: 1.8;
             color: var(--secondary-color);
         }
-
-        /* Immagini e media potenziati */
-        .image-content-v4,
-        .media-fullwidth-v4 {
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-            position: relative;
-            transition: transform 0.4s var(--transition), box-shadow 0.4s var(--transition);
-        }
-
-        .media-fullwidth-v4:hover,
-        .image-content-v4:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-        }
-
-        .image-content-v4::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(59, 255, 68, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.3s var(--transition);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .image-content-v4:hover::before {
-            opacity: 1;
-        }
-
-        .responsive-media-v4 {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.6s var(--transition);
-        }
-
-        .media-fullwidth-v4:hover .responsive-media-v4 {
-            transform: scale(1.02);
-        }
-
+        
+                /* Immagini e media potenziati */
+                .image-content-v4,
+                .media-fullwidth-v4 {
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+                    position: relative;
+                    transition: transform 0.4s var(--transition), box-shadow 0.4s var(--transition);
+                }
+        
+                .media-fullwidth-v4:hover,
+                .image-content-v4:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+                }
+        
+                .image-content-v4::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: linear-gradient(135deg, rgba(59, 255, 68, 0.1), transparent);
+                    opacity: 0;
+                    transition: opacity 0.3s var(--transition);
+                    z-index: 1;
+                    pointer-events: none;
+                }
+        
+                .image-content-v4:hover::before {
+                    opacity: 1;
+                }
+        
+                .responsive-media-v4 {
+                    width: 100%;
+                    height: auto;
+                    display: block;
+                    transition: transform 0.6s var(--transition);
+                }
+        
+                .media-fullwidth-v4:hover .responsive-media-v4 {
+                    transform: scale(1.02);
+                }
+        
         /* Gallery migliorata */
         .gallery-grid-v4 {
             display: grid;
@@ -1733,6 +1734,14 @@ body.all-work-page .project-details.open:not(.side-by-side)::before {
         .gallery-item-v4:hover img {
             transform: scale(1.05);
         }
+
+        .gallery-item-v4.span-1 { grid-column: span 1; }
+.gallery-item-v4.span-2 { grid-column: span 2; }
+.gallery-item-v4.span-3 { grid-column: span 3; }
+.gallery-item-v4.span-4 { grid-column: span 4; }
+.gallery-item-v4.span-6 { grid-column: span 6; }
+.gallery-item-v4.span-8 { grid-column: span 8; }
+.gallery-item-v4.span-12 { grid-column: span 12; }
 
         .caption-v4 {
             font-family: 'Space Mono', monospace;
@@ -1845,7 +1854,7 @@ body.all-work-page .project-details.open:not(.side-by-side)::before {
                 padding: 0 1rem;
             }
             .hero-summary-v4 {
-                align-items: flex-start;
-                text-align: left;
+                align-items: center;
+                text-align: center;
             }
         }
