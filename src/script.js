@@ -165,75 +165,150 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-if (document.body.classList.contains('all-work-page')) {
-    document.querySelectorAll('.project-card').forEach(card => {
-        card.addEventListener('click', function (e) {
-            e.preventDefault();
+        document.addEventListener("DOMContentLoaded", function() {
+            const projectItems = document.querySelectorAll('.project-item-hover');
+            const previewItems = document.querySelectorAll('.preview-item');
+            const projectPreviewWrapper = document.querySelector('.project-preview-wrapper');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            let slideshowInterval;
+            let mobileSlideshowInterval;
+            let currentProjectIndex = 0;
 
-            const details = this.nextElementSibling; // Get the associated details element
-            const isMobile = window.matchMedia("(max-width: 768px)").matches; // Use 768px as a general mobile breakpoint
+            function showPreview(id) {
+                previewItems.forEach(item => {
+                    item.classList.remove('active');
+                    const images = item.querySelectorAll('img');
+                    images.forEach(img => img.classList.remove('active'));
+                });
+                
+                clearInterval(slideshowInterval);
 
-            // Close all other open details, unless it's the one we're clicking again
-            document.querySelectorAll('.project-details.open').forEach(d => {
-                if (d !== details) {
-                    d.classList.remove('open', 'side-by-side');
-                    d.style.gridColumn = ''; // Reset grid column
-                    d.style.marginTop = ''; // Reset margin top
-                    d.style.marginLeft = ''; // Reset margin left
+                const activePreviewContainer = document.getElementById(`preview-${id}`);
+                if (!activePreviewContainer) return;
+                
+                activePreviewContainer.classList.add('active');
+                const images = activePreviewContainer.querySelectorAll('img');
+                
+                if (images.length > 0) {
+                    images[0].classList.add('active');
+
+                    if (images.length > 1) {
+                        let currentImageIndex = 0;
+                        slideshowInterval = setInterval(() => {
+                            images[currentImageIndex].classList.remove('active');
+                            currentImageIndex = (currentImageIndex + 1) % images.length;
+                            images[currentImageIndex].classList.add('active');
+                        }, 1000);
+                    }
                 }
-            });
-
-            // Toggle current project details
-            if (details.classList.contains('open')) {
-                details.classList.remove('open', 'side-by-side');
-                details.style.gridColumn = '';
-                details.style.marginTop = '';
-                details.style.marginLeft = '';
-                return;
             }
 
-            details.classList.add('open');
+            function hideAllPreviews() {
+                clearInterval(slideshowInterval);
+                previewItems.forEach(item => {
+                    item.classList.remove('active');
+                    const images = item.querySelectorAll('img');
+                    images.forEach(img => img.classList.remove('active'));
+                });
+            }
 
-            if (!isMobile) {
-                // On desktop, try to open side-by-side.
-                details.classList.add('side-by-side');
-                this.after(details); // Ensure the details element is correctly positioned in the DOM
+            function startMobileSlideshow() {
+                const visibleProjects = Array.from(projectItems).filter(item => item.style.display !== 'none');
+                
+                if (visibleProjects.length === 0) return;
+
+                clearInterval(mobileSlideshowInterval);
+                currentProjectIndex = 0;
+                
+                activateMobileProject(visibleProjects[currentProjectIndex]);
+
+                mobileSlideshowInterval = setInterval(() => {
+                    visibleProjects[currentProjectIndex].classList.remove('active-mobile');
+                    
+                    const previousPreview = visibleProjects[currentProjectIndex].querySelector('.preview-item');
+                    if (previousPreview) {
+                        projectPreviewWrapper.appendChild(previousPreview);
+                    }
+
+                    currentProjectIndex = (currentProjectIndex + 1) % visibleProjects.length;
+                    activateMobileProject(visibleProjects[currentProjectIndex]);
+                }, 3000);
+            }
+
+            function activateMobileProject(project) {
+                projectItems.forEach(item => item.classList.remove('active-mobile'));
+                project.classList.add('active-mobile');
+                
+                const previewId = project.dataset.id;
+                const previewElement = document.getElementById(`preview-${previewId}`);
+                if (previewElement) {
+                    project.appendChild(previewElement);
+                    showPreview(previewId);
+                }
+            }
+            
+            // Gestione interazione desktop (hover)
+            if (window.innerWidth > 768) {
+                projectItems.forEach(item => {
+                    item.addEventListener('mouseenter', function() {
+                        const projectId = this.dataset.id;
+                        showPreview(projectId);
+                    });
+                    item.addEventListener('mouseleave', function() {
+                        hideAllPreviews();
+                    });
+                });
             } else {
-                // On mobile, always open below.
-                details.classList.remove('side-by-by'); // Make sure this class is removed
-                this.after(details); // Ensure it's still after the clicked card for sequential flow
+                startMobileSlideshow();
             }
 
-            // Scroll into view
-            setTimeout(() => {
-                details.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 200);
-        });
-    });
-}
+            // Gestione dei filtri
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const filter = this.getAttribute('data-filter');
+                    
+                    hideAllPreviews();
+                    
+                    projectItems.forEach(item => {
+                        const filterTags = item.getAttribute('data-filter-tags');
+                        const isVisible = (filter === 'all' || (filterTags && filterTags.toLowerCase().includes(filter.toLowerCase())));
 
+                        item.style.display = isVisible ? '' : 'none';
+                    });
 
-        // Scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+                    if (window.innerWidth <= 768) {
+                        startMobileSlideshow();
+                    }
+                });
+            });
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+            // Gestione del custom cursor
+            const body = document.body;
+            const customCursor = document.querySelector('.custom-cursor');
+            if (customCursor) {
+                if (window.innerWidth > 768) { // Corretto per funzionare su tutti gli schermi desktop
+                    document.addEventListener('mousemove', (e) => {
+                        customCursor.style.left = e.clientX + 'px';
+                        customCursor.style.top = e.clientY + 'px';
+                    });
+                    body.addEventListener('mouseenter', () => {
+                        customCursor.style.opacity = '1';
+                    });
+                    body.addEventListener('mouseleave', () => {
+                        customCursor.style.opacity = '0';
+                    });
+                    const hoverElements = document.querySelectorAll('a, button, .project-item-hover');
+                    hoverElements.forEach(el => {
+                        el.addEventListener('mouseenter', () => {
+                            customCursor.classList.add('active');
+                        });
+                        el.addEventListener('mouseleave', () => {
+                            customCursor.classList.remove('active');
+                        });
+                    });
                 }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.project-section-v4').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Smooth hover effects
-        document.querySelectorAll('.gallery-item-v4, .social-link, .image-content-v4, .media-fullwidth-v4').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                el.style.transform = el.style.transform || '';
-            });
+            }
         });
