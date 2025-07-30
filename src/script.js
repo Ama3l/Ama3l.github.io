@@ -234,7 +234,7 @@ const animateOnScroll = () => {
 
                     currentProjectIndex = (currentProjectIndex + 1) % visibleProjects.length;
                     activateMobileProject(visibleProjects[currentProjectIndex]);
-                }, 3000);
+                }, 5000);
             }
 
             function activateMobileProject(project) {
