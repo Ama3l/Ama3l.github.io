@@ -1818,6 +1818,14 @@ h2 {
         }
 
         @media (max-width: 768px) {
+              .gallery-grid-v4 {
+    display: grid;
+    grid-template-columns: 1fr !important; /* una colonna su mobile */
+    gap: 1rem;
+  }
+  .gallery-item-v4 {
+    grid-column: span 1 !important; /* ogni immagine prende tutta la riga */
+  }
             .project-container-v4 {
                 padding: 0 1rem;
             }
