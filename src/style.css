@@ -212,7 +212,7 @@ h2 {
 /* Scroll down indicator */
 .scroll-down {
     position: absolute;
-    bottom: 7rem;
+    bottom: 4rem;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -1557,7 +1557,7 @@ h2 {
 
         .summary-value-v4 {
             color: var(--text-color);
-            font-weight: 600;
+            font-weight: 500;
         }
 
         /* Sezioni narrative migliorate */
