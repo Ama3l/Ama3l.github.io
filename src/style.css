@@ -1709,6 +1709,7 @@ h2 {
         }
 
         .gallery-item-v4.span-1 { grid-column: span 1; }
+
 .gallery-item-v4.span-2 { grid-column: span 2; }
 .gallery-item-v4.span-3 { grid-column: span 3; }
 .gallery-item-v4.span-4 { grid-column: span 4; }
