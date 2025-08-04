@@ -553,7 +553,7 @@ h2 {
 }
 
 .skills-list li {
-    background-color: var(--light-gray);
+    background-color: var(--text-color);
     padding: 0.3rem 0.8rem;
     border-radius: 5px;
     font-size: 1.3rem;
