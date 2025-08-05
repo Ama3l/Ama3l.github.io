@@ -1718,7 +1718,7 @@ h2 {
 .gallery-item-v4.span-12 { grid-column: span 12; }
 
         .caption-v4 {
-            font-family: 'Space Mono', monospace;
+            font-family: 'helvetica', sans-serif;
             font-size: 0.8rem;
             color: var(--secondary-color);
             display: block;
